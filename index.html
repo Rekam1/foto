@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Foto Companion – EOS R5 II</title>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0f172a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Foto"/>
+  <style>
+    :root {
+      --bg:#0f172a;--text:#f8fafc;--muted:#94a3b8;--accent:#f59e0b;
+      --danger:#fb7185;--ok:#34d399;--warn:#fbbf24;--border:rgba(255,255,255,0.1);
+      --nav-h:64px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{height:100%;}
+    body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);overscroll-behavior:none;}
+    #app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
+    .app-header{background:rgba(15,23,42,0.97);border-bottom:1px solid var(--border);padding:14px 16px;padding-top:max(14px,env(safe-area-inset-top));position:sticky;top:0;z-index:10;}
+    .app-header h1{font-size:20px;font-weight:800;color:var(--accent);}
+    .app-header .sub{font-size:13px;color:var(--muted);margin-top:2px;}
+    .tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:calc(var(--nav-h) + 24px);}
+    .bottom-nav{display:flex;background:rgba(17,24,39,0.98);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom);height:var(--nav-h);flex-shrink:0;}
+    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
+    .bottom-nav button.active{color:var(--accent);}
+    .bottom-nav button svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;}
+    .tab{display:none;}.tab.active{display:block;}
+    .card{background:rgba(17,24,39,0.94);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;}
+    .card-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;}
+    .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;}
+    .badge-c1{background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.5);}
+    .badge-c2{background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.5);}
+    .setting-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:10px;}
+    .setting-row:last-child{border-bottom:none;}
+    .setting-key{font-size:13px;color:var(--muted);flex-shrink:0;}
+    .setting-val{font-size:13px;font-weight:700;color:var(--text);text-align:right;}
+    .tip-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;color:#fbbf24;line-height:1.5;}
+    .tip-box.blue{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.25);color:#7dd3fc;}
+    .lens-pill{display:inline-block;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:999px;font-size:11px;color:#38bdf8;padding:3px 10px;margin:2px 3px 2px 0;}
+    /* SCENARIO */
+    .scenario-card{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;background:rgba(17,24,39,0.6);}
+    .scenario-head{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+    .scenario-head:active{background:rgba(255,255,255,0.03);}
+    .scenario-body{padding:0 14px 14px;display:none;}
+    .scenario-body.open{display:block;}
+    .scenario-icon{font-size:26px;flex-shrink:0;}
+    .scenario-name{font-size:15px;font-weight:700;}
+    .scenario-tag{font-size:12px;color:var(--muted);margin-top:2px;}
+    .timeline-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+    .timeline-row:last-child{border-bottom:none;}
+    .tl-time{font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;width:64px;padding-top:2px;}
+    .tl-event{font-size:14px;font-weight:700;}
+    .tl-notes{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
+    .tl-lens{font-size:11px;color:#38bdf8;margin-top:3px;}
+    /* CHECKLIST */
+    .cl-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+    .cl-btn{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.15s;}
+    .cl-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,0.1);}
+    .progress-wrap{margin-bottom:14px;}
+    .progress-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px;}
+    .progress-bar{height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;}
+    .progress-fill{height:100%;background:var(--ok);border-radius:999px;transition:width 0.3s;}
+    .phase-block{margin-bottom:6px;}
+    .phase-header{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(17,24,39,0.8);border:1px solid var(--border);border-radius:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color 0.15s;}
+    .phase-header.all-done{border-color:var(--ok);}
+    .phase-header:active{background:rgba(17,24,39,1);}
+    .phase-icon{font-size:18px;flex-shrink:0;}
+    .phase-title{font-size:14px;font-weight:700;flex:1;}
+    .phase-sub{font-size:11px;color:var(--muted);}
+    .phase-pct{font-size:11px;font-weight:700;color:var(--ok);flex-shrink:0;}
+    .phase-tasks{background:rgba(2,6,23,0.5);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:4px 14px 10px;margin-top:-4px;display:none;}
+    .phase-tasks.open{display:block;}
+    .task-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+    .task-row:last-child{border-bottom:none;}
+    .task-cb{width:22px;height:22px;border:2px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;}
+    .task-cb.done{background:var(--ok);border-color:var(--ok);}
+    .task-cb.done::after{content:'✓';font-size:13px;font-weight:800;color:#0f172a;}
+    .task-info{flex:1;min-width:0;}
+    .task-text{font-size:14px;line-height:1.4;}
+    .task-text.done{text-decoration:line-through;color:var(--muted);}
+    .task-lens{font-size:11px;color:#38bdf8;margin-top:2px;}
+    /* NOTES */
+    .note-item{border-top:1px solid var(--border);padding:12px 0;}
+    .note-item:first-child{border-top:none;padding-top:0;}
+    .note-text{font-size:15px;line-height:1.4;white-space:pre-wrap;}
+    .note-meta{font-size:11px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;}
+    .btn{display:block;width:100%;padding:13px 16px;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+    .btn-primary{background:var(--accent);color:#0f172a;}
+    textarea{width:100%;background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:11px 13px;font-size:16px;outline:none;font-family:inherit;min-height:80px;resize:vertical;line-height:1.4;}
+    textarea:focus{border-color:var(--accent);}
+    .empty{color:var(--muted);font-size:15px;text-align:center;padding:28px 0;}
+    .toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:50%;transform:translateX(-50%) translateY(16px);background:#1e293b;color:var(--text);border:1px solid var(--border);padding:10px 22px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:200;white-space:nowrap;}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+    .chevron{transition:transform 0.2s;color:var(--muted);flex-shrink:0;}
+    .chevron.open{transform:rotate(90deg);}
+    .step-list{font-size:13px;color:var(--muted);line-height:2;}
+    .step-list b{color:var(--text);}
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="app-header">
+    <h1>📷 Foto Companion</h1>
+    <div class="sub">Canon EOS R5 Mark II · Christians Guide</div>
+  </header>
+
+  <div class="tab-content">
+
+    <!-- ===== TAB: KAMERA ===== -->
+    <section class="tab active" id="tab-kamera">
+
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="font-size:17px;font-weight:800">C1 – Zeremonie &amp; Portr&auml;ts</div>
+          <span class="badge badge-c1">C1</span>
+        </div>
+        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">Av (Blendenpriorit&auml;t)</span></div>
+        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">f / 4.0 (fix)</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (max. 12&apos;800)</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF</span></div>
+        <div class="setting-row"><span class="setting-key">Augenerkennung</span><span class="setting-val">Ein – Personen</span></div>
+        <div class="setting-row"><span class="setting-key">Eye-Control AF</span><span class="setting-val">Ein (kalibriert!)</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Elektronisch (lautlos)</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild / Reihe Niedrig</span></div>
+        <div class="setting-row"><span class="setting-key">Wei&szlig;abgleich</span><span class="setting-val">AWB (Priorit&auml;t Wei&szlig;)</span></div>
+        <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW</span></div>
+        <div class="setting-row"><span class="setting-key">Belicht.-Korr.</span><span class="setting-val">+0.3 bis +0.7 (Brautkleid!)</span></div>
+        <div class="tip-box">&#x1F3A9; Kirche, Standesamt, Paarshooting. Elektronischer Verschluss = kein Klick = niemand dreht sich um!</div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="font-size:17px;font-weight:800">C2 – Party &amp; Action</div>
+          <span class="badge badge-c2">C2</span>
+        </div>
+        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">Tv (Zeitpriorit&auml;t)</span></div>
+        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/500 s</span></div>
+        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">Auto (ab f/4.0)</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (max. 12&apos;800)</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF + Augen</span></div>
+        <div class="setting-row"><span class="setting-key">Eye-Control AF</span><span class="setting-val">Ein (oder Joystick)</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Elektron. 1. Vorhang</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Reihenaufnahme Hoch (H)</span></div>
+        <div class="setting-row"><span class="setting-key">Antiflacker</span><span class="setting-val">Ein</span></div>
+        <div class="tip-box">&#x1F389; Auszug, Konfetti, Tanz, Ap&eacute;ro. 10-15 Bilder/Sek. &ndash; den Kuss und Konfetti-Moment erwischst du garantiert!</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Globale Einstellungen (einmalig)</div>
+        <div class="setting-row"><span class="setting-key">Dual-Slot</span><span class="setting-val">Mehrfachaufzeichnung &rarr; Gelb 6</span></div>
+        <div class="setting-row"><span class="setting-key">Personen reg.</span><span class="setting-val">Lila AF 5 &rarr; Personen-Priorit&auml;t</span></div>
+        <div class="setting-row"><span class="setting-key">Einst. auto-update</span><span class="setting-val">Aktiviert &rarr; Gelb 6</span></div>
+        <div class="setting-row"><span class="setting-key">Objektivkorrektur</span><span class="setting-val">Alles EIN &rarr; Rot 2</span></div>
+        <div class="setting-row"><span class="setting-key">IS Stabilisator</span><span class="setting-val">Ein (Objektiv + IBIS)</span></div>
+        <div class="setting-row"><span class="setting-key">Datum / Zeit</span><span class="setting-val">Synchronisieren &rarr; Gelb 5</span></div>
+        <div class="tip-box blue">&#x1F4A1; Eye-Control kalibrieren: Lila AF Seite 2 &rarr; Kalibrierung. 3-4&times; wiederholen, auch im Hochformat!</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">C1 / C2 speichern – Schritt f&uuml;r Schritt</div>
+        <div class="step-list">
+          1. Modus-Wahlrad auf <b>Av</b> &rarr; Blende f/4.0 einstellen<br>
+          2. Q-Taste &rarr; AF-Betrieb Servo, Methode Ganzbereich, Augen EIN<br>
+          3. Men&uuml; Rot 4 &rarr; Verschluss-Modus &rarr; <b>Elektronisch</b><br>
+          4. <b style="color:var(--accent)">Men&uuml; Gelb 6 &rarr; Individual-Aufnahmemodus &rarr; Einstellungen registrieren &rarr; C1 &rarr; OK</b><br>
+          5. F&uuml;r C2: Modus Tv, Zeit 1/500s, Verschluss Elektron. 1. Vorhang, Drive Hoch &rarr; als C2 speichern
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Wichtige Tasten Quick-Reference</div>
+        <div class="setting-row"><span class="setting-key">Joystick dr&uuml;cken</span><span class="setting-val">Fokus &rarr; Mitte zur&uuml;ck</span></div>
+        <div class="setting-row"><span class="setting-key">AF-ON (Daumen)</span><span class="setting-val">Fokus festbeissen + halten</span></div>
+        <div class="setting-row"><span class="setting-key">M-Fn (Ausl&ouml;ser)</span><span class="setting-val">AF-Methode wechseln</span></div>
+        <div class="setting-row"><span class="setting-key">Hinteres Rad</span><span class="setting-val">Belichtungskorrektur</span></div>
+        <div class="setting-row"><span class="setting-key">Q-Taste Display</span><span class="setting-val">Schnellmen&uuml; alle Einst.</span></div>
+        <div class="setting-row"><span class="setting-key">Klappdisplay</span><span class="setting-val">Frosch- / Vogelperspektive!</span></div>
+      </div>
+    </section>
+
+    <!-- ===== TAB: SZENARIEN ===== -->
+    <section class="tab" id="tab-szenarien">
+      <div id="szenarien-list"></div>
+    </section>
+
+    <!-- ===== TAB: CHECKLISTE ===== -->
+    <section class="tab" id="tab-checkliste">
+      <div class="cl-selector" id="cl-selector"></div>
+      <div id="cl-progress"></div>
+      <div id="cl-list"></div>
+    </section>
+
+    <!-- ===== TAB: NOTIZEN ===== -->
+    <section class="tab" id="tab-notizen">
+      <div class="card">
+        <div class="card-title">Neue Notiz</div>
+        <textarea id="note-input" placeholder="Gedanke, Einstellung, Idee..."></textarea>
+        <button class="btn btn-primary" onclick="saveNote()" style="margin-top:10px">Speichern</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Notizen</div>
+        <div id="notes-list"></div>
+      </div>
+    </section>
+
+  </div><!-- tab-content -->
+
+  <nav class="bottom-nav">
+    <button class="active" id="nav-kamera" onclick="showTab('kamera')">
+      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      Kamera
+    </button>
+    <button id="nav-szenarien" onclick="showTab('szenarien')">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      Szenarien
+    </button>
+    <button id="nav-checkliste" onclick="showTab('checkliste')">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Checkliste
+    </button>
+    <button id="nav-notizen" onclick="showTab('notizen')">
+      <svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+      Notizen
+    </button>
+  </nav>
+</div><!-- app -->
+
+<div id="toast" class="toast"></div>
+
+<script>
+const STORE="foto_v1";
+function emptyData(){return{checks:{},notes:[],activeCL:"hochzeit"};}
+function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();return Object.assign(emptyData(),d,{checks:d.checks||{},notes:d.notes||[]});}catch{return emptyData();}}
+function save(d){localStorage.setItem(STORE,JSON.stringify(d));}
+function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2300);}
+
+// ---- TAB NAVIGATION ----
+function showTab(tab){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
+  document.getElementById("tab-"+tab).classList.add("active");
+  document.getElementById("nav-"+tab).classList.add("active");
+  if(tab==="szenarien")renderSzenarien();
+  if(tab==="checkliste")renderCheckliste();
+  if(tab==="notizen")renderNotizen();
+}
+
+// ---- SCENARIOS ----
+const SCENARIOS=[
+  {
+    id:"hochzeit",icon:"💍",name:"Hochzeit",tag:"Portrait · Reportage · Details",
+    lenses:["EF 24-105mm f/4.0 L","EF 16-35mm f/4.0 L","EF 100-400mm (Distanz)","EF 100mm Macro (Ringe)"],
+    settings:[
+      {k:"Profil Zeremonie",v:"C1 (Av, f/4.0, lautlos)"},
+      {k:"Profil Auszug / Party",v:"C2 (Tv, 1/500s, Serienbild H)"},
+      {k:"Augenerkennung",v:"Ein – Personen"},
+      {k:"Belicht.-Korr. Kleid",v:"+0.3 bis +0.7"},
+      {k:"Dual-Slot",v:"Mehrfachaufzeichnung = Pflicht!"},
+    ],
+    timeline:[
+      {time:"−90 Min",event:"Getting Ready",lens:"24-105mm",profile:"C1",notes:"Ringe (Makro-Instinkt!), Kleid, Manschettenknöpfe, Deko. Fensterlicht nutzen."},
+      {time:"−60 Min",event:"Garten-Shooting (getrennt)",lens:"24-105mm / 24-240mm",profile:"C1",notes:"Erst Er (30 Min früher bestellen), dann Sie. Bodyguard einteilen! Er darf Braut nicht sehen."},
+      {time:"0 Min",event:"Einzug Kirche",lens:"24-105mm",profile:"C1 – LAUTLOS!",notes:"Vorne beim Bräutigam. Seine Reaktion beim Einzug = Goldmoment! Dann Braut frontal."},
+      {time:"Zeremonie",event:"Ringe · Kuss · Tränen",lens:"24-105mm / 100-400mm",profile:"C1",notes:"Ninja-Modus: leise, beobachtend. DER KUSS: AF-ON halten, Serienbild nicht loslassen!"},
+      {time:"Auszug",event:"Konfetti & Jubel",lens:"16-35mm oder 24-105mm",profile:"C2 – WECHSELN!",notes:"Sofort auf C2! 1/500s friert Konfetti ein. Serienbild H. Nah rangehen!"},
+      {time:"+15 Min",event:"Gruppenfoto",lens:"16-35mm",profile:"C2",notes:"Erhöhung suchen. 'Alle Augen zu mir!' – 10 Bilder = 1 taugt garantiert."},
+      {time:"Apéro",event:"Reportage & Stimmung",lens:"RF 24-240mm / 24-105mm",profile:"C2",notes:"Beobachtend aus Distanz. Lachen, Anstoßen, spontane Momente ohne Posen."},
+      {time:"Abend",event:"Tanz & Torte",lens:"16-35mm + Blitz",profile:"C2",notes:"Blitz indirekt an Decke. Antiflacker Ein. 2. Vorhang Sync für Bewegungsunschärfe."},
+    ],
+    tip:"Starte mit Details (Ringe, Kleid, Deko) – das beruhigt den Puls, du 'schiesst dich warm' und hast sofort tolle Bilder ohne Blickkontakt mit Menschen.",
+  },
+  {
+    id:"fasnacht",icon:"🎭",name:"Fasnacht & Guggenmusik",tag:"Action · Farbe · Nacht",
+    lenses:["EF 24-105mm f/4.0 L","EF 16-35mm f/4.0 L","RF 24-240mm","Speedlite Blitz"],
+    settings:[
+      {k:"Modus",v:"Tv"},
+      {k:"Verschlusszeit",v:"1/500s – 1/1000s"},
+      {k:"ISO",v:"Auto (max. 25'600)"},
+      {k:"Blitz",v:"Speedlite TTL, 2. Vorhang Sync"},
+      {k:"Drive",v:"Reihenaufnahme Hoch"},
+      {k:"Weißabgleich",v:"Kunstlicht oder AWB"},
+      {k:"AF",v:"Servo + Ganzbereichs-AF"},
+    ],
+    tip:"Titelgasse wählen: Gugge kommt auf dich zu. Bei 5-10m Abstand: Serienbild starten, Gesichter fokussieren. Blitz für Nacht – indirekt oder diffuse, nicht direkt.",
+  },
+  {
+    id:"makro",icon:"🌿",name:"Makro & Natur",tag:"Deine Kernstärke · Details",
+    lenses:["EF 100mm f/2.8 Macro L IS","EF 24-105mm (Nahgrenze)"],
+    settings:[
+      {k:"Modus",v:"Av"},
+      {k:"Blende scharf",v:"f/8 – f/11"},
+      {k:"Blende Bokeh",v:"f/2.8 – f/4.0"},
+      {k:"ISO",v:"100 – 400 (so tief wie möglich)"},
+      {k:"AF",v:"Einzelfeld-AF, kleinstes Feld"},
+      {k:"Verschluss",v:"Elektronisch (kein Verwackeln)"},
+      {k:"IS bei Stativ",v:"AUS!"},
+      {k:"Drive",v:"Einzelbild + Fokus-Bracketing"},
+    ],
+    tip:"Fokus-Bracketing (Menü Rot 4): 5-15 Bilder, 1-3 Fein-Schritte → in Photoshop/DPP stacken. Für Hochzeit: Ringe mit Makro-Erfahrung = sofort beeindruckende Bilder!",
+  },
+  {
+    id:"portrait",icon:"👤",name:"Portrait & People",tag:"Bokeh · Licht · Emotion",
+    lenses:["EF 24-105mm @ 85-105mm","EF 24-105mm @ 50mm (Umgebung)"],
+    settings:[
+      {k:"Modus",v:"Av"},
+      {k:"Blende",v:"f/2.8 – f/4.0"},
+      {k:"ISO",v:"Auto (max. 3'200)"},
+      {k:"AF",v:"Servo + Augenerkennung"},
+      {k:"Eye Control",v:"Ein – dominantes Auge"},
+      {k:"Weißabgleich",v:"Bewölkt (warme Hauttöne)"},
+      {k:"Belicht.-Korr.",v:"+0.3 für helle Hauttypen"},
+    ],
+    tip:"Kamera IMMER auf Augenhöhe oder leicht von oben. Nie von unten! Bokeh-Trick: 105mm + f/4.0 + grosser Abstand zum Hintergrund = cremiges Bokeh.",
+  },
+  {
+    id:"sport",icon:"⚡",name:"Sport & Wildlife",tag:"Tracking · Schärfe · Bewegung",
+    lenses:["EF 100-400mm f/4.5-5.6 L IS II","EF 24-105mm (wenn nah)"],
+    settings:[
+      {k:"Modus",v:"Tv"},
+      {k:"Verschlusszeit",v:"1/1000s – 1/2000s"},
+      {k:"ISO",v:"Auto (max. 12'800)"},
+      {k:"AF",v:"Servo AF"},
+      {k:"AF-Methode",v:"Ganzbereichs-AF"},
+      {k:"Tiererkennung",v:"Ein (Wildlife!)"},
+      {k:"Drive",v:"Reihenaufnahme Hoch"},
+      {k:"IS Mode",v:"Mode 2 (Panning/Schwenk)"},
+    ],
+    tip:"EF 100-400mm + Tier-Erkennung der R5 II = magisches Duo. Augen von Tieren und Vögeln werden zuverlässig gehalten. Vorschuss-AF: schon fokussieren bevor Tier ins Bild kommt.",
+  },
+];
+
+let openScenarios={};
+function renderSzenarien(){
+  const el=document.getElementById("szenarien-list");
+  el.innerHTML=SCENARIOS.map(s=>{
+    const o=openScenarios[s.id];
+    const tl=s.timeline?`
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:12px 0 6px">Ablauf</div>
+      ${s.timeline.map(t=>`<div class="timeline-row">
+        <div class="tl-time">${esc(t.time)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="tl-event">${esc(t.event)}</div>
+          ${t.profile?`<div class="tl-lens">Profil: ${esc(t.profile)}</div>`:""}
+          <div class="tl-notes">${esc(t.notes)}</div>
+          ${t.lens?`<div class="tl-lens">&#x1F4F7; ${esc(t.lens)}</div>`:""}
+        </div>
+      </div>`).join("")}`:"";
+    return`<div class="scenario-card">
+      <div class="scenario-head" onclick="toggleScenario('${s.id}')">
+        <div class="scenario-icon">${s.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div class="scenario-name">${esc(s.name)}</div>
+          <div class="scenario-tag">${esc(s.tag)}</div>
+        </div>
+        <svg class="chevron${o?" open":""}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="scenario-body${o?" open":""}" id="sb-${s.id}">
+        <div style="margin-bottom:10px">${s.lenses.map(l=>`<span class="lens-pill">${esc(l)}</span>`).join("")}</div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Einstellungen</div>
+        ${s.settings.map(r=>`<div class="setting-row"><span class="setting-key">${esc(r.k)}</span><span class="setting-val">${esc(r.v)}</span></div>`).join("")}
+        ${tl}
+        <div class="tip-box" style="margin-top:10px">&#x1F4A1; ${esc(s.tip)}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+function toggleScenario(id){openScenarios[id]=!openScenarios[id];renderSzenarien();}
+
+// ---- CHECKLISTS ----
+const CHECKLISTS={
+  hochzeit:{name:"Hochzeit",icon:"💍",phases:[
+    {id:"hv",icon:"⚙️",title:"Vorbereitung (Abend davor)",sub:"Ausrüstung checken",tasks:[
+      {id:"hv1",text:"Alle 3 Akkus vollständig laden"},
+      {id:"hv2",text:"Speicherkarten in Kamera formatieren"},
+      {id:"hv3",text:"Sensor-Check: Testfoto bei f/22 gegen weissen Himmel"},
+      {id:"hv4",text:"Uhrzeit R5 II synchronisieren (wichtig für Sortierung!)"},
+      {id:"hv5",text:"Frontlinsen und Adapter reinigen"},
+      {id:"hv6",text:"C1 (Zeremonie) programmiert & gespeichert"},
+      {id:"hv7",text:"C2 (Party/Action) programmiert & gespeichert"},
+      {id:"hv8",text:"Eye-Control 3-4× kalibriert (auch Hochformat!)"},
+      {id:"hv9",text:"Dual-Slot Mehrfachaufzeichnung aktiviert"},
+      {id:"hv10",text:"Ablaufplan vom Brautpaar studiert"},
+      {id:"hv11",text:"Garten & Kirche auf Google Maps gecheckt"},
+      {id:"hv12",text:"Bodyguard für Braut/Bräutigam-Trennung eingeteilt"},
+    ]},
+    {id:"hgr",icon:"💐",title:"Getting Ready (−90 Min)",sub:"Details & Atmosphäre",tasks:[
+      {id:"hgr1",text:"Kleid am Bügel fotografieren",lens:"24-105mm, C1, Fensterlicht"},
+      {id:"hgr2",text:"Ringe (Makro-Instinkt!)",lens:"24-105mm Nahgrenze oder 100mm Macro"},
+      {id:"hgr3",text:"Schuhe, Manschettenknöpfe, Einladungskarte",lens:"24-105mm, C1"},
+      {id:"hgr4",text:"Tischdeko, Blumen, Atmosphäre-Details"},
+      {id:"hgr5",text:"Braut beim Schminken (diskret, von der Seite)",lens:"105mm, C1"},
+    ]},
+    {id:"hga",icon:"🌳",title:"Garten-Shooting (−60 Min)",sub:"Getrennt: erst Er, dann Sie",tasks:[
+      {id:"hga1",text:"Bräutigam 30 Min früher in den Garten bestellen"},
+      {id:"hga2",text:"Bräutigam-Shooting: Anzug, weiches Licht, Baum als BG",lens:"24-105mm @ 85mm, C1"},
+      {id:"hga3",text:"Belichtungskorrektur prüfen & anpassen"},
+      {id:"hga4",text:"Bräutigam in sicheren Bereich (Bodyguard!)"},
+      {id:"hga5",text:"Braut-Shooting: Kleid im weichen Gartenlicht",lens:"24-105mm, C1"},
+      {id:"hga6",text:"+0.3 bis +0.7 Korrektur für weisses Kleid aktiv"},
+      {id:"hga7",text:"Klappdisplay für Frosch- & Vogelperspektive nutzen"},
+    ]},
+    {id:"hki",icon:"⛪",title:"Einzug & Zeremonie",sub:"Lautlos! C1 aktiv",tasks:[
+      {id:"hki1",text:"C1 aktiv – Elektronischer Verschluss (LAUTLOS)"},
+      {id:"hki2",text:"Position vorne beim Bräutigam einnehmen"},
+      {id:"hki3",text:"Reaktion Bräutigam beim Einzug = Goldmoment!"},
+      {id:"hki4",text:"Braut beim Einzug: frontal & von der Seite",lens:"24-105mm, C1"},
+      {id:"hki5",text:"Ringübergabe – Makro-Instinkt einschalten!",lens:"24-105mm Nahgrenze"},
+      {id:"hki6",text:"Das Ja-Wort: beide Gesichter"},
+      {id:"hki7",text:"DER KUSS: AF-ON halten, Serienbild!",lens:"24-105mm"},
+      {id:"hki8",text:"Emotionen bei Gästen (diskret aus Distanz)",lens:"100-400mm"},
+    ]},
+    {id:"hau",icon:"🎊",title:"Auszug & Gratulationen",sub:"WECHSEL auf C2!",tasks:[
+      {id:"hau1",text:"WECHSEL auf C2 (Tv, 1/500s, Serienbild H)"},
+      {id:"hau2",text:"Position am Kirchenportal einnehmen",lens:"16-35mm oder 24-105mm"},
+      {id:"hau3",text:"Konfetti / Reis werfen: Serienbild!"},
+      {id:"hau4",text:"Erstes Kuss-Foto draussen"},
+      {id:"hau5",text:"Spontane Umarmungen, Lachen, Emotionen"},
+    ]},
+    {id:"hgp",icon:"👨‍👩‍👧‍👦",title:"Gruppenfoto",sub:"Alle Gäste + Brautpaar",tasks:[
+      {id:"hgp1",text:"Erhöhung suchen (Treppe, Stufe, Podest)"},
+      {id:"hgp2",text:"Bestimmt & laut: 'Alle Augen zu mir!'",lens:"16-35mm, C2"},
+      {id:"hgp3",text:"Mindestens 10 Bilder → 1 taugt immer"},
+      {id:"hgp4",text:"Kleines Familienfoto mit Eltern"},
+      {id:"hgp5",text:"Brautpaar alleine – ruhiges Paar-Shooting"},
+    ]},
+    {id:"hap",icon:"🥂",title:"Apéro & Feier",sub:"Reportage – beobachtend",tasks:[
+      {id:"hap1",text:"Anstoßen einfangen",lens:"24-105mm, C2"},
+      {id:"hap2",text:"Gäste aus Distanz beobachten",lens:"RF 24-240mm"},
+      {id:"hap3",text:"Torten-Anschnitt – bereit stehen!"},
+      {id:"hap4",text:"Erster Tanz: Blitz indirekt!",lens:"16-35mm + Speedlite, C2"},
+      {id:"hap5",text:"Details: Torte, Deko, Tischkarten"},
+      {id:"hap6",text:"Abschluss-Fotos bei Sonnenuntergang (Golden Hour!)"},
+    ]},
+    {id:"hna",icon:"✅",title:"Nach der Hochzeit",sub:"Daten sichern!",tasks:[
+      {id:"hna1",text:"Sofortbackup auf externen Drive"},
+      {id:"hna2",text:"Rohdaten in Lightroom importieren"},
+      {id:"hna3",text:"3-5 Preview-Bilder schnell bearbeiten & senden"},
+      {id:"hna4",text:"Liefertermin mit Brautpaar bestätigen"},
+    ]},
+  ]},
+  fasnacht:{name:"Fasnacht",icon:"🎭",phases:[
+    {id:"fv",icon:"⚙️",title:"Vorbereitung",sub:"Night-Settings bereit",tasks:[
+      {id:"fv1",text:"C2 auf Tv 1/500s–1/1000s eingestellt"},
+      {id:"fv2",text:"ISO max auf 25'600 erhöht"},
+      {id:"fv3",text:"Speedlite geladen und montiert"},
+      {id:"fv4",text:"24-105mm montiert, Frontlinse sauber"},
+      {id:"fv5",text:"Reserveakku in Hosentasche"},
+      {id:"fv6",text:"Speicherkarte genug Platz (Serienbild!)"},
+    ]},
+    {id:"fo",icon:"📍",title:"Position & Licht",sub:"Vor dem Zug",tasks:[
+      {id:"fo1",text:"Titelgasse wählen: Gruppe kommt auf mich zu"},
+      {id:"fo2",text:"Störende Laternen hinter Motiv vermeiden"},
+      {id:"fo3",text:"Erhöhung für Übersichts-/Atmosphärefotos"},
+      {id:"fo4",text:"AF-Assist Strahl bei Dunkelheit aktiviert"},
+      {id:"fo5",text:"Testbild: ISO/Belichtung gecheckt"},
+    ]},
+    {id:"fs",icon:"📸",title:"Shooting",sub:"Action & Gesichter",tasks:[
+      {id:"fs1",text:"Gesichter beim Vorbeigehen einfangen",lens:"24-105mm @ 70-105mm"},
+      {id:"fs2",text:"Wenn Gugge auf mich zuläuft: Serienbild!"},
+      {id:"fs3",text:"Detail-Fotos: Masken, Instrumente, Kostüme"},
+      {id:"fs4",text:"Weitwinkel Atmosphäre / Gesamtszene",lens:"16-35mm"},
+      {id:"fs5",text:"Blitz für Nahaufnahmen bei Dunkelheit"},
+    ]},
+  ]},
+};
+
+let openPhases={};
+function renderCheckliste(){
+  const data=load();
+  const cl=data.activeCL||"hochzeit";
+  document.getElementById("cl-selector").innerHTML=
+    Object.keys(CHECKLISTS).map(k=>`<button class="cl-btn${k===cl?" active":""}" onclick="selectCL('${k}')">${CHECKLISTS[k].icon} ${CHECKLISTS[k].name}</button>`).join("")+
+    `<button class="cl-btn" style="color:var(--danger);border-color:rgba(251,113,133,0.3)" onclick="resetCL('${cl}')">&#x21BA; Reset</button>`;
+  const checks=data.checks[cl]||{};
+  const def=CHECKLISTS[cl];
+  const total=def.phases.reduce((s,p)=>s+p.tasks.length,0);
+  const done=Object.keys(checks).filter(k=>checks[k]).length;
+  const pct=total>0?Math.round(done/total*100):0;
+  const fc=pct>=100?"var(--ok)":pct>=50?"var(--warn)":"var(--accent)";
+  document.getElementById("cl-progress").innerHTML=`<div class="progress-wrap">
+    <div class="progress-lbl"><span>${def.icon} ${def.name}</span><span style="color:${fc}">${done} / ${total} (${pct}%)</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${fc}"></div></div>
+  </div>`;
+  document.getElementById("cl-list").innerHTML=def.phases.map(ph=>{
+    const pdone=ph.tasks.filter(t=>checks[t.id]).length;
+    const allDone=pdone===ph.tasks.length;
+    const isOpen=openPhases[ph.id];
+    return`<div class="phase-block">
+      <div class="phase-header${allDone?" all-done":""}" onclick="togglePhase('${ph.id}')">
+        <span class="phase-icon">${ph.icon}</span>
+        <div style="flex:1;min-width:0">
+          <div class="phase-title">${esc(ph.title)}</div>
+          <div class="phase-sub">${esc(ph.sub)}</div>
+        </div>
+        <span class="phase-pct" style="color:${allDone?"var(--ok)":"var(--muted)"}">${pdone}/${ph.tasks.length}</span>
+        <svg class="chevron${isOpen?" open":""}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="phase-tasks${isOpen?" open":""}" id="ph-${ph.id}">
+        ${ph.tasks.map(t=>{
+          const isDone=!!checks[t.id];
+          return`<div class="task-row">
+            <div class="task-cb${isDone?" done":""}" onclick="toggleTask('${cl}','${t.id}')"></div>
+            <div class="task-info">
+              <div class="task-text${isDone?" done":""}">${esc(t.text)}</div>
+              ${t.lens?`<div class="task-lens">&#x1F4F7; ${esc(t.lens)}</div>`:""}
+            </div>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>`;
+  }).join("");
+}
+function togglePhase(id){openPhases[id]=!openPhases[id];renderCheckliste();}
+function selectCL(k){const data=load();data.activeCL=k;save(data);openPhases={};renderCheckliste();}
+function toggleTask(cl,taskId){
+  const data=load();
+  if(!data.checks[cl])data.checks[cl]={};
+  data.checks[cl][taskId]=!data.checks[cl][taskId];
+  save(data);
+  renderCheckliste();
+}
+function resetCL(cl){
+  if(!confirm("Alle Aufgaben für "+CHECKLISTS[cl].name+" zurücksetzen?"))return;
+  const data=load();data.checks[cl]={};save(data);openPhases={};renderCheckliste();
+  toast("Checkliste zurückgesetzt.");
+}
+
+// ---- NOTES ----
+function renderNotizen(){
+  const data=load();
+  const el=document.getElementById("notes-list");
+  if(!data.notes.length){el.innerHTML='<div class="empty">Noch keine Notizen.</div>';return;}
+  el.innerHTML=data.notes.slice().reverse().map(n=>`<div class="note-item">
+    <div class="note-text">${esc(n.text)}</div>
+    <div class="note-meta">
+      <span>${new Date(n.createdAt).toLocaleDateString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span>
+      <span onclick="deleteNote('${n.id}')" style="color:var(--danger);cursor:pointer">Löschen</span>
+    </div>
+  </div>`).join("");
+}
+function saveNote(){
+  const txt=document.getElementById("note-input").value.trim();
+  if(!txt)return;
+  const data=load();
+  data.notes.push({id:uid(),text:txt,createdAt:new Date().toISOString()});
+  save(data);
+  document.getElementById("note-input").value="";
+  renderNotizen();
+  toast("Notiz gespeichert.");
+}
+function deleteNote(id){
+  const data=load();data.notes=data.notes.filter(n=>n.id!==id);save(data);renderNotizen();
+}
+
+// INIT
+if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>

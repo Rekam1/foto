@@ -1,0 +1,23 @@
+{
+  "name": "Foto Companion",
+  "short_name": "Foto",
+  "description": "Canon EOS R5 Mark II – Kamera-Profile, Szenarien, Checklisten",
+  "start_url": "/foto/index.html",
+  "scope": "/foto/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/foto/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/foto/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
