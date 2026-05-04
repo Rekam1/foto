@@ -422,25 +422,14 @@
 
       <div class="ref-section">&#x1F4BE; Speicherkarten-Rechner</div>
       <div class="card">
-        <div class="calc-grid">
-          <div class="calc-group">
-            <div class="calc-label">Kapazit&auml;t</div>
-            <select class="calc-select" id="sp-gb" onchange="calcSpeicher()">
-              <option value="32">32 GB</option><option value="64">64 GB</option>
-              <option value="128" selected>128 GB</option><option value="256">256 GB</option>
-              <option value="512">512 GB</option><option value="1000">1 TB</option>
-            </select>
-          </div>
-          <div class="calc-group">
-            <div class="calc-label">Format</div>
-            <select class="calc-select" id="sp-fmt" onchange="calcSpeicher()">
-              <option value="45">RAW (~45 MB)</option>
-              <option value="55">RAW + JPEG (~55 MB)</option>
-              <option value="10">JPEG (~10 MB)</option>
-            </select>
-          </div>
+        <div class="calc-group">
+          <div class="calc-label">Kapazit&auml;t</div>
+          <div class="range-row"><input type="range" id="sp-gb" min="0" max="5" step="1" value="2" oninput="calcSpeicher()"><span class="range-val" id="sp-gb-v">128 GB</span></div>
         </div>
-        <button class="btn btn-primary" onclick="calcSpeicher()" style="margin-top:10px">&#x1F4BE; Berechnen</button>
+        <div class="calc-group">
+          <div class="calc-label">Format</div>
+          <div class="range-row"><input type="range" id="sp-fmt" min="0" max="2" step="1" value="0" oninput="calcSpeicher()"><span class="range-val" id="sp-fmt-v">RAW (~45 MB)</span></div>
+        </div>
         <div class="calc-result" id="sp-result"></div>
         <div class="tip-box" style="margin-top:10px">&#x1F50B; R5 II pro Akku: ~500&ndash;700 Bilder (Display), ~900&ndash;1200 (Sucher). Hochzeit = mind. 3 Akkus!</div>
       </div>
@@ -1087,9 +1076,17 @@ function calcGoldeneStundeManuell(){
 }
 
 // ---- SPEICHERKARTE ----
+const SP_GB=[32,64,128,256,512,1000];
+const SP_GB_L=['32 GB','64 GB','128 GB','256 GB','512 GB','1 TB'];
+const SP_MB=[45,55,10];
+const SP_MB_L=['RAW (~45 MB)','RAW + JPEG (~55 MB)','JPEG (~10 MB)'];
 function calcSpeicher(){
-  const gb=+document.getElementById('sp-gb').value;
-  const mb=+document.getElementById('sp-fmt').value;
+  const gi=+document.getElementById('sp-gb').value;
+  const fi=+document.getElementById('sp-fmt').value;
+  document.getElementById('sp-gb-v').textContent=SP_GB_L[gi];
+  document.getElementById('sp-fmt-v').textContent=SP_MB_L[fi];
+  const gb=SP_GB[gi];
+  const mb=SP_MB[fi];
   const usable=gb*1000*0.93;
   const shots=Math.floor(usable/mb);
   const v4k=((usable/1024)/1.5).toFixed(1);
@@ -1149,6 +1146,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);
   calcBelichtung();
   updateDoF();
+  calcSpeicher();
 });
 </script>
 </body>
