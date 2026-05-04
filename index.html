@@ -24,7 +24,7 @@
     .app-header .sub{font-size:13px;color:var(--muted);margin-top:2px;}
     .tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:calc(var(--nav-h) + 24px);}
     .bottom-nav{display:flex;background:rgba(17,24,39,0.98);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom);height:var(--nav-h);flex-shrink:0;}
-    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
+    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:9px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
     .bottom-nav button.active{color:var(--accent);}
     .bottom-nav button svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;}
     .tab{display:none;}.tab.active{display:block;}
@@ -98,6 +98,21 @@
     .chevron.open{transform:rotate(90deg);}
     .step-list{font-size:13px;color:var(--muted);line-height:2;}
     .step-list b{color:var(--text);}
+    /* REFERENZ */
+    .ref-section{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.07em;margin:18px 0 8px;}
+    .ref-section:first-child{margin-top:0;}
+    .situation-card{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;background:rgba(17,24,39,0.6);}
+    .situation-head{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+    .situation-head:active{background:rgba(255,255,255,0.03);}
+    .situation-body{padding:0 14px 12px;display:none;}
+    .situation-body.open{display:block;}
+    .menu-path{font-size:12px;color:#38bdf8;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:7px 10px;margin-top:8px;line-height:1.7;}
+    .menu-path b{color:#7dd3fc;}
+    .wb-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+    .wb-row:last-child{border-bottom:none;}
+    .wb-k{font-size:13px;font-weight:700;flex:1;}
+    .wb-v{font-size:13px;color:var(--muted);}
+    .wb-swatch{width:18px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,0.15);}
   </style>
 </head>
 <body>
@@ -208,6 +223,93 @@
       </div>
     </section>
 
+    <!-- ===== TAB: REFERENZ ===== -->
+    <section class="tab" id="tab-referenz">
+
+      <!-- BLITZ GRUNDLAGEN -->
+      <div class="ref-section">&#x26A1; Blitz – Grundlagen R5 II</div>
+
+      <div class="card">
+        <div class="card-title">Sync-Zeiten &amp; Verschluss</div>
+        <div class="setting-row"><span class="setting-key">Mechanisch</span><span class="setting-val">max. 1/250 s</span></div>
+        <div class="setting-row"><span class="setting-key">Elektron. 1. Vorhang</span><span class="setting-val">max. 1/250 s</span></div>
+        <div class="setting-row"><span class="setting-key">HSS (Hochsync)</span><span class="setting-val">bis 1/8000 s &#x2713;</span></div>
+        <div class="setting-row"><span class="setting-key">Elektronisch (lautlos)</span><span class="setting-val">&#x26A0; KEIN Blitz m&ouml;glich!</span></div>
+        <div class="tip-box">&#x26A0; Lautlosmodus = kein Blitz! F&uuml;r Blitz immer auf <b>Mech.</b> oder <b>Elektron. 1. Vorhang</b> wechseln &rarr; Men&uuml; Rot 4 &rarr; Verschluss-Modus.</div>
+        <div class="menu-path"><b>Menüpfad Verschluss:</b> Rot 4 &rarr; Verschluss-Modus &rarr; Mechanisch oder Elektron. 1. Vorhang</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Blitz-Steuerung einstellen</div>
+        <div class="setting-row"><span class="setting-key">Blitz aktivieren</span><span class="setting-val">Rot 4 &rarr; Blitz-Steuerung</span></div>
+        <div class="setting-row"><span class="setting-key">Sync-Modus</span><span class="setting-val">Rot 4 &rarr; Blitz-Sync</span></div>
+        <div class="setting-row"><span class="setting-key">Blitz-Belicht.-Korr.</span><span class="setting-val">Q-Taste &rarr; Blitz-Symbol</span></div>
+        <div class="setting-row"><span class="setting-key">FEB (Belicht.-Reihe)</span><span class="setting-val">Rot 4 &rarr; Blitz-Belicht.-Reihe</span></div>
+        <div class="menu-path"><b>Blitz-Korrektur schnell:</b> Q-Taste &rarr; Blitz-Symbol w&auml;hlen &rarr; Hinteres Rad drehen (+/&minus;)</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">HSS (Hochgeschwindigkeitssynchronisation)</div>
+        <div class="step-list">
+          1. <b>Am Speedlite</b>: Mode-Taste halten bis "H" (Blitz-Symbol mit Linie) erscheint<br>
+          2. <b>An der Kamera</b>: Verschlusszeit &uuml;ber 1/250s stellen &rarr; Kamera wechselt auto. auf HSS<br>
+          3. Leistung sinkt bei HSS stark! Bei 1/1000s ca. &minus;2 Blenden Leistung<br>
+          4. Ideal f&uuml;r: Aufhellblitz Sonne / Gegenlicht bei offener Blende
+        </div>
+        <div class="menu-path"><b>HSS Menü (alternativ):</b> Rot 4 &rarr; Blitz-Steuerung &rarr; Ext. Blitz-Funkt. einstellen &rarr; Sync</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">ETTL vs. Manual – wann was?</div>
+        <div class="setting-row"><span class="setting-key">ETTL</span><span class="setting-val">Reportage, Bewegung, unbekannte Distanz</span></div>
+        <div class="setting-row"><span class="setting-key">Manual (M)</span><span class="setting-val">Gleichm&auml;ssige Distanz, volle Kontrolle</span></div>
+        <div class="setting-row"><span class="setting-key">ETTL-Korrektur</span><span class="setting-val">&minus;1 bis &minus;2 bei Aufhellblitz</span></div>
+        <div class="setting-row"><span class="setting-key">Manual Leistung</span><span class="setting-val">1/1 = voll, 1/4 = Standard Innen</span></div>
+        <div class="menu-path"><b>Am Speedlite:</b> Mode-Taste &rarr; ETTL oder M &rarr; Zoomrad = Leistung (bei M) oder Zoom-Position</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. Vorhang Sync – Tanz &amp; Bewegung</div>
+        <div class="step-list">
+          1. Zeit auf <b>1/30s &ndash; 1/15s</b> (Verwischung sichtbar)<br>
+          2. Blitz-Sync &rarr; <b>2. Vorhang</b> &rarr; Rot 4 &rarr; Blitz-Steuerung &rarr; Sync<br>
+          3. Ergebnis: Bewegungsunsch&auml;rfe <i>vor</i> dem Motiv, Motiv selbst scharf<br>
+          4. Ideal: Tanzboden, Lichtspuren, Gugge-Instrumente
+        </div>
+        <div class="tip-box">&#x1F3B6; 2. Vorhang = magisch f&uuml;r Tanz! Blitz friert Motiv am Ende der Belichtung ein, Schleppe der Bewegung geht nach hinten.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Bounce – indirekt blitzen</div>
+        <div class="setting-row"><span class="setting-key">Weisse Decke</span><span class="setting-val">Kopf 90&deg; nach oben, ETTL</span></div>
+        <div class="setting-row"><span class="setting-key">Seitenwand</span><span class="setting-val">Kopf 45&deg; seitlich + leicht hoch</span></div>
+        <div class="setting-row"><span class="setting-key">Farbige Decke</span><span class="setting-val">Diffusor vorne + Korrektur &minus;1</span></div>
+        <div class="setting-row"><span class="setting-key">Hohe Decke (&gt;4m)</span><span class="setting-val">Direkt + Diffusor, nicht bounchen</span></div>
+        <div class="setting-row"><span class="setting-key">Draussen nachts</span><span class="setting-val">Direkt, Diffusor oder Softbox</span></div>
+        <div class="tip-box">&#x1F4A1; Weisser Bounce-Reflektor (Lumiquest o.&auml;.) seitlich am Speedlite = auch bei niedrigen Decken weiches Licht.</div>
+      </div>
+
+      <!-- NOTFALL-EINSTELLUNGEN -->
+      <div class="ref-section">&#x1F6A8; Notfall-Einstellungen – Schnellrezepte</div>
+
+      <div id="situations-list"></div>
+
+      <!-- WEISSABGLEICH -->
+      <div class="ref-section">&#x1F321; Weissabgleich &amp; Farbtemperatur</div>
+      <div class="card">
+        <div class="wb-row"><div class="wb-swatch" style="background:#ff6a00"></div><div class="wb-k">Kerze / Feuer</div><div class="wb-v">~1800 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#ff9a3c"></div><div class="wb-k">Gl&uuml;hlampe / Tungsten</div><div class="wb-v">~3200 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#ffc97a"></div><div class="wb-k">Leuchtstoffr&ouml;hre</div><div class="wb-v">~4000 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#fff4e0"></div><div class="wb-k">Blitz / Speedlite</div><div class="wb-v">~5500 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#fff8f0"></div><div class="wb-k">Sonne Mittag</div><div class="wb-v">~5200 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#e8f0ff"></div><div class="wb-k">Bew&ouml;lkt / Schatten</div><div class="wb-v">~6500 K</div></div>
+        <div class="wb-row"><div class="wb-swatch" style="background:#c5d8ff"></div><div class="wb-k">Schatten tief / blauer Himmel</div><div class="wb-v">~8000 K</div></div>
+        <div class="menu-path"><b>WB manuell setzen:</b> Q-Taste &rarr; WB-Symbol &rarr; hinteres Rad oder Kelvin-Wert direkt &rarr; Rot 3 &rarr; Weissabgleich &rarr; K</div>
+        <div class="tip-box">&#x1F4F8; RAW-Shooter? WB in Lightroom korrigieren &ndash; trotzdem im Feld den richtigen Bereich einstellen, da der Sensor-Histogramm darauf basiert!</div>
+      </div>
+
+    </section>
+
   </div><!-- tab-content -->
 
   <nav class="bottom-nav">
@@ -226,6 +328,10 @@
     <button id="nav-notizen" onclick="showTab('notizen')">
       <svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
       Notizen
+    </button>
+    <button id="nav-referenz" onclick="showTab('referenz')">
+      <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Referenz
     </button>
   </nav>
 </div><!-- app -->
@@ -250,6 +356,7 @@ function showTab(tab){
   if(tab==="szenarien")renderSzenarien();
   if(tab==="checkliste")renderCheckliste();
   if(tab==="notizen")renderNotizen();
+  if(tab==="referenz")renderSituations();
 }
 
 // ---- SCENARIOS ----
@@ -559,8 +666,134 @@ function deleteNote(id){
   const data=load();data.notes=data.notes.filter(n=>n.id!==id);save(data);renderNotizen();
 }
 
+// ---- SITUATIONS ----
+const SITUATIONS=[
+  {
+    id:"kirche",icon:"⛪",name:"Kirche / sehr dunkel",tag:"Innenraum · Kerzenlicht · Kunstlicht",
+    settings:[
+      {k:"Modus",v:"Av"},
+      {k:"Blende",v:"f/4.0 (so offen wie möglich)"},
+      {k:"ISO",v:"Auto max. 12'800"},
+      {k:"Verschluss",v:"Elektron. 1. Vorhang (NICHT lautlos!)"},
+      {k:"WB",v:"Kunstlicht (3200K) oder AWB"},
+      {k:"Blitz",v:"Bounce indirekt ODER aus (Stimmung!)"},
+      {k:"IS",v:"Ein – stabilisiert bei 1/30s"},
+    ],
+    tip:"Ohne Blitz = Stimmungslicht erhalten. Mit Blitz = Bounce an helle Wand/Decke. Niemals direkt blitzen in der Kirche!",
+    menu:"Verschluss: Rot 4 → Elektron. 1. Vorhang · WB: Q-Taste → WB → Kunstlicht",
+  },
+  {
+    id:"gegenlicht",icon:"☀️",name:"Gegenlicht / Sonne hinter Motiv",tag:"HSS · Aufhellblitz · Silhouette",
+    settings:[
+      {k:"Modus",v:"Av oder M"},
+      {k:"Blende",v:"f/4.0 – f/5.6"},
+      {k:"Belicht.-Korr.",v:"+1.0 bis +1.5 (Motiv aufhellen)"},
+      {k:"Blitz",v:"HSS ETTL, Korrektur −1 bis −1.5"},
+      {k:"Verschlusszeit",v:"1/500s – 1/1000s (HSS!)"},
+      {k:"ISO",v:"100 – 400"},
+    ],
+    tip:"Belichtung auf Motiv (Gesicht) optimieren → Hintergrund überstrahlt etwas → Blitz füllt Schatten auf. Alternativ: Silhouette bewusst einsetzen = BelKorr −1 bis −2.",
+    menu:"HSS: Am Speedlite Mode-Taste → H-Symbol · Blitz-Korr: Q-Taste → Blitz-Symbol → Rad",
+  },
+  {
+    id:"regen",icon:"🌧️",name:"Regen / Schlechtwetter",tag:"Grau · Flach · Stimmung",
+    settings:[
+      {k:"Modus",v:"Av"},
+      {k:"Blende",v:"f/4.0 – f/5.6"},
+      {k:"ISO",v:"Auto max. 6400"},
+      {k:"WB",v:"Bewölkt (6500K) – wärmer!"},
+      {k:"Belicht.-Korr.",v:"+0.3 bis +0.7 (grauer Himmel täuscht Kamera)"},
+      {k:"Kontrast",v:"In Lightroom: Clarity +20, Dehaze +10"},
+    ],
+    tip:"Bewölkter Himmel = perfektes Softbox-Licht für Portraits! Kein harter Schatten. WB auf Bewölkt = warme Hauttöne trotz grauem Tag.",
+    menu:"WB Bewölkt: Q-Taste → WB → Wolken-Symbol · Belicht.-Korr: Hinteres Rad",
+  },
+  {
+    id:"brautkleid",icon:"👗",name:"Weisses Kleid / Überstrahlung",tag:"Belichtung · ETTR · Highlights",
+    settings:[
+      {k:"Belicht.-Korr.",v:"+0.3 bis +0.7"},
+      {k:"Histogramm",v:"Rechtsbündig, KEIN Clipping!"},
+      {k:"Highlight-Warnung",v:"EIN → Rot 1 → Aufnahmeansicht"},
+      {k:"Zebra",v:"EIN bei 95% → Rot 5 → Zebra-Anzeige"},
+      {k:"WB",v:"AWB Priorität Weiss"},
+      {k:"Blitz",v:"ETTL −0.5 (nicht überstrahlen)"},
+    ],
+    tip:"Highlight-Warnung (blinkendes Weiss) = zu hell! Belicht.-Korr. runter. ETTR: so hell wie möglich ohne Clipping = beste RAW-Qualität.",
+    menu:"Highlight-Warnung: Rot 1 → Aufnahme-Bildschirmeinst. → Überbelichtungswarnung EIN · Zebra: Rot 5",
+  },
+  {
+    id:"konfetti",icon:"🎊",name:"Konfetti / Action draussen",tag:"C2 · 1/500s · Serienbild",
+    settings:[
+      {k:"Profil",v:"C2 aktivieren!"},
+      {k:"Modus",v:"Tv"},
+      {k:"Zeit",v:"1/500s – 1/1000s"},
+      {k:"ISO",v:"Auto max. 6400"},
+      {k:"Drive",v:"Reihenaufnahme Hoch (H)"},
+      {k:"AF",v:"Servo + Ganzbereichs-AF"},
+      {k:"Verschluss",v:"Elektron. 1. Vorhang"},
+    ],
+    tip:"Serienbild NICHT loslassen! 15 Bilder/Sek → mindestens 3-4 perfekte dabei. Nah rangehen mit 24-35mm für Dynamik!",
+    menu:"Schnell zu C2: Modus-Wahlrad auf C2 drehen · Drive: Q-Taste → Drive-Symbol",
+  },
+  {
+    id:"nacht",icon:"🌃",name:"Nacht / Tanz / Disco",tag:"Hohe ISO · 2. Vorhang · Bounce",
+    settings:[
+      {k:"Modus",v:"Tv oder M"},
+      {k:"Zeit",v:"1/60s – 1/125s (mit Blitz scharf genug)"},
+      {k:"Blende",v:"f/4.0"},
+      {k:"ISO",v:"Auto max. 12'800 (R5 II verarbeitet gut!)"},
+      {k:"Blitz",v:"Bounce ODER 2. Vorhang Sync (Tanz)!"},
+      {k:"WB",v:"Blitz (5500K) wenn mit Blitz"},
+      {k:"AF-Assist",v:"Ein am Speedlite (Lichtstrahl)"},
+    ],
+    tip:"R5 II bei ISO 12800 = noch sehr sauber! Lieber hohe ISO als verwackelt. 2. Vorhang Sync bei Tanzboden = kreativ und magisch.",
+    menu:"2. Vorhang: Rot 4 → Blitz-Steuerung → Blitz-Sync → 2. Vorhang · AF-Assist: Am Speedlite Einstellungen",
+  },
+  {
+    id:"makrofeld",icon:"🌿",name:"Makro im Freien / Wind",tag:"Schärfentiefe · Fokus · Licht",
+    settings:[
+      {k:"Modus",v:"Av"},
+      {k:"Blende scharf",v:"f/8 – f/16 (mehr Schärfentiefe)"},
+      {k:"Blende Bokeh",v:"f/2.8 – f/4 (100mm Macro)"},
+      {k:"Zeit",v:"1/500s – 1/1000s (Wind!)"},
+      {k:"ISO",v:"Auto – für kurze Zeit nötig"},
+      {k:"AF",v:"MF oder Einzelfeld kleinst"},
+      {k:"Focus Bracketing",v:"Rot 4 → Fokus-Bracketing: 5-15 Bilder, Schritt 2-3"},
+    ],
+    tip:"Bei Wind: hohe Zeit Priorität über Blende. Besser f/8 bei 1/500s als f/16 mit Verwischer. Fokus-Bracketing später stacken in DPP/Photoshop.",
+    menu:"Fokus-Bracketing: Rot 4 → Fokus-Bracketing → EIN → Anzahl = 10 → Schrittweite = 2",
+  },
+];
+
+let openSituations={};
+function renderSituations(){
+  const el=document.getElementById("situations-list");
+  if(!el)return;
+  el.innerHTML=SITUATIONS.map(s=>{
+    const o=openSituations[s.id];
+    return`<div class="situation-card">
+      <div class="situation-head" onclick="toggleSituation('${s.id}')">
+        <div style="font-size:22px;flex-shrink:0">${s.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:14px;font-weight:700">${esc(s.name)}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px">${esc(s.tag)}</div>
+        </div>
+        <svg class="chevron${o?" open":""}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="situation-body${o?" open":""}">
+        ${s.settings.map(r=>`<div class="setting-row"><span class="setting-key">${esc(r.k)}</span><span class="setting-val">${esc(r.v)}</span></div>`).join("")}
+        <div class="tip-box" style="margin-top:8px">&#x1F4A1; ${esc(s.tip)}</div>
+        <div class="menu-path"><b>Menüpfad:</b> ${esc(s.menu)}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+function toggleSituation(id){openSituations[id]=!openSituations[id];renderSituations();}
+
 // INIT
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+// Pre-render referenz wenn aktiv
+document.addEventListener("DOMContentLoaded",()=>{});
 </script>
 </body>
 </html>
