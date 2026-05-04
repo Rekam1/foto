@@ -369,7 +369,7 @@
     <section class="tab" id="tab-rechner">
 
       <div class="ref-section">&#x1F4D0; Belichtungsdreieck</div>
-      <div class="card">
+      <div class="card" style="position:relative">
         <div class="calc-grid">
           <div class="calc-group">
             <div class="calc-label">Blende</div>
@@ -403,7 +403,8 @@
             <option value="8">ISO 25600</option>
           </select>
         </div>
-        <div class="calc-result" id="bt-result"><div style="color:var(--muted);font-size:13px;text-align:center;padding:4px 0">Einstellungen w&auml;hlen &amp; Ergebnis erscheint</div></div>
+        <button class="btn btn-primary" onclick="calcBelichtung()" style="margin-top:10px">&#x1F4D0; Berechnen</button>
+        <div class="calc-result" id="bt-result"></div>
       </div>
 
       <div class="ref-section">&#x1F3AF; Sch&auml;rfentiefe (R5 II &middot; Full Frame)</div>
@@ -425,6 +426,7 @@
           <div class="calc-label">Entfernung</div>
           <div class="range-row"><input type="range" id="dof-d" min="0.3" max="30" value="3" step="0.1" oninput="updateDoF()"><span class="range-val" id="dof-d-v">3.0 m</span></div>
         </div>
+        <button class="btn btn-primary" onclick="updateDoF()" style="margin-top:10px">&#x1F3AF; Sch&auml;rfentiefe berechnen</button>
         <div class="calc-result" id="dof-result"></div>
       </div>
 
@@ -460,6 +462,7 @@
             </select>
           </div>
         </div>
+        <button class="btn btn-primary" onclick="calcSpeicher()" style="margin-top:10px">&#x1F4BE; Berechnen</button>
         <div class="calc-result" id="sp-result"></div>
         <div class="tip-box" style="margin-top:10px">&#x1F50B; R5 II pro Akku: ~500&ndash;700 Bilder (Display), ~900&ndash;1200 (Sucher). Hochzeit = mind. 3 Akkus!</div>
       </div>
@@ -547,6 +550,7 @@ function showTab(tab){
   document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("tab-"+tab).classList.add("active");
   document.getElementById("nav-"+tab).classList.add("active");
+  localStorage.setItem('foto_lasttab',tab);
   if(tab==="szenarien")renderSzenarien();
   if(tab==="checkliste")renderCheckliste();
   if(tab==="notizen"){renderNotizen();renderLog();const ld=document.getElementById('log-date');if(ld&&!ld.value)ld.value=new Date().toISOString().slice(0,10);}
@@ -1159,6 +1163,9 @@ if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch((
 document.addEventListener("DOMContentLoaded",()=>{
   const ld=document.getElementById('log-date');
   if(ld)ld.value=new Date().toISOString().slice(0,10);
+  const lastTab=localStorage.getItem('foto_lasttab');
+  const validTabs=['kamera','szenarien','checkliste','notizen','referenz','rechner'];
+  if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);
 });
 </script>
 </body>
