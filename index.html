@@ -370,40 +370,18 @@
 
       <div class="ref-section">&#x1F4D0; Belichtungsdreieck</div>
       <div class="card" style="position:relative">
-        <div class="calc-grid">
-          <div class="calc-group">
-            <div class="calc-label">Blende</div>
-            <select class="calc-select" id="bt-ap" onchange="calcBelichtung()">
-              <option value="0">f/1.4</option><option value="1">f/2.0</option>
-              <option value="2">f/2.8</option><option value="3" selected>f/4.0</option>
-              <option value="4">f/5.6</option><option value="5">f/8</option>
-              <option value="6">f/11</option><option value="7">f/16</option><option value="8">f/22</option>
-            </select>
-          </div>
-          <div class="calc-group">
-            <div class="calc-label">Verschlusszeit</div>
-            <select class="calc-select" id="bt-sh" onchange="calcBelichtung()">
-              <option value="0">1/8000s</option><option value="1">1/4000s</option>
-              <option value="2">1/2000s</option><option value="3">1/1000s</option>
-              <option value="4" selected>1/500s</option><option value="5">1/250s</option>
-              <option value="6">1/125s</option><option value="7">1/60s</option>
-              <option value="8">1/30s</option><option value="9">1/15s</option>
-              <option value="10">1/8s</option><option value="11">1/4s</option>
-              <option value="12">1/2s</option><option value="13">1s</option><option value="14">2s</option>
-            </select>
-          </div>
+        <div class="calc-group">
+          <div class="calc-label">Blende</div>
+          <div class="range-row"><input type="range" id="bt-ap" min="0" max="8" step="1" value="3" oninput="calcBelichtung()"><span class="range-val" id="bt-ap-v">f/4.0</span></div>
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">Verschlusszeit</div>
+          <div class="range-row"><input type="range" id="bt-sh" min="0" max="14" step="1" value="6" oninput="calcBelichtung()"><span class="range-val" id="bt-sh-v">1/125s</span></div>
         </div>
         <div class="calc-group">
           <div class="calc-label">ISO</div>
-          <select class="calc-select" id="bt-iso" onchange="calcBelichtung()">
-            <option value="0">ISO 100</option><option value="1">ISO 200</option>
-            <option value="2">ISO 400</option><option value="3">ISO 800</option>
-            <option value="4" selected>ISO 1600</option><option value="5">ISO 3200</option>
-            <option value="6">ISO 6400</option><option value="7">ISO 12800</option>
-            <option value="8">ISO 25600</option>
-          </select>
+          <div class="range-row"><input type="range" id="bt-iso" min="0" max="8" step="1" value="6" oninput="calcBelichtung()"><span class="range-val" id="bt-iso-v">ISO 6400</span></div>
         </div>
-        <button class="btn btn-primary" onclick="calcBelichtung()" style="margin-top:10px">&#x1F4D0; Berechnen</button>
         <div class="calc-result" id="bt-result"></div>
       </div>
 
@@ -1007,6 +985,9 @@ function calcBelichtung(){
   const ai=+document.getElementById('bt-ap').value;
   const si=+document.getElementById('bt-sh').value;
   const ii=+document.getElementById('bt-iso').value;
+  document.getElementById('bt-ap-v').textContent=BT_AP_L[ai];
+  document.getElementById('bt-sh-v').textContent=BT_SH_L[si];
+  document.getElementById('bt-iso-v').textContent='ISO '+BT_ISO[ii];
   const N=BT_AP[ai];const t=BT_SH[si];const iso=BT_ISO[ii];
   const ev100=Math.log2(N*N/t);
   const evScene=ev100-Math.log2(iso/100);
@@ -1166,6 +1147,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   const lastTab=localStorage.getItem('foto_lasttab');
   const validTabs=['kamera','szenarien','checkliste','notizen','referenz','rechner'];
   if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);
+  calcBelichtung();
+  updateDoF();
 });
 </script>
 </body>
