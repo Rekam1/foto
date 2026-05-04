@@ -24,7 +24,7 @@
     .app-header .sub{font-size:13px;color:var(--muted);margin-top:2px;}
     .tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:calc(var(--nav-h) + 24px);}
     .bottom-nav{display:flex;background:rgba(17,24,39,0.98);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom);height:var(--nav-h);flex-shrink:0;}
-    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:9px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
+    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:8px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
     .bottom-nav button.active{color:var(--accent);}
     .bottom-nav button svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;}
     .tab{display:none;}.tab.active{display:block;}
@@ -113,6 +113,34 @@
     .wb-k{font-size:13px;font-weight:700;flex:1;}
     .wb-v{font-size:13px;color:var(--muted);}
     .wb-swatch{width:18px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,0.15);}
+    /* RECHNER / TOOLS */
+    .calc-label{font-size:12px;color:var(--muted);margin-bottom:5px;}
+    .calc-select{width:100%;background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font-size:14px;outline:none;font-family:inherit;}
+    .calc-select:focus{border-color:var(--accent);}
+    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+    .calc-group{margin-bottom:10px;}
+    .calc-result{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 14px;margin-top:10px;}
+    .calc-result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:8px;}
+    .calc-result-row:last-child{border-bottom:none;}
+    .calc-result-key{font-size:12px;color:var(--muted);}
+    .calc-result-val{font-size:12px;font-weight:700;color:var(--accent);text-align:right;}
+    .range-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+    .range-row input[type=range]{flex:1;accent-color:var(--accent);}
+    .range-val{font-size:13px;font-weight:700;color:var(--accent);min-width:56px;text-align:right;}
+    .lens-card{background:rgba(17,24,39,0.6);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;}
+    .lens-name{font-size:13px;font-weight:800;margin-bottom:6px;}
+    .lens-use{font-size:12px;color:var(--muted);line-height:1.5;margin-top:6px;}
+    .log-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+    .log-input{background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:9px 12px;font-size:14px;outline:none;font-family:inherit;width:100%;}
+    .log-input:focus{border-color:var(--accent);}
+    .log-entry{border-top:1px solid var(--border);padding:10px 0;}
+    .log-entry:first-child{border-top:none;padding-top:0;}
+    .log-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+    .log-event{font-size:14px;font-weight:700;}
+    .log-date{font-size:11px;color:var(--accent);font-weight:700;}
+    .log-loc{font-size:12px;color:var(--muted);margin-top:1px;}
+    .log-body{font-size:13px;margin-top:4px;white-space:pre-wrap;}
+    .log-del{font-size:11px;color:var(--danger);cursor:pointer;flex-shrink:0;padding:2px 4px;}
   </style>
 </head>
 <body>
@@ -221,6 +249,33 @@
         <div class="card-title">Notizen</div>
         <div id="notes-list"></div>
       </div>
+      <div class="card">
+        <div class="card-title">&#x1F4CB; Shooting-Log</div>
+        <div class="log-form-grid">
+          <div>
+            <div class="calc-label">Datum</div>
+            <input class="log-input" type="date" id="log-date">
+          </div>
+          <div>
+            <div class="calc-label">Event-Typ</div>
+            <select class="log-input calc-select" id="log-type">
+              <option>Hochzeit</option><option>Fasnacht</option>
+              <option>Makro / Natur</option><option>Portrait</option>
+              <option>Sport / Event</option><option>Sonstiges</option>
+            </select>
+          </div>
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">Ort</div>
+          <input class="log-input" type="text" id="log-loc" placeholder="z.B. Liestal, Kirche St. Martin">
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">Notiz / Learnings</div>
+          <textarea class="log-input" id="log-notes" placeholder="Was lief gut? Was verbessern? Einstellungen?" style="min-height:60px;resize:vertical"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="saveLog()">Log speichern</button>
+        <div id="log-list" style="margin-top:14px"></div>
+      </div>
     </section>
 
     <!-- ===== TAB: REFERENZ ===== -->
@@ -310,6 +365,141 @@
 
     </section>
 
+    <!-- ===== TAB: RECHNER ===== -->
+    <section class="tab" id="tab-rechner">
+
+      <div class="ref-section">&#x1F4D0; Belichtungsdreieck</div>
+      <div class="card">
+        <div class="calc-grid">
+          <div class="calc-group">
+            <div class="calc-label">Blende</div>
+            <select class="calc-select" id="bt-ap" onchange="calcBelichtung()">
+              <option value="0">f/1.4</option><option value="1">f/2.0</option>
+              <option value="2">f/2.8</option><option value="3" selected>f/4.0</option>
+              <option value="4">f/5.6</option><option value="5">f/8</option>
+              <option value="6">f/11</option><option value="7">f/16</option><option value="8">f/22</option>
+            </select>
+          </div>
+          <div class="calc-group">
+            <div class="calc-label">Verschlusszeit</div>
+            <select class="calc-select" id="bt-sh" onchange="calcBelichtung()">
+              <option value="0">1/8000s</option><option value="1">1/4000s</option>
+              <option value="2">1/2000s</option><option value="3">1/1000s</option>
+              <option value="4" selected>1/500s</option><option value="5">1/250s</option>
+              <option value="6">1/125s</option><option value="7">1/60s</option>
+              <option value="8">1/30s</option><option value="9">1/15s</option>
+              <option value="10">1/8s</option><option value="11">1/4s</option>
+              <option value="12">1/2s</option><option value="13">1s</option><option value="14">2s</option>
+            </select>
+          </div>
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">ISO</div>
+          <select class="calc-select" id="bt-iso" onchange="calcBelichtung()">
+            <option value="0">ISO 100</option><option value="1">ISO 200</option>
+            <option value="2">ISO 400</option><option value="3">ISO 800</option>
+            <option value="4" selected>ISO 1600</option><option value="5">ISO 3200</option>
+            <option value="6">ISO 6400</option><option value="7">ISO 12800</option>
+            <option value="8">ISO 25600</option>
+          </select>
+        </div>
+        <div class="calc-result" id="bt-result"><div style="color:var(--muted);font-size:13px;text-align:center;padding:4px 0">Einstellungen w&auml;hlen &amp; Ergebnis erscheint</div></div>
+      </div>
+
+      <div class="ref-section">&#x1F3AF; Sch&auml;rfentiefe (R5 II &middot; Full Frame)</div>
+      <div class="card">
+        <div class="calc-group">
+          <div class="calc-label">Brennweite</div>
+          <div class="range-row"><input type="range" id="dof-f" min="16" max="400" value="50" step="1" oninput="updateDoF()"><span class="range-val" id="dof-f-v">50 mm</span></div>
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">Blende</div>
+          <select class="calc-select" id="dof-ap" onchange="updateDoF()">
+            <option value="1.4">f/1.4</option><option value="2">f/2.0</option>
+            <option value="2.8">f/2.8</option><option value="4" selected>f/4.0</option>
+            <option value="5.6">f/5.6</option><option value="8">f/8</option>
+            <option value="11">f/11</option><option value="16">f/16</option>
+          </select>
+        </div>
+        <div class="calc-group">
+          <div class="calc-label">Entfernung</div>
+          <div class="range-row"><input type="range" id="dof-d" min="0.3" max="30" value="3" step="0.1" oninput="updateDoF()"><span class="range-val" id="dof-d-v">3.0 m</span></div>
+        </div>
+        <div class="calc-result" id="dof-result"></div>
+      </div>
+
+      <div class="ref-section">&#x1F305; Goldene &amp; Blaue Stunde</div>
+      <div class="card">
+        <button class="btn btn-primary" onclick="calcGoldeneStunde()" style="margin-bottom:10px">&#x1F4CD; GPS &ndash; Meinen Standort verwenden</button>
+        <div class="calc-label" style="margin-bottom:6px">oder manuell (Breiten- / L&auml;ngengrad):</div>
+        <div class="calc-grid">
+          <div><input class="log-input" type="number" id="gh-lat" placeholder="47.37 (Z&uuml;rich)" step="0.01"></div>
+          <div><input class="log-input" type="number" id="gh-lon" placeholder="8.54 (Z&uuml;rich)" step="0.01"></div>
+        </div>
+        <button class="btn" onclick="calcGoldeneStundeManuell()" style="background:rgba(255,255,255,0.08);color:var(--text);padding:10px;margin-bottom:8px">Manuell berechnen</button>
+        <div id="gh-result"></div>
+      </div>
+
+      <div class="ref-section">&#x1F4BE; Speicherkarten-Rechner</div>
+      <div class="card">
+        <div class="calc-grid">
+          <div class="calc-group">
+            <div class="calc-label">Kapazit&auml;t</div>
+            <select class="calc-select" id="sp-gb" onchange="calcSpeicher()">
+              <option value="32">32 GB</option><option value="64">64 GB</option>
+              <option value="128" selected>128 GB</option><option value="256">256 GB</option>
+              <option value="512">512 GB</option><option value="1000">1 TB</option>
+            </select>
+          </div>
+          <div class="calc-group">
+            <div class="calc-label">Format</div>
+            <select class="calc-select" id="sp-fmt" onchange="calcSpeicher()">
+              <option value="45">RAW (~45 MB)</option>
+              <option value="55">RAW + JPEG (~55 MB)</option>
+              <option value="10">JPEG (~10 MB)</option>
+            </select>
+          </div>
+        </div>
+        <div class="calc-result" id="sp-result"></div>
+        <div class="tip-box" style="margin-top:10px">&#x1F50B; R5 II pro Akku: ~500&ndash;700 Bilder (Display), ~900&ndash;1200 (Sucher). Hochzeit = mind. 3 Akkus!</div>
+      </div>
+
+      <div class="ref-section">&#x1F52D; Meine Objektive</div>
+
+      <div class="lens-card">
+        <div class="lens-name">EF 16&ndash;35 mm f/4.0 L IS USM</div>
+        <div style="margin-bottom:6px"><span class="badge badge-c1">Weitwinkel</span></div>
+        <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.28 m</span></div>
+        <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">615 g &middot; 77 mm</span></div>
+        <div class="lens-use">&#x2713; Kirche &amp; Gruppenfotos &middot; Auszug / Konfetti &middot; Klappdisplay Froschperspektive &middot; Architektur &middot; Umgebungsportraits</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-name">EF 24&ndash;105 mm f/4.0 L IS USM</div>
+        <div style="margin-bottom:6px"><span class="badge badge-c1">Allround</span><span class="badge" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.3)">Workhorse</span></div>
+        <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.45 m</span></div>
+        <div class="setting-row"><span class="setting-key">Portrait-Bereich</span><span class="setting-val">85&ndash;105 mm ideal</span></div>
+        <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">670 g &middot; 77 mm</span></div>
+        <div class="lens-use">&#x2713; Hochzeit komplett (Getting Ready bis Ap&eacute;ro) &middot; Portrait @ 85&ndash;105 mm &middot; Reportage &middot; Reise &middot; Vielseitigster Daily-Driver</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-name">EF 100&ndash;400 mm f/4.5&ndash;5.6 L IS II USM</div>
+        <div style="margin-bottom:6px"><span class="badge badge-c2">Tele</span><span class="badge" style="background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)">Wildlife</span></div>
+        <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.98 m (@ 400 mm)</span></div>
+        <div class="setting-row"><span class="setting-key">IS Mode</span><span class="setting-val">Mode 2 bei Panning</span></div>
+        <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">1570 g &middot; 77 mm</span></div>
+        <div class="lens-use">&#x2713; Sport / Wildlife / V&ouml;gel (Tier-Erkennung R5 II!) &middot; Emotionen aus Distanz &middot; Gugge Frontalperspektive &middot; Diskrete Hochzeit</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-name">EF 100 mm f/2.8 L Macro IS USM</div>
+        <div style="margin-bottom:6px"><span class="badge" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.5)">Makro 1:1</span><span class="badge" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.3)">Portrait</span></div>
+        <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.30 m (1:1 Abbildung)</span></div>
+        <div class="setting-row"><span class="setting-key">Bokeh @ f/2.8</span><span class="setting-val">Cremig &middot; minimale &Auml;SA</span></div>
+        <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">625 g &middot; 67 mm</span></div>
+        <div class="lens-use">&#x2713; Deine Kernst&auml;rke! Blumen / Insekten / Natur &middot; Ringe bei Hochzeit &middot; Portrait mit Bokeh &middot; Fokus-Bracketing Stack in DPP</div>
+      </div>
+
+    </section>
+
   </div><!-- tab-content -->
 
   <nav class="bottom-nav">
@@ -333,6 +523,10 @@
       <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
       Referenz
     </button>
+    <button id="nav-rechner" onclick="showTab('rechner')">
+      <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>
+      Rechner
+    </button>
   </nav>
 </div><!-- app -->
 
@@ -340,8 +534,8 @@
 
 <script>
 const STORE="foto_v1";
-function emptyData(){return{checks:{},notes:[],activeCL:"hochzeit"};}
-function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();return Object.assign(emptyData(),d,{checks:d.checks||{},notes:d.notes||[]});}catch{return emptyData();}}
+function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit"};}
+function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();return Object.assign(emptyData(),d,{checks:d.checks||{},notes:d.notes||[],shootingLog:d.shootingLog||[]});}catch{return emptyData();}}
 function save(d){localStorage.setItem(STORE,JSON.stringify(d));}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
@@ -355,8 +549,9 @@ function showTab(tab){
   document.getElementById("nav-"+tab).classList.add("active");
   if(tab==="szenarien")renderSzenarien();
   if(tab==="checkliste")renderCheckliste();
-  if(tab==="notizen")renderNotizen();
+  if(tab==="notizen"){renderNotizen();renderLog();const ld=document.getElementById('log-date');if(ld&&!ld.value)ld.value=new Date().toISOString().slice(0,10);}
   if(tab==="referenz")renderSituations();
+  if(tab==="rechner"){calcBelichtung();updateDoF();calcSpeicher();}
 }
 
 // ---- SCENARIOS ----
@@ -790,10 +985,181 @@ function renderSituations(){
 }
 function toggleSituation(id){openSituations[id]=!openSituations[id];renderSituations();}
 
+// ---- BELICHTUNGSDREIECK ----
+const BT_AP=[1.4,2,2.8,4,5.6,8,11,16,22];
+const BT_AP_L=["f/1.4","f/2.0","f/2.8","f/4.0","f/5.6","f/8","f/11","f/16","f/22"];
+const BT_SH=[1/8000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,0.25,0.5,1,2];
+const BT_SH_L=["1/8000s","1/4000s","1/2000s","1/1000s","1/500s","1/250s","1/125s","1/60s","1/30s","1/15s","1/8s","1/4s","1/2s","1s","2s"];
+const BT_ISO=[100,200,400,800,1600,3200,6400,12800,25600];
+const BT_LIGHTS=[
+  {ev:16,d:"Strand / Schnee in praller Sonne"},{ev:15,d:"Heller Sonnentag"},
+  {ev:14,d:"Leicht bew\u00f6lkt"},{ev:13,d:"Bew\u00f6lkt"},{ev:12,d:"Schwach bew\u00f6lkt"},
+  {ev:11,d:"Offener Schatten / Helles Innen"},{ev:10,d:"Innen, gro\u00dfe Fenster"},
+  {ev:8,d:"Innen, k\u00fcnstliches Licht"},{ev:6,d:"Dunkler Innenraum / Kerzen"},
+  {ev:4,d:"Strassenlaternen / Nacht"},{ev:2,d:"Sehr dunkle Nacht"}
+];
+function descLight(ev){let l=BT_LIGHTS[BT_LIGHTS.length-1];for(const x of BT_LIGHTS){if(ev>=x.ev-0.5){l=x;break;}}return l.d;}
+function calcBelichtung(){
+  const ai=+document.getElementById('bt-ap').value;
+  const si=+document.getElementById('bt-sh').value;
+  const ii=+document.getElementById('bt-iso').value;
+  const N=BT_AP[ai];const t=BT_SH[si];const iso=BT_ISO[ii];
+  const ev100=Math.log2(N*N/t);
+  const evScene=ev100-Math.log2(iso/100);
+  const blur=t<=1/1000?"\u2713 Bewegung eingefroren":t<=1/500?"\u2713 Sport/Konfetti ok":t<=1/250?"~ Leichte Bewegung ok":t<=1/60?"~ Handhalten grenzwertig":"\u26A0 Stativ / IS n\u00f6tig!";
+  const noise=iso<=400?"\u2713 Pixelrein":iso<=1600?"\u2713 Sehr sauber":iso<=6400?"~ Wenig Rauschen":iso<=12800?"~ R5 II ok bis ISO 12800!":"\u26A0 Sichtbares Rauschen";
+  const bokeh=N<=2?"\u2713 Maximales Bokeh":N<=4?"\u2713 Gutes Bokeh":N<=8?"~ Moderates Bokeh":"\u2717 Alles scharf (Landschaft ok)";
+  const equivs=[];
+  for(let a=0;a<BT_AP.length&&equivs.length<3;a++){
+    for(let s=0;s<BT_SH.length&&equivs.length<3;s++){
+      if(a===ai&&s===si)continue;
+      if(Math.abs(Math.log2(BT_AP[a]*BT_AP[a]/BT_SH[s])-ev100)<0.01)equivs.push(BT_AP_L[a]+" @ "+BT_SH_L[s]);
+    }
+  }
+  document.getElementById('bt-result').innerHTML=
+    `<div class="calc-result-row"><span class="calc-result-key">Lichtsituation (EV @ ISO 100)</span><span class="calc-result-val">EV ${ev100.toFixed(1)} &ndash; ${descLight(ev100)}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Ben\u00f6tigt bei ISO ${iso}</span><span class="calc-result-val">${descLight(evScene)}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Bewegungssch\u00e4rfe</span><span class="calc-result-val">${blur}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Rauschen</span><span class="calc-result-val">${noise}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Bokeh / Tiefensch\u00e4rfe</span><span class="calc-result-val">${bokeh}</span></div>`+
+    (equivs.length?`<div class="calc-result-row"><span class="calc-result-key">\u00c4quivalente Belicht.</span><span class="calc-result-val">${equivs.join(' &middot; ')}</span></div>`:"");
+}
+
+// ---- SCHÄRFENTIEFE ----
+function updateDoF(){
+  const f=+document.getElementById('dof-f').value;
+  const N=+document.getElementById('dof-ap').value;
+  const d=+document.getElementById('dof-d').value;
+  document.getElementById('dof-f-v').textContent=f+' mm';
+  document.getElementById('dof-d-v').textContent=d.toFixed(1)+' m';
+  const CoC=0.029;// mm Full Frame R5 II
+  const H=f*f/(N*CoC);// hyperfocal in mm
+  const dmm=d*1000;
+  const near=H*dmm/(H+dmm)/1000;
+  const farMM=(H>dmm)?H*dmm/(H-dmm):Infinity;
+  const far=farMM===Infinity?Infinity:farMM/1000;
+  const dof=far===Infinity?Infinity:far-near;
+  const fmt=v=>{
+    if(v===Infinity)return'\u221e';
+    if(v<0.01)return(v*1000).toFixed(1)+' mm';
+    if(v<1)return(v*100).toFixed(1)+' cm';
+    return v.toFixed(2)+' m';
+  };
+  const dofC=dof<0.05?'#fb7185':dof<0.5?'#fbbf24':'#34d399';
+  document.getElementById('dof-result').innerHTML=
+    `<div class="calc-result-row"><span class="calc-result-key">Nahgrenze</span><span class="calc-result-val">${fmt(near)}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Ferngrenze</span><span class="calc-result-val">${fmt(far)}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Sch\u00e4rfentiefe (DoF)</span><span class="calc-result-val" style="color:${dofC}">${fmt(dof)}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Hyperfokaldistanz</span><span class="calc-result-val">${fmt(H/1000)}</span></div>`;
+}
+
+// ---- GOLDENE STUNDE ----
+function sunRiseSunset(lat,lon,date){
+  const rad=Math.PI/180;
+  const doy=Math.round((date-new Date(date.getFullYear(),0,1))/86400000)+1;
+  const B=rad*(360/365*(doy-81));
+  const eqT=9.87*Math.sin(2*B)-7.53*Math.cos(B)-1.5*Math.sin(B);
+  const dec=Math.asin(Math.sin(23.45*rad)*Math.sin(B));
+  const cosHA=-Math.tan(lat*rad)*Math.tan(dec);
+  if(Math.abs(cosHA)>1)return null;
+  const HA=Math.acos(cosHA)/rad;
+  const solar=(720-4*lon-eqT)/60;
+  const tzH=-date.getTimezoneOffset()/60;
+  return{sunrise:solar-HA/15+tzH,sunset:solar+HA/15+tzH};
+}
+function fmtH(h){const t=((h%24)+24)%24;const hh=Math.floor(t);const mm=Math.round((t-hh)*60);return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');}
+function showGH(lat,lon){
+  try{
+    const r=sunRiseSunset(lat,lon,new Date());
+    if(!r){document.getElementById('gh-result').innerHTML='<div class="tip-box">Kein Sonnenauf/-untergang an diesem Ort / Datum.</div>';return;}
+    const{sunrise,sunset}=r;
+    document.getElementById('gh-result').innerHTML=
+      `<div class="calc-result">`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x2600;&#xFE0F; Sonnenaufgang</span><span class="calc-result-val">${fmtH(sunrise)}</span></div>`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x1F32B;&#xFE0F; Blaue Stunde Morgen</span><span class="calc-result-val">${fmtH(sunrise-0.5)} &ndash; ${fmtH(sunrise)}</span></div>`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x1F305; Goldene Stunde Morgen</span><span class="calc-result-val">${fmtH(sunrise)} &ndash; ${fmtH(sunrise+1)}</span></div>`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x1F305; Goldene Stunde Abend</span><span class="calc-result-val">${fmtH(sunset-1)} &ndash; ${fmtH(sunset)}</span></div>`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x1F32B;&#xFE0F; Blaue Stunde Abend</span><span class="calc-result-val">${fmtH(sunset)} &ndash; ${fmtH(sunset+0.5)}</span></div>`+
+      `<div class="calc-result-row"><span class="calc-result-key">&#x1F319; Sonnenuntergang</span><span class="calc-result-val">${fmtH(sunset)}</span></div>`+
+      `</div>`+
+      `<div class="tip-box" style="margin-top:8px">&#x1F4CD; ${lat.toFixed(3)}\u00b0 / ${lon.toFixed(3)}\u00b0 &middot; ${new Date().toLocaleDateString('de-CH')}</div>`;
+  }catch(e){document.getElementById('gh-result').innerHTML='<div class="tip-box">Fehler. Koordinaten pr\u00fcfen.</div>';}
+}
+function calcGoldeneStunde(){
+  const el=document.getElementById('gh-result');
+  el.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center">GPS wird abgerufen\u2026</div>';
+  if(!navigator.geolocation){el.innerHTML='<div class="tip-box">GPS nicht verf\u00fcgbar. Bitte manuell eingeben.</div>';return;}
+  navigator.geolocation.getCurrentPosition(
+    p=>showGH(p.coords.latitude,p.coords.longitude),
+    ()=>{el.innerHTML='<div class="tip-box">GPS verweigert. Bitte manuell eingeben (Breiten-/L\u00e4ngengrad).</div>';}
+  );
+}
+function calcGoldeneStundeManuell(){
+  const lat=parseFloat(document.getElementById('gh-lat').value);
+  const lon=parseFloat(document.getElementById('gh-lon').value);
+  if(isNaN(lat)||isNaN(lon)){toast('Bitte Koordinaten eingeben (z.B. 47.37 / 8.54)');return;}
+  showGH(lat,lon);
+}
+
+// ---- SPEICHERKARTE ----
+function calcSpeicher(){
+  const gb=+document.getElementById('sp-gb').value;
+  const mb=+document.getElementById('sp-fmt').value;
+  const usable=gb*1000*0.93;
+  const shots=Math.floor(usable/mb);
+  const v4k=((usable/1024)/1.5).toFixed(1);
+  const vraw=((usable/1024)/2.5).toFixed(1);
+  const ok=shots>=1200?'\u2713 Hochzeit problemlos':shots>=600?'~ Hochzeit knapp (2. Karte!)':'\u26A0 Zu wenig f\u00fcr Hochzeit!';
+  document.getElementById('sp-result').innerHTML=
+    `<div class="calc-result-row"><span class="calc-result-key">Anzahl Fotos</span><span class="calc-result-val">~${shots.toLocaleString('de-CH')}</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">4K H.265 Video</span><span class="calc-result-val">~${v4k} Min</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">RAW Cinema Video</span><span class="calc-result-val">~${vraw} Min</span></div>`+
+    `<div class="calc-result-row"><span class="calc-result-key">Hochzeit-Einsch\u00e4tzung</span><span class="calc-result-val">${ok}</span></div>`;
+}
+
+// ---- SHOOTING-LOG ----
+function saveLog(){
+  const date=document.getElementById('log-date').value||new Date().toISOString().slice(0,10);
+  const type=document.getElementById('log-type').value;
+  const loc=document.getElementById('log-loc').value.trim();
+  const notes=document.getElementById('log-notes').value.trim();
+  const data=load();
+  data.shootingLog.unshift({id:uid(),date,type,loc,notes});
+  save(data);
+  document.getElementById('log-loc').value='';
+  document.getElementById('log-notes').value='';
+  renderLog();
+  toast('Shooting-Log gespeichert!');
+}
+function deleteLog(id){
+  const data=load();
+  data.shootingLog=data.shootingLog.filter(e=>e.id!==id);
+  save(data);renderLog();
+}
+function renderLog(){
+  const data=load();
+  const el=document.getElementById('log-list');
+  if(!el)return;
+  if(!data.shootingLog.length){el.innerHTML='<div class="empty">Noch keine Eintr\u00e4ge.</div>';return;}
+  el.innerHTML=data.shootingLog.map(e=>`<div class="log-entry">
+    <div class="log-hd">
+      <div>
+        <div class="log-event">${esc(e.type)}</div>
+        <div class="log-date">${e.date}</div>
+        ${e.loc?`<div class="log-loc">&#x1F4CD; ${esc(e.loc)}</div>`:''}
+      </div>
+      <span class="log-del" onclick="deleteLog('${e.id}')">&#x2715;</span>
+    </div>
+    ${e.notes?`<div class="log-body">${esc(e.notes)}</div>`:''}
+  </div>`).join('');
+}
+
 // INIT
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
-// Pre-render referenz wenn aktiv
-document.addEventListener("DOMContentLoaded",()=>{});
+document.addEventListener("DOMContentLoaded",()=>{
+  const ld=document.getElementById('log-date');
+  if(ld)ld.value=new Date().toISOString().slice(0,10);
+});
 </script>
 </body>
 </html>
