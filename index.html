@@ -545,6 +545,8 @@
         <div class="tip-box">&#x1F3DB; Die Kirchen-Waffe: Nativ RF (kein Adapter), maximale Lichtausbeute, kompakt &amp; dezent. f/1.8 in der Kirche = ISO halbiert sich auf ca. 6400 statt 25600 &ndash; dramatisch weniger Rauschen!</div>
         <div class="lens-use">&#x2713; Zeremonie &amp; Einzug bei Dunkelheit &middot; Kerzenlicht-Atmosph&auml;re &middot; Br&auml;utigam-Reaktion &middot; Diskrete Reportage &middot; Makro f&uuml;r Ringe (0.17m!) &middot; Getting Ready in dunklen R&auml;umen</div>
       </div>
+      <div class="lens-card">
+        <div class="lens-name">EF 16&ndash;35 mm f/4.0 L IS USM</div>
         <div style="margin-bottom:6px"><span class="badge badge-c1">Weitwinkel</span></div>
         <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.28 m</span></div>
         <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">615 g &middot; 77 mm</span></div>
@@ -632,6 +634,7 @@ function showTab(tab){
   document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
   document.getElementById("tab-"+tab).classList.add("active");
   document.getElementById("nav-"+tab).classList.add("active");
+  const tc=document.querySelector(".tab-content");if(tc)tc.scrollTop=0;
   localStorage.setItem('foto_lasttab',tab);
   if(tab==="szenarien")renderSzenarien();
   if(tab==="checkliste")renderCheckliste();
