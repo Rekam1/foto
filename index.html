@@ -155,49 +155,101 @@
     <!-- ===== TAB: KAMERA ===== -->
     <section class="tab active" id="tab-kamera">
 
+      <div class="card" style="border-color:rgba(249,115,22,0.5);background:rgba(249,115,22,0.04)">
+        <div class="card-title" style="color:var(--accent)">&#x1F4F7; Dual-Kamera Setup &ndash; Hochzeit</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <div style="background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.35);border-radius:10px;padding:10px">
+            <div style="font-size:12px;font-weight:800;color:#60a5fa;margin-bottom:4px">&#x1F4F7; SONY A7C II</div>
+            <div style="font-size:11px;color:var(--muted)">Tamron 28&ndash;200mm</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:6px">Hauptkamera &middot; Sicherheit</div>
+            <div style="font-size:11px;margin-top:4px;color:var(--muted)">Einzug/Auszug Distanz<br>Candid &middot; Gruppen &middot; G&auml;ste<br>Schnelle Situationen</div>
+          </div>
+          <div style="background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.35);border-radius:10px;padding:10px">
+            <div style="font-size:12px;font-weight:800;color:var(--accent);margin-bottom:4px">&#x1F4F7; CANON R5 II</div>
+            <div style="font-size:11px;color:var(--muted)">RF 35mm f/1.8</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:6px">N&auml;he &middot; Emotion &middot; Low Light</div>
+            <div style="font-size:11px;margin-top:4px;color:var(--muted)">Ruhige Momente &middot; Stimmung<br>Ap&eacute;ro N&auml;he &middot; Umarmungen<br>Portraits im Umfeld</div>
+          </div>
+        </div>
+        <div style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.25);border-radius:8px;padding:10px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:800;color:#34d399;margin-bottom:4px">&#x26A1; Die Regel</div>
+          <div style="font-size:13px">Etwas passiert schnell &rarr; <b style="color:#60a5fa">Sony</b></div>
+          <div style="font-size:13px">N&auml;he und Stimmung willst &rarr; <b style="color:var(--accent)">Canon 35mm</b></div>
+          <div style="font-size:12px;color:var(--warn);margin-top:5px">&#x26D4; Kein Objektivwechsel in kritischen Momenten!</div>
+        </div>
+        <div class="setting-row"><span class="setting-key">Sony Kirche</span><span class="setting-val">1/250s &middot; offen &middot; ISO bis 12800&ndash;25600 &middot; Mech./EFCS</span></div>
+        <div class="setting-row"><span class="setting-key">Sony Draussen</span><span class="setting-val">1/500s &middot; offen oder f/4&ndash;5.6 &middot; EFCS</span></div>
+        <div class="setting-row"><span class="setting-key">Canon C1 (Kirche)</span><span class="setting-val">1/250s &middot; f/2&ndash;2.8 &middot; ISO max. 12800 &middot; Mech.</span></div>
+        <div class="setting-row"><span class="setting-key">Canon C2 (Draussen)</span><span class="setting-val">1/500s &middot; f/2.8&ndash;4 &middot; ISO max. 6400 &middot; EFCS &middot; Serie H</span></div>
+      </div>
+
       <div class="card">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">C1 – Zeremonie &amp; Portr&auml;ts</div>
+          <div style="font-size:17px;font-weight:800">C1 – Kirche / Zeremonie (N&auml;he &amp; Emotion)</div>
           <span class="badge badge-c1">C1</span>
         </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">Av (Blendenpriorit&auml;t)</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">f / 4.0 (fix)</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (max. 12&apos;800)</span></div>
+        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Mechanisch &#x26A0; (kein Banding!)</span></div>
+        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/250 s (Anker fix)</span></div>
+        <div class="setting-row"><span class="setting-key">Objektiv Kirche</span><span class="setting-val" style="color:var(--ok)">RF 35mm f/1.8 → Blende f/1.8–2.0</span></div>
+        <div class="setting-row"><span class="setting-key">Blende Fallback</span><span class="setting-val">f/4.0 (EF-Objektive)</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (max. 25'600) · @ f/1.8 ≈ 6400</span></div>
         <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF</span></div>
-        <div class="setting-row"><span class="setting-key">Augenerkennung</span><span class="setting-val">Ein – Personen</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF, Personen-Prior.</span></div>
+        <div class="setting-row"><span class="setting-key">Augenerkennung</span><span class="setting-val">Ein – Personen + Auge</span></div>
         <div class="setting-row"><span class="setting-key">Eye-Control AF</span><span class="setting-val">Ein (kalibriert!)</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Elektronisch (lautlos)</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild / Reihe Niedrig</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild</span></div>
         <div class="setting-row"><span class="setting-key">Wei&szlig;abgleich</span><span class="setting-val">AWB (Priorit&auml;t Wei&szlig;)</span></div>
         <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW</span></div>
-        <div class="setting-row"><span class="setting-key">Belicht.-Korr.</span><span class="setting-val">+0.3 bis +0.7 (Brautkleid!)</span></div>
-        <div class="tip-box">&#x1F3A9; Kirche, Standesamt, Paarshooting. Elektronischer Verschluss = kein Klick = niemand dreht sich um!</div>
+        <div class="setting-row"><span class="setting-key" style="color:var(--danger)">Auto-Update</span><span class="setting-val" style="color:var(--danger)">OFF ← wichtig!</span></div>
+        <div class="tip-box">&#x1F6F1; Canon = Emotion-Kamera! f/2.0 in der Kirche = ISO bleibt bei ~3200&ndash;6400 statt 12800. Sony &uuml;bernimmt Distanz-Perspektive. Mechanischer Verschluss = kein LED-Banding. Kein Stress = Anker!</div>
       </div>
 
       <div class="card">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">C2 – Party &amp; Action</div>
+          <div style="font-size:17px;font-weight:800">C2 &ndash; Draussen / Ap&eacute;ro (Dynamik)</div>
           <span class="badge badge-c2">C2</span>
         </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">Tv (Zeitpriorit&auml;t)</span></div>
+        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">EFCS (Elektron. 1. Vorhang)</span></div>
         <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/500 s</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">Auto (ab f/4.0)</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (max. 12&apos;800)</span></div>
+        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val"><b style="color:var(--ok)">f/2.8&ndash;f/4.0</b> (moderat offen)</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto max. <b>6&apos;400</b> (draussen tief)</span></div>
         <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF + Augen</span></div>
-        <div class="setting-row"><span class="setting-key">Eye-Control AF</span><span class="setting-val">Ein (oder Joystick)</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Elektron. 1. Vorhang</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Reihenaufnahme Hoch (H)</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF (Tracking)</span></div>
+        <div class="setting-row"><span class="setting-key">Augenerkennung</span><span class="setting-val">Ein – Personen + Auge</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Reihenaufnahme Hoch H (~12&ndash;15 fps)</span></div>
         <div class="setting-row"><span class="setting-key">Antiflacker</span><span class="setting-val">Ein</span></div>
-        <div class="tip-box">&#x1F389; Auszug, Konfetti, Tanz, Ap&eacute;ro. 10-15 Bilder/Sek. &ndash; den Kuss und Konfetti-Moment erwischst du garantiert!</div>
+        <div class="tip-box">&#x1F389; Canon als N&auml;he-Kamera: Lachen, Umarmungen, kleine Gruppen beim Ap&eacute;ro. 1/500s friert Bewegung ein &ndash; Serienbild H moderat einsetzen. Sony macht parallel Distanz &amp; Gruppen-&Uuml;bersicht.</div>
+      </div>
+
+      <div class="card" style="border-color:rgba(96,165,250,0.35)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="font-size:17px;font-weight:800">Sony A7C II &ndash; Hauptkamera / Sicherheit</div>
+          <span class="badge" style="background:rgba(96,165,250,0.15);color:#60a5fa;border:1px solid rgba(96,165,250,0.4)">Sony</span>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Kirche &ndash; Sicherheits-Einstellung</div>
+        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
+        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/250s</span></div>
+        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">So offen wie m&ouml;glich (Licht!)</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto max. 12800&ndash;25600</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">Mechanisch oder EFCS &ndash; nie voll Elektronisch in Kirche!</span></div>
+        <div class="setting-row"><span class="setting-key">AF</span><span class="setting-val">AF-C + Eye AF / Tracking</span></div>
+        <div class="setting-row"><span class="setting-key">Tamron @ Kirche</span><span class="setting-val">50&ndash;200mm: Einzug, G&auml;ste-Reaktionen aus Distanz</span></div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:10px 0 6px">Draussen / Ap&eacute;ro</div>
+        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/500s</span></div>
+        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">Offen oder f/4&ndash;f/5.6</span></div>
+        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto (draussen automatisch tief)</span></div>
+        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">EFCS &middot; Elektronisch ok bei ruhigen Szenen</span></div>
+        <div class="setting-row"><span class="setting-key">Tamron @ Draussen</span><span class="setting-val">28&ndash;35mm Gruppen &middot; 50&ndash;100mm Candid &middot; 200mm Distanz</span></div>
+        <div class="tip-box blue">&#x1F4F7; Du kennst Sony &ndash; das ist der Vorteil! Sony f&uuml;r alles Schnelle, Distanzen, Gruppen. Canon RF 35mm f&uuml;r N&auml;he und Gef&uuml;hl. Rollen sind klar &rarr; nicht &uuml;ber Kamerawechsel nachdenken!</div>
       </div>
 
       <div class="card">
-        <div class="card-title">Globale Einstellungen (einmalig)</div>
+        <div class="card-title">Globale Einstellungen Canon R5 II (einmalig)</div>
         <div class="setting-row"><span class="setting-key">Dual-Slot</span><span class="setting-val">Mehrfachaufzeichnung &rarr; Gelb 6</span></div>
         <div class="setting-row"><span class="setting-key">Personen reg.</span><span class="setting-val">Lila AF 5 &rarr; Personen-Priorit&auml;t</span></div>
-        <div class="setting-row"><span class="setting-key">Einst. auto-update</span><span class="setting-val">Aktiviert &rarr; Gelb 6</span></div>
+        <div class="setting-row"><span class="setting-key" style="color:var(--danger)">Einst. auto-update</span><span class="setting-val" style="color:var(--danger)">OFF f&uuml;r C1 (Anker!) &rarr; Gelb 6</span></div>
         <div class="setting-row"><span class="setting-key">Objektivkorrektur</span><span class="setting-val">Alles EIN &rarr; Rot 2</span></div>
         <div class="setting-row"><span class="setting-key">IS Stabilisator</span><span class="setting-val">Ein (Objektiv + IBIS)</span></div>
         <div class="setting-row"><span class="setting-key">Datum / Zeit</span><span class="setting-val">Synchronisieren &rarr; Gelb 5</span></div>
@@ -205,14 +257,60 @@
       </div>
 
       <div class="card">
-        <div class="card-title">C1 / C2 speichern – Schritt f&uuml;r Schritt</div>
+        <div class="card-title">C1 speichern – Schritt f&uuml;r Schritt</div>
         <div class="step-list">
-          1. Modus-Wahlrad auf <b>Av</b> &rarr; Blende f/4.0 einstellen<br>
-          2. Q-Taste &rarr; AF-Betrieb Servo, Methode Ganzbereich, Augen EIN<br>
-          3. Men&uuml; Rot 4 &rarr; Verschluss-Modus &rarr; <b>Elektronisch</b><br>
-          4. <b style="color:var(--accent)">Men&uuml; Gelb 6 &rarr; Individual-Aufnahmemodus &rarr; Einstellungen registrieren &rarr; C1 &rarr; OK</b><br>
-          5. F&uuml;r C2: Modus Tv, Zeit 1/500s, Verschluss Elektron. 1. Vorhang, Drive Hoch &rarr; als C2 speichern
+          1. Modus-Wahlrad auf <b>M</b> &rarr; Zeit 1/250s &rarr; Blende <b>f/2.0</b> einstellen<br>
+          2. ISO-Taste &rarr; Auto, ISO-Limit <b>12&apos;800</b> setzen<br>
+          3. Men&uuml; Rot 4 &rarr; Verschluss-Modus &rarr; <b>Mechanisch</b> (oder EFCS &ndash; nie voll Elektronisch!)<br>
+          4. Q-Taste &rarr; AF-Betrieb Servo, Methode Ganzbereich, Personen + Auge EIN<br>
+          5. Men&uuml; Gelb 6 &rarr; Einst. auto-update &rarr; <b style="color:var(--danger)">Deaktivieren</b> (C1 bleibt immer dein Anker!)<br>
+          6. <b style="color:var(--accent)">Men&uuml; Gelb 6 &rarr; Individual-Aufnahmemodus &rarr; Einstellungen registrieren &rarr; C1 &rarr; OK</b>
         </div>
+      </div>
+      <div class="card">
+        <div class="card-title">C2 speichern – Schritt f&uuml;r Schritt</div>
+        <div class="step-list">
+          1. Modus-Wahlrad auf <b>M</b> &rarr; Zeit 1/500s &rarr; Blende <b>f/2.8</b> einstellen<br>
+          2. ISO-Taste &rarr; Auto, ISO-Limit <b>6&apos;400</b><br>
+          3. Men&uuml; Rot 4 &rarr; Verschluss-Modus &rarr; <b>Elektron. 1. Vorhang (EFCS)</b><br>
+          4. Drive-Taste &rarr; <b>Reihenaufnahme Hoch H</b><br>
+          5. AF-Methode &rarr; Ganzbereichs-AF (Tracking), Augenerkennung EIN<br>
+          6. <b style="color:var(--accent)">Men&uuml; Gelb 6 &rarr; Individual-Aufnahmemodus &rarr; Einstellungen registrieren &rarr; C2 &rarr; OK</b>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">&#x26A1; Warum kein elektronischer Verschluss in der Kirche?</div>
+        <div class="setting-row"><span class="setting-key">Sensor-Auslesezeit</span><span class="setting-val">R5 II: ~1/160 s (Rolling Shutter)</span></div>
+        <div class="setting-row"><span class="setting-key">LED-Taktfrequenz</span><span class="setting-val">100&ndash;200 Hz &rarr; trifft Auslesezeit</span></div>
+        <div class="setting-row"><span class="setting-key">Ergebnis</span><span class="setting-val" style="color:var(--danger)">H&auml;ssliche schwarze / farbige Balken</span></div>
+        <div class="setting-row"><span class="setting-key">L&ouml;sung</span><span class="setting-val" style="color:var(--ok)">Mechanischer Verschluss in C1</span></div>
+        <div class="tip-box">&#x1F4A1; Das &bdquo;Klacken&ldquo; der R5 II ist sehr dezent. In einer Kirche mit Orgelmusik h&ouml;rt das praktisch niemand. Sicherheit vor Stille!</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">&#x1F3C6; Die 3 entscheidenden Momente</div>
+
+        <div style="font-size:13px;font-weight:800;color:var(--accent);margin:8px 0 4px">1. Der Einzug (Gegenlicht)</div>
+        <div class="setting-row"><span class="setting-key">Objektiv</span><span class="setting-val">24&ndash;105mm @ 50&ndash;70mm</span></div>
+        <div class="setting-row"><span class="setting-key">Position</span><span class="setting-val">Beim Br&auml;utigam vorne &rarr; seine Reaktion!</span></div>
+        <div class="setting-row"><span class="setting-key">Belichtung</span><span class="setting-val">Spot-Messung auf Gesicht &rarr; +0.7 EV</span></div>
+        <div class="setting-row"><span class="setting-key">Problem Gegenlicht</span><span class="setting-val">ISO steigt, Gesicht dunkel ohne Korr.</span></div>
+        <div class="tip-box" style="margin-bottom:12px">&#x1F4A1; Zuerst Br&auml;utigam (frontal), dann umdrehen f&uuml;r Braut-Einzug. Klappdisplay nach vorne f&uuml;r diskrete H&uuml;fth&ouml;he-Aufnahme.</div>
+
+        <div style="font-size:13px;font-weight:800;color:var(--accent);margin:8px 0 4px">2. Ringtausch &amp; Kuss (Pr&auml;zisions-Fokus)</div>
+        <div class="setting-row"><span class="setting-key">Ringtausch</span><span class="setting-val">Sigma 85mm Makro &rarr; Ring-Details + Emotionen</span></div>
+        <div class="setting-row"><span class="setting-key">Kuss</span><span class="setting-val">24&ndash;105mm @ 85mm, AF-ON halten</span></div>
+        <div class="setting-row"><span class="setting-key">AF-ON-Taktik</span><span class="setting-val">Fokus auf Augen schon 3s vorher sperren</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild (Kuss) &rarr; nicht &uuml;berblasen</span></div>
+        <div class="tip-box" style="margin-bottom:12px">&#x1F48D; Sigma 85mm f&uuml;r Ringe: Pr&auml;dikat &bdquo;unverzichtbar&ldquo;. Die 29cm Nahgrenze gibt dir dramatisches Bokeh direkt am Hochzeitsaltar.</div>
+
+        <div style="font-size:13px;font-weight:800;color:var(--accent);margin:8px 0 4px">3. Der Auszug (Lichtwechsel Innen &rarr; Aussen)</div>
+        <div class="setting-row"><span class="setting-key">Objektiv</span><span class="setting-val">16&ndash;35mm (nah, weit, dramatisch)</span></div>
+        <div class="setting-row"><span class="setting-key">1 Sekunde vor Auszug</span><span class="setting-val" style="color:var(--warn)">Auf C2 wechseln!</span></div>
+        <div class="setting-row"><span class="setting-key">ISO &uuml;berpr&uuml;fen</span><span class="setting-val">Draussen: ISO sinkt auto. (Auto-ISO)</span></div>
+        <div class="setting-row"><span class="setting-key">Konfetti</span><span class="setting-val">1/500s friert alles ein &rarr; C2 ist bereit</span></div>
+        <div class="tip-box">&#x1F389; Wechsel C1 &rarr; C2 = 1 Knopfdrehung am Modus-Rad. &Uuml;ben bis es Muskelged&auml;chtnis ist &ndash; beim echten Auszug hast du keine Sekunde!</div>
       </div>
 
       <div class="card">
@@ -224,42 +322,6 @@
         <div class="setting-row"><span class="setting-key">Q-Taste Display</span><span class="setting-val">Schnellmen&uuml; alle Einst.</span></div>
         <div class="setting-row"><span class="setting-key">Klappdisplay</span><span class="setting-val">Frosch- / Vogelperspektive!</span></div>
       </div>
-    </section>
-
-      <div class="ref-section">&#x1F4F7; Weitere Kameras</div>
-
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Sony Alpha 7C II</div>
-          <span class="badge" style="background:rgba(99,179,237,0.15);color:#63b3ed;border:1px solid rgba(99,179,237,0.4)">Sony</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Sensor</span><span class="setting-val">33 MP Vollformat BSI CMOS</span></div>
-        <div class="setting-row"><span class="setting-key">IBIS</span><span class="setting-val">7 Stops (In-Body)</span></div>
-        <div class="setting-row"><span class="setting-key">Serienbild</span><span class="setting-val">10 fps (mechanisch + elek.)</span></div>
-        <div class="setting-row"><span class="setting-key">AF</span><span class="setting-val">AI-Motiverkennung, Eye-AF</span></div>
-        <div class="setting-row"><span class="setting-key">Video</span><span class="setting-val">4K 60p, S-Log3</span></div>
-        <div class="setting-row"><span class="setting-key">Portrait-Einst.</span><span class="setting-val">Av f/2.8, ISO Auto max. 6400</span></div>
-        <div class="setting-row"><span class="setting-key">Street / Reportage</span><span class="setting-val">A-Modus, Eye-AF EIN, Sil.</span></div>
-        <div class="setting-row"><span class="setting-key">Stärke vs. R5 II</span><span class="setting-val">Kompakt &middot; leise &middot; unauffällig</span></div>
-        <div class="tip-box">&#x1F4A1; Ideal als Zweitkamera: Während R5 II auf Tele wartet, hängt die Sony mit 50mm am Körper – sofort schussbereit für spontane Nahmomente.</div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Fujifilm X-H2</div>
-          <span class="badge" style="background:rgba(252,129,74,0.15);color:#fc8157;border:1px solid rgba(252,129,74,0.4)">Fuji</span>
-          <span class="badge" style="background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.3)">40 MP</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Sensor</span><span class="setting-val">40.2 MP APS-C X-Trans CMOS 5 HR</span></div>
-        <div class="setting-row"><span class="setting-key">IBIS</span><span class="setting-val">7 Stops (In-Body)</span></div>
-        <div class="setting-row"><span class="setting-key">Serienbild</span><span class="setting-val">15 fps mech. / 20 fps elek.</span></div>
-        <div class="setting-row"><span class="setting-key">AF</span><span class="setting-val">Phasen-AF, Motiverkennung</span></div>
-        <div class="setting-row"><span class="setting-key">Video</span><span class="setting-val">8K 30p / 4K 60p, F-Log2</span></div>
-        <div class="setting-row"><span class="setting-key">Film-Simulation</span><span class="setting-val">Provia (Natur), Velvia (Farbe), Eterna (Video)</span></div>
-        <div class="setting-row"><span class="setting-key">Stärke vs. R5 II</span><span class="setting-val">40 MP &middot; 8K &middot; Film-Sims &middot; Fuji-Farben</span></div>
-        <div class="tip-box">&#x1F3A8; Fuji-Farben direkt aus der Kamera! Für Natur &amp; Landschaft: Velvia (gesättigte Farben). Für Reportage: Provia oder Classic Neg.</div>
-      </div>
-
     </section>
 
     <!-- ===== TAB: SZENARIEN ===== -->
@@ -472,8 +534,17 @@
 
       <div class="ref-section">&#x1F52D; Meine Objektive</div>
 
-      <div class="lens-card">
-        <div class="lens-name">EF 16&ndash;35 mm f/4.0 L IS USM</div>
+      <div class="lens-card" style="border-color:rgba(249,115,22,0.4)">
+        <div class="lens-name">RF 35 mm f/1.8 IS STM Makro</div>
+        <div style="margin-bottom:6px"><span class="badge" style="background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.5)">&#x26A1; Kirche</span><span class="badge" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.3)">Nativ RF</span><span class="badge badge-c1">Festbrennweite</span></div>
+        <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.17 m (0.5&times; Makro)</span></div>
+        <div class="setting-row"><span class="setting-key">Lichtvorteil vs. f/4.0</span><span class="setting-val"><b style="color:var(--ok)">+2.3 Blenden = 5&times; mehr Licht!</b></span></div>
+        <div class="setting-row"><span class="setting-key">IS</span><span class="setting-val">5 Stops (In-Objektiv) + IBIS</span></div>
+        <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">305 g &middot; 52 mm</span></div>
+        <div class="setting-row"><span class="setting-key">Einsatz Kirche</span><span class="setting-val">f/1.8 &ndash; f/2.8 · ISO 3200&ndash;6400 statt 25600</span></div>
+        <div class="tip-box">&#x1F3DB; Die Kirchen-Waffe: Nativ RF (kein Adapter), maximale Lichtausbeute, kompakt &amp; dezent. f/1.8 in der Kirche = ISO halbiert sich auf ca. 6400 statt 25600 &ndash; dramatisch weniger Rauschen!</div>
+        <div class="lens-use">&#x2713; Zeremonie &amp; Einzug bei Dunkelheit &middot; Kerzenlicht-Atmosph&auml;re &middot; Br&auml;utigam-Reaktion &middot; Diskrete Reportage &middot; Makro f&uuml;r Ringe (0.17m!) &middot; Getting Ready in dunklen R&auml;umen</div>
+      </div>
         <div style="margin-bottom:6px"><span class="badge badge-c1">Weitwinkel</span></div>
         <div class="setting-row"><span class="setting-key">Nahgrenze</span><span class="setting-val">0.28 m</span></div>
         <div class="setting-row"><span class="setting-key">Gewicht / Filter</span><span class="setting-val">615 g &middot; 77 mm</span></div>
@@ -573,23 +644,28 @@ function showTab(tab){
 const SCENARIOS=[
   {
     id:"hochzeit",icon:"💍",name:"Hochzeit",tag:"Portrait · Reportage · Details",
-    lenses:["EF 24-105mm f/4.0 L","EF 16-35mm f/4.0 L","Sigma 85mm Makro (Ringe)","EF 70-300mm (Distanz)"],
+    lenses:["Sony: Tamron 28–200mm (Haupt)","Canon: RF 35mm f/1.8 (Emotion)","Canon: Sigma 85mm Makro (Ringe)","Canon: EF 16–35mm f/4.0 L","Canon: EF 24–105mm f/4.0 L"],
     settings:[
-      {k:"Profil Zeremonie",v:"C1 (Av, f/4.0, lautlos)"},
-      {k:"Profil Auszug / Party",v:"C2 (Tv, 1/500s, Serienbild H)"},
-      {k:"Augenerkennung",v:"Ein – Personen"},
-      {k:"Belicht.-Korr. Kleid",v:"+0.3 bis +0.7"},
-      {k:"Dual-Slot",v:"Mehrfachaufzeichnung = Pflicht!"},
+      {k:"Sony – Hauptkamera",v:"Tamron 28-200 · Distanz · Schnelle Momente · Gruppen"},
+      {k:"Canon – Emotion",v:"RF 35mm f/1.8 · Nähe · Stimmung · Low Light"},
+      {k:"Wechsel-Regel",v:"Schnell passiert → Sony | Nähe & Stimmung → Canon 35mm"},
+      {k:"Canon C1 – Kirche",v:"M, Mech./EFCS, 1/250s, f/2–2.8, ISO max. 12800"},
+      {k:"Canon C2 – Draussen",v:"M, EFCS, 1/500s, f/2.8–4, ISO max. 6400, Serie H"},
+      {k:"Sony – Kirche",v:"M, 1/250s, offen, ISO max. 12800–25600, Mech./EFCS"},
+      {k:"Sony – Draussen",v:"M, 1/500s, offen/f/4–5.6, EFCS oder Elektronisch"},
+      {k:"Belicht.-Korr. Kleid",v:"+0.7 EV · ISO-Anstieg beobachten"},
+      {k:"Canon Auto-Update C1",v:"OFF – bleibt immer Anker!"},
+      {k:"Dual-Slot",v:"Beide Kameras: Mehrfachaufzeichnung = Pflicht!"},
     ],
     timeline:[
-      {time:"−90 Min",event:"Getting Ready",lens:"24-105mm",profile:"C1",notes:"Ringe (Makro-Instinkt!), Kleid, Manschettenknöpfe, Deko. Fensterlicht nutzen."},
-      {time:"−60 Min",event:"Garten-Shooting (getrennt)",lens:"24-105mm / 24-240mm",profile:"C1",notes:"Erst Er (30 Min früher bestellen), dann Sie. Bodyguard einteilen! Er darf Braut nicht sehen."},
-      {time:"0 Min",event:"Einzug Kirche",lens:"24-105mm",profile:"C1 – LAUTLOS!",notes:"Vorne beim Bräutigam. Seine Reaktion beim Einzug = Goldmoment! Dann Braut frontal."},
-      {time:"Zeremonie",event:"Ringe · Kuss · Tränen",lens:"24-105mm / 70-300mm",profile:"C1",notes:"Ninja-Modus: leise, beobachtend. DER KUSS: AF-ON halten, Serienbild nicht loslassen!"},
-      {time:"Auszug",event:"Konfetti & Jubel",lens:"16-35mm oder 24-105mm",profile:"C2 – WECHSELN!",notes:"Sofort auf C2! 1/500s friert Konfetti ein. Serienbild H. Nah rangehen!"},
-      {time:"+15 Min",event:"Gruppenfoto",lens:"16-35mm",profile:"C2",notes:"Erhöhung suchen. 'Alle Augen zu mir!' – 10 Bilder = 1 taugt garantiert."},
-      {time:"Apéro",event:"Reportage & Stimmung",lens:"70-300mm / 24-105mm",profile:"C2",notes:"Beobachtend aus Distanz. Lachen, Anstoßen, spontane Momente ohne Posen."},
-      {time:"Abend",event:"Tanz & Torte",lens:"16-35mm + Blitz",profile:"C2",notes:"Blitz indirekt an Decke. Antiflacker Ein. 2. Vorhang Sync für Bewegungsunschärfe."},
+      {time:"−90 Min",event:"Getting Ready",lens:"Canon: RF 35mm f/1.8 | Sony: Tamron @ 28–50mm",profile:"C1 / Sony Kirche",notes:"Canon: dunkle Räume, Stimmung, Details, Ringe-Makro. Sony: Überblick, Gruppen, schnelle Situationen. RF 35mm = unschlagbar bei schlechtem Licht."},
+      {time:"−60 Min",event:"Garten-Shooting (getrennt)",lens:"Canon: RF 35mm | Sony: Tamron @ 50–100mm",profile:"C1",notes:"Erst Er (30 Min früher). Canon: Nähe & Emotion. Sony: mehr Kontext aus Distanz. Bodyguard einteilen! Er darf Braut nicht sehen."},
+      {time:"0 Min",event:"Einzug Kirche",lens:"Canon: RF 35mm f/1.8 | Sony: Tamron @ 50–200mm",profile:"Canon C1 – Mech. Verschluss!",notes:"Canon vorne beim Bräutigam = seine Reaktion! f/2 = ISO ≈6400. Sony aus Distanz = Gesamtbild Einzug. +0.7 EV für Brautkleid."},
+      {time:"Zeremonie",event:"Ringe · Kuss · Tränen",lens:"Canon: RF 35mm / Sigma 85mm | Sony: Tamron @ 100–200mm",profile:"Canon C1",notes:"Canon: ruhige Emotion, Ringe (Sigma Makro am Altar!). Sony: Gäste-Reaktionen aus Distanz. DER KUSS: Canon AF-ON 3s vorher sperren."},
+      {time:"Auszug",event:"Konfetti & Jubel",lens:"Canon: RF 35mm | Sony: Tamron @ 28–50mm",profile:"Canon C2 – JETZT WECHSELN!",notes:"1 Sek. vorher Canon auf C2! Sony: schnell & breit = Gesamtstimmung. Canon: 35mm nah & dramatisch. Beide in Action!"},
+      {time:"+15 Min",event:"Gruppenfoto",lens:"Canon: EF 16–35mm | Sony: Tamron @ 28–35mm",profile:"C2",notes:"Sony = Hauptkamera Gruppe (flexibler Zoom). Canon: dramatische Perspektive. Erhöhung suchen!"},
+      {time:"Apéro",event:"Candid · Nähe · Gruppen",lens:"Sony: Tamron @ 50–200mm | Canon: RF 35mm",profile:"C2",notes:"Sony: Candid aus Distanz, Anstoßen, spontane Momente. Canon: Nähe, Lachen, Umarmungen, kleine Gruppen."},
+      {time:"Abend",event:"Tanz & Torte",lens:"Canon: RF 35mm + Blitz | Sony: Tamron + Blitz",profile:"C2",notes:"Blitz indirekt an Decke. Canon: Nähe & Stimmung. Sony: Gruppen, Tanz-Action. 2. Vorhang Sync für Bewegungsunschärfe."},
     ],
     tip:"Starte mit Details (Ringe, Kleid, Deko) – das beruhigt den Puls, du 'schiesst dich warm' und hast sofort tolle Bilder ohne Blickkontakt mit Menschen.",
   },
@@ -640,9 +716,9 @@ const SCENARIOS=[
     id:"sport",icon:"⚡",name:"Sport & Wildlife",tag:"Tracking · Schärfe · Bewegung",
     lenses:["EF 70-300mm (non-L)","EF 24-105mm (wenn nah)"],
     settings:[
-      {k:"Modus",v:"Tv"},
+      {k:"Modus",v:"M + Auto-ISO"},
       {k:"Verschlusszeit",v:"1/1000s – 1/2000s"},
-      {k:"ISO",v:"Auto (max. 12'800)"},
+      {k:"ISO",v:"Auto (max. 25'600)"},
       {k:"AF",v:"Servo AF"},
       {k:"AF-Methode",v:"Ganzbereichs-AF"},
       {k:"Tiererkennung",v:"Ein (Wildlife!)"},
@@ -702,10 +778,15 @@ const CHECKLISTS={
       {id:"hv6",text:"C1 (Zeremonie) programmiert & gespeichert"},
       {id:"hv7",text:"C2 (Party/Action) programmiert & gespeichert"},
       {id:"hv8",text:"Eye-Control 3-4× kalibriert (auch Hochformat!)"},
-      {id:"hv9",text:"Dual-Slot Mehrfachaufzeichnung aktiviert"},
+      {id:"hv9",text:"Dual-Slot Mehrfachaufzeichnung aktiviert (Canon)"},
       {id:"hv10",text:"Ablaufplan vom Brautpaar studiert"},
       {id:"hv11",text:"Garten & Kirche auf Google Maps gecheckt"},
       {id:"hv12",text:"Bodyguard für Braut/Bräutigam-Trennung eingeteilt"},
+      {id:"hv13",text:"Sony A7C II: Akku laden + Speicherkarte formatieren"},
+      {id:"hv14",text:"Sony: M + Auto-ISO, Kirche-Setting eingestellt"},
+      {id:"hv15",text:"Sony: AF-C + Eye AF / Tracking aktiviert"},
+      {id:"hv16",text:"Sony: Uhrzeit mit Canon synchronisieren! (Sortierung!)"},
+      {id:"hv17",text:"Tamron 28–200mm: Frontlinse gereinigt, IS Ein"},
     ]},
     {id:"hgr",icon:"💐",title:"Getting Ready (−90 Min)",sub:"Details & Atmosphäre",tasks:[
       {id:"hgr1",text:"Kleid am Bügel fotografieren",lens:"24-105mm, C1, Fensterlicht"},
@@ -723,19 +804,21 @@ const CHECKLISTS={
       {id:"hga6",text:"+0.3 bis +0.7 Korrektur für weisses Kleid aktiv"},
       {id:"hga7",text:"Klappdisplay für Frosch- & Vogelperspektive nutzen"},
     ]},
-    {id:"hki",icon:"⛪",title:"Einzug & Zeremonie",sub:"Lautlos! C1 aktiv",tasks:[
-      {id:"hki1",text:"C1 aktiv – Elektronischer Verschluss (LAUTLOS)"},
-      {id:"hki2",text:"Position vorne beim Bräutigam einnehmen"},
-      {id:"hki3",text:"Reaktion Bräutigam beim Einzug = Goldmoment!"},
-      {id:"hki4",text:"Braut beim Einzug: frontal & von der Seite",lens:"24-105mm, C1"},
-      {id:"hki5",text:"Ringübergabe – Makro-Instinkt einschalten!",lens:"24-105mm Nahgrenze"},
-      {id:"hki6",text:"Das Ja-Wort: beide Gesichter"},
-      {id:"hki7",text:"DER KUSS: AF-ON halten, Serienbild!",lens:"24-105mm"},
-      {id:"hki8",text:"Emotionen bei Gästen (diskret aus Distanz)",lens:"100-400mm"},
+    {id:"hki",icon:"⛪",title:"Einzug & Zeremonie",sub:"C1 – Mech. Verschluss aktiv",tasks:[
+      {id:"hki1",text:"C1 aktiv – Mechanischer Verschluss (kein LED-Banding!)"},
+      {id:"hki2",text:"ISO max. 25'600 prüfen – Auto-ISO aktiv"},
+      {id:"hki3",text:"Position vorne beim Bräutigam einnehmen"},
+      {id:"hki4",text:"Reaktion Bräutigam beim Einzug = Goldmoment!"},
+      {id:"hki5",text:"Braut beim Einzug: frontal & von der Seite",lens:"RF 35mm f/1.8, C1, Spot-Messung +0.7"},
+      {id:"hki6",text:"Ringtausch – Sigma 85mm Makro einsetzen!",lens:"Sigma 85mm @ f/2.8"},
+      {id:"hki7",text:"Das Ja-Wort: beide Gesichter im Bild"},
+      {id:"hki8",text:"DER KUSS: AF-ON 3s vorher sperren, dann auslösen",lens:"24-105mm"},
+      {id:"hki9",text:"Emotionen bei Gästen (diskret aus Distanz)",lens:"70-300mm"},
     ]},
-    {id:"hau",icon:"🎊",title:"Auszug & Gratulationen",sub:"WECHSEL auf C2!",tasks:[
-      {id:"hau1",text:"WECHSEL auf C2 (Tv, 1/500s, Serienbild H)"},
-      {id:"hau2",text:"Position am Kirchenportal einnehmen",lens:"16-35mm oder 24-105mm"},
+    {id:"hau",icon:"🎊",title:"Auszug & Gratulationen",sub:"WECHSEL auf C2 (EFCS, 1/500s, H)!",tasks:[
+      {id:"hau1",text:"1 Sek. vorher auf C2 wechseln (Modus-Rad)"},
+      {id:"hau2",text:"C2: EFCS + 1/500s + Serienbild H aktiv?"},
+      {id:"hau3",text:"Position am Kirchenportal",lens:"16-35mm oder 24-105mm"},
       {id:"hau3",text:"Konfetti / Reis werfen: Serienbild!"},
       {id:"hau4",text:"Erstes Kuss-Foto draussen"},
       {id:"hau5",text:"Spontane Umarmungen, Lachen, Emotionen"},
@@ -747,11 +830,11 @@ const CHECKLISTS={
       {id:"hgp4",text:"Kleines Familienfoto mit Eltern"},
       {id:"hgp5",text:"Brautpaar alleine – ruhiges Paar-Shooting"},
     ]},
-    {id:"hap",icon:"🥂",title:"Apéro & Feier",sub:"Reportage – beobachtend",tasks:[
-      {id:"hap1",text:"Anstoßen einfangen",lens:"24-105mm, C2"},
-      {id:"hap2",text:"Gäste aus Distanz beobachten",lens:"RF 24-240mm"},
-      {id:"hap3",text:"Torten-Anschnitt – bereit stehen!"},
-      {id:"hap4",text:"Erster Tanz: Blitz indirekt!",lens:"16-35mm + Speedlite, C2"},
+    {id:"hap",icon:"🥂",title:"Apéro & Feier",sub:"Sony: Distanz & Gruppen · Canon: Nähe & Emotion",tasks:[
+      {id:"hap1",text:"Canon: Nähe, Lachen, Umarmungen",lens:"Canon RF 35mm, C2"},
+      {id:"hap2",text:"Sony: Candid aus Distanz, Gruppen beobachten",lens:"Sony Tamron @ 50–200mm"},
+      {id:"hap3",text:"Torten-Anschnitt – beide Kameras bereit stehen!"},
+      {id:"hap4",text:"Erster Tanz: Blitz indirekt!",lens:"Canon 35mm + Speedlite, C2"},
       {id:"hap5",text:"Details: Torte, Deko, Tischkarten"},
       {id:"hap6",text:"Abschluss-Fotos bei Sonnenuntergang (Golden Hour!)"},
     ]},
@@ -881,16 +964,17 @@ const SITUATIONS=[
   {
     id:"kirche",icon:"⛪",name:"Kirche / sehr dunkel",tag:"Innenraum · Kerzenlicht · Kunstlicht",
     settings:[
-      {k:"Modus",v:"Av"},
-      {k:"Blende",v:"f/4.0 (so offen wie möglich)"},
-      {k:"ISO",v:"Auto max. 12'800"},
-      {k:"Verschluss",v:"Elektron. 1. Vorhang (NICHT lautlos!)"},
+      {k:"Modus",v:"M + Auto-ISO"},
+      {k:"Verschlusszeit",v:"1/250s (Anker C1)"},
+      {k:"Blende",v:"f/1.8–f/2.0 (RF 35mm) = ISO halbiert!"},
+      {k:"ISO",v:"Auto max. 25'600 – @ f/1.8 eher ~6400"},
+      {k:"Verschluss",v:"Mechanisch (kein LED-Banding!)"},
       {k:"WB",v:"Kunstlicht (3200K) oder AWB"},
       {k:"Blitz",v:"Bounce indirekt ODER aus (Stimmung!)"},
-      {k:"IS",v:"Ein – stabilisiert bei 1/30s"},
+      {k:"IS",v:"Ein – stabilisiert bei 1/250s"},
     ],
-    tip:"Ohne Blitz = Stimmungslicht erhalten. Mit Blitz = Bounce an helle Wand/Decke. Niemals direkt blitzen in der Kirche!",
-    menu:"Verschluss: Rot 4 → Elektron. 1. Vorhang · WB: Q-Taste → WB → Kunstlicht",
+    tip:"C1 verwenden = Mechanischer Verschluss ist Pflicht in Kirchen. Ohne Blitz = Stimmungslicht erhalten. Mit Blitz = Bounce an helle Wand/Decke. Niemals direkt blitzen!",
+    menu:"Verschluss: Rot 4 → Mechanisch · WB: Q-Taste → WB → Kunstlicht",
   },
   {
     id:"gegenlicht",icon:"☀️",name:"Gegenlicht / Sonne hinter Motiv",tag:"HSS · Aufhellblitz · Silhouette",
@@ -948,15 +1032,16 @@ const SITUATIONS=[
   {
     id:"nacht",icon:"🌃",name:"Nacht / Tanz / Disco",tag:"Hohe ISO · 2. Vorhang · Bounce",
     settings:[
-      {k:"Modus",v:"Tv oder M"},
+      {k:"Modus",v:"M + Auto-ISO"},
       {k:"Zeit",v:"1/60s – 1/125s (mit Blitz scharf genug)"},
       {k:"Blende",v:"f/4.0"},
-      {k:"ISO",v:"Auto max. 12'800 (R5 II verarbeitet gut!)"},
+      {k:"ISO",v:"Auto max. 25'600 (R5 II verarbeitet gut!)"},
+      {k:"Verschluss",v:"EFCS oder Mech. (nie Elektronisch + Blitz!)"},
       {k:"Blitz",v:"Bounce ODER 2. Vorhang Sync (Tanz)!"},
       {k:"WB",v:"Blitz (5500K) wenn mit Blitz"},
       {k:"AF-Assist",v:"Ein am Speedlite (Lichtstrahl)"},
     ],
-    tip:"R5 II bei ISO 12800 = noch sehr sauber! Lieber hohe ISO als verwackelt. 2. Vorhang Sync bei Tanzboden = kreativ und magisch.",
+    tip:"R5 II bei ISO 25600 = noch sehr nutzbar! Lieber hohe ISO als verwackelt. 2. Vorhang Sync bei Tanzboden = kreativ und magisch.",
     menu:"2. Vorhang: Rot 4 → Blitz-Steuerung → Blitz-Sync → 2. Vorhang · AF-Assist: Am Speedlite Einstellungen",
   },
   {
