@@ -1,7 +1,7 @@
 {
   "name": "Foto Companion",
   "short_name": "Foto",
-  "description": "Canon EOS R5 Mark II – Kamera-Profile, Szenarien, Checklisten",
+  "description": "Sony A7C II + Canon R5 II – Kamera-Profile, Szenarien, Checklisten für Hochzeiten",
   "start_url": "/foto/index.html",
   "scope": "/foto/",
   "display": "standalone",

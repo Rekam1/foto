@@ -1,7 +1,16 @@
-const CACHE = "foto-v1";
+const CACHE = "foto-v2";
 const INDEX = "/foto/index.html";
+const PRECACHE = [
+  "/foto/index.html",
+  "/foto/manifest.json",
+  "/foto/icon-192.png",
+  "/foto/icon-512.png"
+];
 
 self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(PRECACHE))
+  );
   self.skipWaiting();
 });
 
