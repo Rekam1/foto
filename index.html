@@ -122,6 +122,32 @@
     .range-row input[type=range]{flex:1;accent-color:var(--accent);}
     .range-val{font-size:13px;font-weight:700;color:var(--accent);min-width:56px;text-align:right;}
     .lens-card{background:rgba(17,24,39,0.6);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;}
+    .akku-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+    .akku-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:12px;border:1.5px solid var(--border);background:rgba(255,255,255,0.03);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;font-family:inherit;}
+    .akku-btn .akku-icon{font-size:20px;}
+    .akku-btn .akku-label{font-size:10px;font-weight:700;color:var(--muted);}
+    .akku-btn.geladen{border-color:var(--ok);background:rgba(52,211,153,0.1);}
+    .akku-btn.geladen .akku-label{color:var(--ok);}
+    .akku-btn.inkamera{border-color:var(--sony);background:rgba(96,165,250,0.1);}
+    .akku-btn.inkamera .akku-label{color:var(--sony);}
+    .akku-btn.leer{border-color:var(--danger);background:rgba(251,113,133,0.1);}
+    .akku-btn.leer .akku-label{color:var(--danger);}
+    .gh-result{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:12px 14px;margin-top:10px;}
+    .gh-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:8px;}
+    .gh-row:last-child{border-bottom:none;}
+    .gh-key{font-size:12px;color:var(--muted);}
+    .gh-val{font-size:13px;font-weight:700;color:var(--accent);}
+    .gh-val.gold{color:#fbbf24;}
+    .gh-val.blue{color:#7dd3fc;}
+    .gh-countdown{text-align:center;font-size:22px;font-weight:800;color:var(--accent);padding:8px 0 4px;}
+    .gh-countdown-label{text-align:center;font-size:11px;color:var(--muted);margin-bottom:6px;}
+    .pose-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .pose-card{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:10px 12px;}
+    .pose-cue{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;}
+    .pose-why{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
+    .licht-card{background:rgba(17,24,39,0.8);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;}
+    .licht-title{font-size:14px;font-weight:800;margin-bottom:8px;}
+    .licht-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;}
     .lens-name{font-size:13px;font-weight:800;margin-bottom:6px;}
     .lens-use{font-size:12px;color:var(--muted);line-height:1.5;margin-top:6px;}
     .log-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
@@ -325,6 +351,16 @@
           <div class="lens-use">28–50mm für Kontext, 70–135mm für Emotion aus Distanz, 135–200mm für unauffällige Candid-Momente.</div>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-title">Akku-Status</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Antippen zum Wechseln: <span style="color:var(--ok)">■ geladen</span> → <span style="color:var(--sony)">■ in Kamera</span> → <span style="color:var(--danger)">■ leer</span></div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Sony NP-FZ100</div>
+        <div class="akku-grid" id="akku-sony"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Canon LP-E6NH</div>
+        <div class="akku-grid" id="akku-canon"></div>
+        <button class="btn" style="margin-top:8px;background:rgba(255,255,255,0.05);color:var(--muted);font-size:13px;padding:9px" onclick="resetAkkus()">Alle auf geladen zurücksetzen</button>
+      </div>
     </section>
 
     <section class="tab" id="tab-szenarien">
@@ -389,6 +425,65 @@
         <div class="tip-box">RAW rettet viel, aber sauberer Weissabgleich im Sucher hilft dir, Belichtung und Stimmung besser zu beurteilen.</div>
       </div>
 
+      <div class="ref-section">Direktions-Cues – natürliche Reaktionen auslösen</div>
+      <div class="card">
+        <div class="pose-grid">
+          <div class="pose-card"><div class="pose-cue">„Flüster ihr was Quatschiges ins Ohr"</div><div class="pose-why">Auslöst echtes Lachen, kein Posier-Lächeln.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Geh einfach los – schau sie nicht an"</div><div class="pose-why">Natürliche Bewegung, kein steifes Stehen.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Zeig mir deine Hände zusammen"</div><div class="pose-why">Ringe sichtbar, intime Geste, funktioniert immer.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Stirn an Stirn – Augen zu"</div><div class="pose-why">Ruhiges, romantisches Bild, keine Augen-Problemzone.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Dreh dich um und warte – nicht schauen"</div><div class="pose-why">Der Moment des Umdrehens ist oft der stärkste.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Sag mir was du an ihr liebst"</div><div class="pose-why">Echter Gesichtsausdruck, keine gestellte Emotion.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Geh ganz nah – näher als du denkst"</div><div class="pose-why">Paare halten zu viel Abstand. Nähe = Stimmung.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Schau sie an als würde niemand zuschauen"</div><div class="pose-why">Entspannt, gibt Paaren Erlaubnis zu sein wie sie sind.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Halt ihre Hand und geh – wohin ist egal"</div><div class="pose-why">Einfachste Walking-Shot-Variante, immer natürlich.</div></div>
+          <div class="pose-card"><div class="pose-cue">„Küss sie auf die Stirn"</div><div class="pose-why">Zärtlicher als Kuss auf Mund, zeigt Fürsorge.</div></div>
+        </div>
+      </div>
+
+      <div class="ref-section">Licht-Situationen</div>
+      <div class="licht-card">
+        <div class="licht-title">Gegenlicht <span class="licht-badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.4)">nutzen</span></div>
+        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">Gesichter zu dunkel, Hintergrund überstrahlt</span></div>
+        <div class="setting-row"><span class="setting-key">Lösung</span><span class="setting-val">Belichtung auf Gesicht · +1 bis +2 EV</span></div>
+        <div class="setting-row"><span class="setting-key">Trick</span><span class="setting-val">Sonne knapp ausserhalb Bild → Rim-Light-Effekt</span></div>
+        <div class="setting-row"><span class="setting-key">Kamera</span><span class="setting-val">Canon 35mm · kurze Distanz</span></div>
+        <div class="tip-box">Gegenlicht ist kein Problem – es ist die beste kostenlose Softbox. Histogramm rechts anhalten ohne Gesicht auszubrennen.</div>
+      </div>
+      <div class="licht-card">
+        <div class="licht-title">Mischicht <span class="licht-badge" style="background:rgba(251,113,133,0.15);color:#fb7185;border:1px solid rgba(251,113,133,0.4)">tricky</span></div>
+        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">LED-Raumlicht + Tageslicht = Farbstich-Chaos</span></div>
+        <div class="setting-row"><span class="setting-key">WB</span><span class="setting-val">AWB schlägt oft fehl → manuell 4000–4500 K</span></div>
+        <div class="setting-row"><span class="setting-key">Fokus</span><span class="setting-val">Auf Bereich mit dominantem Licht wechseln</span></div>
+        <div class="setting-row"><span class="setting-key">RAW</span><span class="setting-val">Korrektur in Post viel einfacher als in JPEG</span></div>
+        <div class="tip-box">Nicht beide Lichtquellen gleichzeitig ins Bild zwingen. Entweder Fenster oder Innenraum – nie beides als gleichwertig behandeln.</div>
+      </div>
+      <div class="licht-card">
+        <div class="licht-title">Harte Mittagssonne <span class="licht-badge" style="background:rgba(251,113,133,0.15);color:#fb7185;border:1px solid rgba(251,113,133,0.4)">vermeiden</span></div>
+        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">Harte Schatten auf Gesicht, Nasenunter-Schatten</span></div>
+        <div class="setting-row"><span class="setting-key">Lösung 1</span><span class="setting-val">Schatten suchen – Baum, Mauer, Überdachung</span></div>
+        <div class="setting-row"><span class="setting-key">Lösung 2</span><span class="setting-val">Gegenlicht: Paar zur Sonne, du in Gegenlicht</span></div>
+        <div class="setting-row"><span class="setting-key">Einstellung</span><span class="setting-val">f/5.6–f/8 draussen · ISO 100–400 · 1/1000s</span></div>
+        <div class="tip-box">Kein Paarshooting 12–15 Uhr in der Sonne. Wenn es nicht zu vermeiden ist: immer Schatten oder komplett in die Sonne drehen.</div>
+      </div>
+      <div class="licht-card">
+        <div class="licht-title">Sehr dunkle Kirche <span class="licht-badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.4)">häufig</span></div>
+        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">ISO 12800+ nötig · AF kämpft</span></div>
+        <div class="setting-row"><span class="setting-key">Canon</span><span class="setting-val">C1 · f/1.8 wenn nötig · mechanisch PFLICHT</span></div>
+        <div class="setting-row"><span class="setting-key">Sony</span><span class="setting-val">Sony 1 · weit offen · ISO max. 25600</span></div>
+        <div class="setting-row"><span class="setting-key">AF-Hilfe</span><span class="setting-val">AF-Hilfslicht EIN wenn erlaubt · Spot-AF</span></div>
+        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild – kein Serienbild in Kirche</span></div>
+        <div class="tip-box">Rauschen ist besser als Unschärfe. ISO 25600 mit scharfem Bild schlägt ISO 800 mit Bewegungsunschärfe jeden Tag.</div>
+      </div>
+      <div class="licht-card">
+        <div class="licht-title">Bewölkt / Regen <span class="licht-badge" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.4)">unterschätzt</span></div>
+        <div class="setting-row"><span class="setting-key">Licht</span><span class="setting-val">Gleichmässig weich – perfekt für Portraits</span></div>
+        <div class="setting-row"><span class="setting-key">WB</span><span class="setting-val">Bewölkt ~6500 K oder AWB kontrollieren</span></div>
+        <div class="setting-row"><span class="setting-key">Belichtung</span><span class="setting-val">+0.3 bis +0.7 EV nach Histogramm</span></div>
+        <div class="setting-row"><span class="setting-key">Stimmung</span><span class="setting-val">Emotionaler als Schönwetter wenn gut umgesetzt</span></div>
+        <div class="tip-box">Grauer Himmel ist eine riesige Softbox. Nie entschuldigen – aktiv nutzen. Paar unter Schirm = starkes Bild.</div>
+      </div>
+
       <div class="ref-section">Blitz-Grundlagen</div>
       <div class="card">
         <div class="setting-row"><span class="setting-key">Mechanisch / EFCS</span><span class="setting-val">Blitz möglich</span></div>
@@ -436,6 +531,31 @@
         <div class="calc-result" id="dof-result"></div>
       </div>
 
+      <div class="ref-section">Goldene Stunde</div>
+      <div class="card">
+        <div class="calc-group">
+          <div class="calc-label">Datum</div>
+          <input class="log-input" type="date" id="gh-date" oninput="calcGoldenHour()" style="width:100%;margin-bottom:8px">
+        </div>
+        <div class="calc-grid">
+          <div class="calc-group">
+            <div class="calc-label">Breitengrad (°N)</div>
+            <input class="log-input" type="number" id="gh-lat" value="47.37" step="0.01" oninput="calcGoldenHour()" style="width:100%">
+          </div>
+          <div class="calc-group">
+            <div class="calc-label">Längengrad (°E)</div>
+            <input class="log-input" type="number" id="gh-lng" value="8.54" step="0.01" oninput="calcGoldenHour()" style="width:100%">
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2px">
+          <button class="cl-btn" onclick="setGHPreset(47.37,8.54)">Zürich</button>
+          <button class="cl-btn" onclick="setGHPreset(47.56,7.59)">Basel</button>
+          <button class="cl-btn" onclick="setGHPreset(46.95,7.44)">Bern</button>
+          <button class="cl-btn" onclick="setGHPreset(46.52,6.63)">Lausanne</button>
+        </div>
+        <div id="gh-result"></div>
+      </div>
+
       <div class="ref-section">Speicherkarten-Rechner</div>
       <div class="card">
         <div class="calc-group">
@@ -477,8 +597,8 @@
 
 <script>
 const STORE="foto_v2";
-function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit"};}
-function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();return Object.assign(emptyData(),d,{checks:d.checks||{},notes:d.notes||[],shootingLog:d.shootingLog||[]});}catch{return emptyData();}}
+function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit",akkus:{sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]}};}
+function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();const def=emptyData();return Object.assign(def,d,{checks:d.checks||{},notes:d.notes||[],shootingLog:d.shootingLog||[],akkus:d.akkus||def.akkus});}catch{return emptyData();}}
 function save(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){toast("⚠️ Speicher voll – Daten konnten nicht gespeichert werden.");}}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
@@ -495,7 +615,8 @@ function showTab(tab){
   if(tab==="checkliste")renderCheckliste();
   if(tab==="notizen"){renderNotizen();renderLog();const ld=document.getElementById("log-date");if(ld&&!ld.value)ld.value=new Date().toISOString().slice(0,10);}
   if(tab==="referenz")renderSituations();
-  if(tab==="rechner"){calcBelichtung();updateDoF();calcSpeicher();}
+  if(tab==="rechner"){calcBelichtung();updateDoF();calcSpeicher();calcGoldenHour();}
+  if(tab==="kamera")renderAkkus();
 }
 
 const SCENARIOS=[
@@ -537,6 +658,39 @@ function renderSzenarien(){
 function toggleScenario(id){openScenarios[id]=!openScenarios[id];renderSzenarien();}
 
 const CHECKLISTS={
+  pflicht:{name:"Pflicht-Bilder",icon:"📋",phases:[
+    {id:"pfl_details",icon:"💍",title:"Details",sub:"Vor der Zeremonie",tasks:[
+      {id:"pfl_d1",text:"Ringe auf Kissen oder Unterlage",lens:"Canon 35mm Makro"},
+      {id:"pfl_d2",text:"Brautstrauss – Draufsicht + seitlich",lens:"Canon 35mm"},
+      {id:"pfl_d3",text:"Schuhe der Braut",lens:"Canon 35mm"},
+      {id:"pfl_d4",text:"Kleid – Schleppe, Knöpfe, Details",lens:"Canon 35mm"},
+      {id:"pfl_d5",text:"Einladungskarte oder Programm",lens:"Canon 35mm"},
+      {id:"pfl_d6",text:"Location von aussen",lens:"Sony 28–50mm"}
+    ]},
+    {id:"pfl_zeremonie",icon:"⛪",title:"Zeremonie",sub:"Einmalig – nicht verpassen",tasks:[
+      {id:"pfl_z1",text:"Einzug Braut – Ganzkörper",lens:"Sony 50–100mm"},
+      {id:"pfl_z2",text:"Einzug Braut – Gesicht / Emotion",lens:"Sony 100–135mm"},
+      {id:"pfl_z3",text:"Reaktion Bräutigam beim ersten Anblick",lens:"Sony 100–135mm"},
+      {id:"pfl_z4",text:"Reaktion Eltern / Gäste beim Einzug",lens:"Sony 70–135mm"},
+      {id:"pfl_z5",text:"Ringtausch – Hände Nahaufnahme",lens:"Sony 100–135mm"},
+      {id:"pfl_z6",text:"Kuss – kurze Serie (3–5 Bilder)",lens:"Sony 70–100mm"},
+      {id:"pfl_z7",text:"Reaktion Gäste direkt nach dem Kuss",lens:"Sony 50–100mm"},
+      {id:"pfl_z8",text:"Auszug – Lachen, Konfetti, Bewegung",lens:"Sony 28–50mm"}
+    ]},
+    {id:"pfl_paar",icon:"👫",title:"Paarshooting",sub:"5–10 Minuten reichen",tasks:[
+      {id:"pfl_p1",text:"Portrait – beide zur Kamera",lens:"Sony 85–100mm"},
+      {id:"pfl_p2",text:"Romantisch – aneinander gelehnt, Kuss",lens:"Canon 35mm"},
+      {id:"pfl_p3",text:"Echtes Lachen – Direktions-Cue nutzen",lens:"Sony 85–135mm"},
+      {id:"pfl_p4",text:"Hände zusammen – Ringe sichtbar",lens:"Canon 35mm Makro"},
+      {id:"pfl_p5",text:"Gesamtbild mit Location im Hintergrund",lens:"Sony 28–35mm"}
+    ]},
+    {id:"pfl_familie",icon:"👨‍👩‍👧",title:"Familie & Gruppen",sub:"Schnell durchziehen",tasks:[
+      {id:"pfl_f1",text:"Braut mit ihren Eltern",lens:"Sony 35–50mm"},
+      {id:"pfl_f2",text:"Bräutigam mit seinen Eltern",lens:"Sony 35–50mm"},
+      {id:"pfl_f3",text:"Brautpaar mit beiden Familien",lens:"Sony 28–35mm"},
+      {id:"pfl_f4",text:"Brautpaar mit Trauzeugen",lens:"Sony 28–35mm"}
+    ]}
+  ]},
   hochzeit:{name:"Hochzeit",icon:"💍",phases:[
     {id:"prep",icon:"⚙️",title:"Vorbereitung",sub:"Abend davor",tasks:[
       {id:"prep1",text:"Alle Akkus laden: Sony + Canon"},
@@ -632,7 +786,85 @@ function saveLog(){const date=document.getElementById("log-date").value||new Dat
 function deleteLog(id){const data=load();data.shootingLog=data.shootingLog.filter(e=>e.id!==id);save(data);renderLog();}
 function renderLog(){const data=load();const el=document.getElementById("log-list");if(!el)return;if(!data.shootingLog.length){el.innerHTML='<div class="empty">Noch keine Einträge.</div>';return;}el.innerHTML=data.shootingLog.map(e=>`<div class="log-entry"><div class="log-hd"><div><div class="log-event">${esc(e.type)}</div><div class="log-date">${e.date}</div>${e.loc?`<div class="log-loc">📍 ${esc(e.loc)}</div>`:""}</div><span class="log-del" onclick="deleteLog('${e.id}')">✕</span></div>${e.notes?`<div class="log-body">${esc(e.notes)}</div>`:""}</div>`).join("");}
 
-document.addEventListener("DOMContentLoaded",()=>{const ld=document.getElementById("log-date");if(ld)ld.value=new Date().toISOString().slice(0,10);const lastTab=localStorage.getItem("foto_lasttab");const validTabs=["kamera","szenarien","checkliste","notizen","referenz","rechner"];if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);calcBelichtung();updateDoF();calcSpeicher();});
+// Akku-Tracker
+const AKKU_STATES=["geladen","inkamera","leer"];
+const AKKU_ICONS={"geladen":"🔋","inkamera":"📷","leer":"🪫"};
+const AKKU_LABELS={"geladen":"geladen","inkamera":"in Kamera","leer":"leer"};
+function renderAkkus(){
+  const data=load();
+  const akkus=data.akkus||{sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]};
+  const renderGroup=(elId,cam,names)=>{
+    const el=document.getElementById(elId);if(!el)return;
+    el.innerHTML=names.map((n,i)=>{
+      const s=akkus[cam]&&akkus[cam][i]?akkus[cam][i]:"geladen";
+      return`<button class="akku-btn ${s}" onclick="toggleAkku('${cam}',${i})"><span class="akku-icon">${AKKU_ICONS[s]}</span><span class="akku-label">${n}</span><span class="akku-label" style="font-weight:400">${AKKU_LABELS[s]}</span></button>`;
+    }).join("");
+  };
+  renderGroup("akku-sony","sony",["S–1","S–2","S–3"]);
+  renderGroup("akku-canon","canon",["C–1","C–2"]);
+}
+function toggleAkku(cam,idx){
+  const data=load();
+  if(!data.akkus[cam])data.akkus[cam]=["geladen","geladen","geladen"];
+  const cur=data.akkus[cam][idx]||"geladen";
+  data.akkus[cam][idx]=AKKU_STATES[(AKKU_STATES.indexOf(cur)+1)%AKKU_STATES.length];
+  save(data);renderAkkus();
+}
+function resetAkkus(){
+  const data=load();
+  data.akkus={sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]};
+  save(data);renderAkkus();toast("Akkus zurückgesetzt.");
+}
+
+// Goldene Stunde
+function fmtH(h){if(h==null||isNaN(h))return"–";const hh=Math.floor(((h%24)+24)%24);const mm=Math.round((((h%24)+24)%24-hh)*60);return String(hh).padStart(2,"0")+":"+String(mm>=60?59:mm).padStart(2,"0");}
+function setGHPreset(lat,lng){document.getElementById("gh-lat").value=lat;document.getElementById("gh-lng").value=lng;calcGoldenHour();}
+function calcGoldenHour(){
+  const ds=document.getElementById("gh-date").value;
+  const lat=parseFloat(document.getElementById("gh-lat").value);
+  const lng=parseFloat(document.getElementById("gh-lng").value);
+  const el=document.getElementById("gh-result");if(!el)return;
+  if(!ds||isNaN(lat)||isNaN(lng)){el.innerHTML="";return;}
+  const date=new Date(ds+"T12:00:00");
+  const rad=Math.PI/180,deg=180/Math.PI;
+  const JD=date.getTime()/86400000+2440587.5;
+  const n=JD-2451545.0;
+  let L0=(280.46646+0.9856474*n)%360;if(L0<0)L0+=360;
+  let M=(357.52911+0.9856003*n)%360;if(M<0)M+=360;
+  const C=1.914602*Math.sin(M*rad)+0.019993*Math.sin(2*M*rad);
+  const sunLon=L0+C;
+  const obliq=23.439-0.0000004*n;
+  const decl=Math.asin(Math.sin(obliq*rad)*Math.sin(sunLon*rad))*deg;
+  const y=Math.tan(obliq/2*rad)**2;
+  const Mr=M*rad,L0r=L0*rad,e=0.016708634;
+  const EqT=(y*Math.sin(2*L0r)-2*e*Math.sin(Mr)+4*y*e*Math.sin(Mr)*Math.cos(2*L0r)-0.5*y*y*Math.sin(4*L0r)-1.25*e*e*Math.sin(2*Mr))*deg*4;
+  const solarNoonUTC=720-4*lng-EqT;
+  const tzOff=-date.getTimezoneOffset();
+  const toLocal=m=>(m+tzOff)/60;
+  const ha=elev=>{const c=(Math.sin(elev*rad)-Math.sin(lat*rad)*Math.sin(decl*rad))/(Math.cos(lat*rad)*Math.cos(decl*rad));if(c>1||c<-1)return null;return Math.acos(c)*deg;};
+  const HA_sr=ha(-0.833),HA_gh=ha(6),HA_bh=ha(-4);
+  const sunrise=HA_sr!=null?toLocal(solarNoonUTC-HA_sr*4):null;
+  const sunset=HA_sr!=null?toLocal(solarNoonUTC+HA_sr*4):null;
+  const ghMornStart=HA_bh!=null?toLocal(solarNoonUTC-HA_bh*4):sunrise;
+  const ghMornEnd=HA_gh!=null?toLocal(solarNoonUTC-HA_gh*4):null;
+  const ghEveStart=HA_gh!=null?toLocal(solarNoonUTC+HA_gh*4):null;
+  const ghEveEnd=HA_bh!=null?toLocal(solarNoonUTC+HA_bh*4):sunset;
+  // Countdown to next golden hour
+  const now=new Date();const nowH=now.getHours()+now.getMinutes()/60+now.getSeconds()/3600;
+  const isToday=ds===now.toISOString().slice(0,10);
+  let cdLabel="",cdH=null;
+  if(isToday){
+    if(ghMornStart!=null&&nowH<(ghMornEnd||ghMornStart+1)){cdLabel="Goldene Stunde morgens beginnt in";cdH=ghMornStart;}
+    else if(ghMornEnd!=null&&nowH>=ghMornStart&&nowH<ghMornEnd){cdLabel="Goldene Stunde morgens endet in";cdH=ghMornEnd;}
+    else if(ghEveStart!=null&&nowH<ghEveStart){cdLabel="Goldene Stunde abends beginnt in";cdH=ghEveStart;}
+    else if(ghEveEnd!=null&&nowH>=ghEveStart&&nowH<ghEveEnd){cdLabel="Goldene Stunde abends endet in";cdH=ghEveEnd;}
+  }
+  let cdHTML="";
+  if(cdH!=null){const diff=cdH-nowH;const hh=Math.floor(diff);const mm=Math.round((diff-hh)*60);cdHTML=`<div class="gh-countdown">${String(hh).padStart(2,"0")}h ${String(mm).padStart(2,"0")}min</div><div class="gh-countdown-label">${cdLabel}</div>`;}
+  el.innerHTML=`<div class="gh-result">${cdHTML}<div class="gh-row"><span class="gh-key">🌅 Sonnenaufgang</span><span class="gh-val">${fmtH(sunrise)}</span></div><div class="gh-row"><span class="gh-key">✨ Goldene Stunde morgens</span><span class="gh-val gold">${fmtH(ghMornStart)} – ${fmtH(ghMornEnd)}</span></div><div class="gh-row"><span class="gh-key">☀️ Sonnenmittagszeit</span><span class="gh-val">${fmtH(toLocal(solarNoonUTC))}</span></div><div class="gh-row"><span class="gh-key">✨ Goldene Stunde abends</span><span class="gh-val gold">${fmtH(ghEveStart)} – ${fmtH(ghEveEnd)}</span></div><div class="gh-row"><span class="gh-key">🌇 Sonnenuntergang</span><span class="gh-val">${fmtH(sunset)}</span></div></div>`;
+}
+
+document.addEventListener("DOMContentLoaded",()=>{const ld=document.getElementById("log-date");if(ld)ld.value=new Date().toISOString().slice(0,10);const ghd=document.getElementById("gh-date");if(ghd)ghd.value=new Date().toISOString().slice(0,10);const lastTab=localStorage.getItem("foto_lasttab");const validTabs=["kamera","szenarien","checkliste","notizen","referenz","rechner"];if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);calcBelichtung();updateDoF();calcSpeicher();calcGoldenHour();renderAkkus();});
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 </script>
 </body>
