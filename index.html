@@ -597,7 +597,7 @@
 
 <script>
 const STORE="foto_v2";
-function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit",akkus:{sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]}};}
+function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit",akkus:{sony:["geladen","geladen","geladen"],canon:["geladen","geladen","geladen"]}};}
 function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();const def=emptyData();return Object.assign(def,d,{checks:d.checks||{},notes:d.notes||[],shootingLog:d.shootingLog||[],akkus:d.akkus||def.akkus});}catch{return emptyData();}}
 function save(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){toast("⚠️ Speicher voll – Daten konnten nicht gespeichert werden.");}}
 function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
@@ -801,7 +801,7 @@ function renderAkkus(){
     }).join("");
   };
   renderGroup("akku-sony","sony",["S–1","S–2","S–3"]);
-  renderGroup("akku-canon","canon",["C–1","C–2"]);
+  renderGroup("akku-canon","canon",["C–1","C–2","C–3"]);
 }
 function toggleAkku(cam,idx){
   const data=load();
@@ -812,7 +812,7 @@ function toggleAkku(cam,idx){
 }
 function resetAkkus(){
   const data=load();
-  data.akkus={sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]};
+  data.akkus={sony:["geladen","geladen","geladen"],canon:["geladen","geladen","geladen"]};
   save(data);renderAkkus();toast("Akkus zurückgesetzt.");
 }
 
