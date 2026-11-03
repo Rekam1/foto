@@ -1,871 +1,214 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Foto Companion – Hochzeit Setup</title>
-  <link rel="manifest" href="manifest.json"/>
-  <meta name="theme-color" content="#0f172a"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Foto"/>
-  <style>
-    :root {
-      --bg:#0f172a;--text:#f8fafc;--muted:#94a3b8;--accent:#f59e0b;
-      --danger:#fb7185;--ok:#34d399;--warn:#fbbf24;--border:rgba(255,255,255,0.1);
-      --sony:#60a5fa;--canon:#f97316;--nav-h:64px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    html,body{height:100%;}
-    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);overscroll-behavior:none;}
-    #app{display:flex;flex-direction:column;height:100vh;height:100dvh;}
-    .app-header{background:rgba(15,23,42,0.97);border-bottom:1px solid var(--border);padding:14px 16px;padding-top:max(14px,env(safe-area-inset-top));position:sticky;top:0;z-index:10;}
-    .app-header h1{font-size:20px;font-weight:800;color:var(--accent);}
-    .app-header .sub{font-size:13px;color:var(--muted);margin-top:2px;}
-    .tab-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px;padding-bottom:calc(var(--nav-h) + 24px);}
-    .bottom-nav{display:flex;background:rgba(17,24,39,0.98);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom);height:var(--nav-h);flex-shrink:0;}
-    .bottom-nav button{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-size:8px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
-    .bottom-nav button.active{color:var(--accent);}
-    .bottom-nav button svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor;}
-    .tab{display:none;}.tab.active{display:block;}
-    .card{background:rgba(17,24,39,0.94);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;}
-    .card-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;}
-    .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;}
-    .badge-c1{background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.5);}
-    .badge-c2{background:rgba(167,139,250,0.15);color:#a78bfa;border:1px solid rgba(167,139,250,0.5);}
-    .badge-s1{background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.5);}
-    .badge-s2{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.5);}
-    .badge-sony{background:rgba(96,165,250,0.15);color:var(--sony);border:1px solid rgba(96,165,250,0.4);}
-    .badge-canon{background:rgba(249,115,22,0.15);color:var(--canon);border:1px solid rgba(249,115,22,0.4);}
-    .setting-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:10px;}
-    .setting-row:last-child{border-bottom:none;}
-    .setting-key{font-size:13px;color:var(--muted);flex-shrink:0;}
-    .setting-val{font-size:13px;font-weight:700;color:var(--text);text-align:right;}
-    .tip-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;color:#fbbf24;line-height:1.5;}
-    .tip-box.blue{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.25);color:#7dd3fc;}
-    .tip-box.green{background:rgba(52,211,153,0.08);border-color:rgba(52,211,153,0.25);color:#86efac;}
-    .lens-pill{display:inline-block;background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:999px;font-size:11px;color:#38bdf8;padding:3px 10px;margin:2px 3px 2px 0;}
-    .scenario-card,.situation-card{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;background:rgba(17,24,39,0.6);}
-    .scenario-head,.situation-head{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
-    .scenario-head:active,.situation-head:active{background:rgba(255,255,255,0.03);}
-    .scenario-body,.situation-body{padding:0 14px 14px;display:none;}
-    .scenario-body.open,.situation-body.open{display:block;}
-    .scenario-icon{font-size:26px;flex-shrink:0;}
-    .scenario-name{font-size:15px;font-weight:700;}
-    .scenario-tag{font-size:12px;color:var(--muted);margin-top:2px;}
-    .timeline-row{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-    .timeline-row:last-child{border-bottom:none;}
-    .tl-time{font-size:11px;font-weight:700;color:var(--accent);flex-shrink:0;width:64px;padding-top:2px;}
-    .tl-event{font-size:14px;font-weight:700;}
-    .tl-notes{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.4;}
-    .tl-lens{font-size:11px;color:#38bdf8;margin-top:3px;}
-    .cl-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-    .cl-btn{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.15s;}
-    .cl-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,0.1);}
-    .progress-wrap{margin-bottom:14px;}
-    .progress-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px;}
-    .progress-bar{height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;}
-    .progress-fill{height:100%;background:var(--ok);border-radius:999px;transition:width 0.3s;}
-    .phase-block{margin-bottom:6px;}
-    .phase-header{display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(17,24,39,0.8);border:1px solid var(--border);border-radius:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color 0.15s;}
-    .phase-header.all-done{border-color:var(--ok);}
-    .phase-icon{font-size:18px;flex-shrink:0;}
-    .phase-title{font-size:14px;font-weight:700;flex:1;}
-    .phase-sub{font-size:11px;color:var(--muted);}
-    .phase-pct{font-size:11px;font-weight:700;color:var(--ok);flex-shrink:0;}
-    .phase-tasks{background:rgba(2,6,23,0.5);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;padding:4px 14px 10px;margin-top:-4px;display:none;}
-    .phase-tasks.open{display:block;}
-    .task-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-    .task-row:last-child{border-bottom:none;}
-    .task-cb{width:22px;height:22px;border:2px solid var(--border);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;}
-    .task-cb.done{background:var(--ok);border-color:var(--ok);}
-    .task-cb.done::after{content:'✓';font-size:13px;font-weight:800;color:#0f172a;}
-    .task-info{flex:1;min-width:0;}
-    .task-text{font-size:14px;line-height:1.4;}
-    .task-text.done{text-decoration:line-through;color:var(--muted);}
-    .task-lens{font-size:11px;color:#38bdf8;margin-top:2px;}
-    .note-item{border-top:1px solid var(--border);padding:12px 0;}
-    .note-item:first-child{border-top:none;padding-top:0;}
-    .note-text{font-size:15px;line-height:1.4;white-space:pre-wrap;}
-    .note-meta{font-size:11px;color:var(--muted);margin-top:5px;display:flex;justify-content:space-between;}
-    .btn{display:block;width:100%;padding:13px 16px;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;text-align:center;font-family:inherit;-webkit-tap-highlight-color:transparent;}
-    .btn-primary{background:var(--accent);color:#0f172a;}
-    textarea{width:100%;background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:11px 13px;font-size:16px;outline:none;font-family:inherit;min-height:80px;resize:vertical;line-height:1.4;}
-    textarea:focus{border-color:var(--accent);}
-    .empty{color:var(--muted);font-size:15px;text-align:center;padding:28px 0;}
-    .toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:50%;transform:translateX(-50%) translateY(16px);background:#1e293b;color:var(--text);border:1px solid var(--border);padding:10px 22px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:opacity 0.2s,transform 0.2s;pointer-events:none;z-index:200;white-space:nowrap;}
-    .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-    .chevron{transition:transform 0.2s;color:var(--muted);flex-shrink:0;}
-    .chevron.open{transform:rotate(90deg);}
-    .step-list{font-size:13px;color:var(--muted);line-height:2;}
-    .step-list b{color:var(--text);}
-    .ref-section{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.07em;margin:18px 0 8px;}
-    .ref-section:first-child{margin-top:0;}
-    .menu-path{font-size:12px;color:#38bdf8;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:7px 10px;margin-top:8px;line-height:1.7;}
-    .menu-path b{color:#7dd3fc;}
-    .wb-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
-    .wb-row:last-child{border-bottom:none;}
-    .wb-k{font-size:13px;font-weight:700;flex:1;}
-    .wb-v{font-size:13px;color:var(--muted);}
-    .wb-swatch{width:18px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,0.15);}
-    .calc-label{font-size:12px;color:var(--muted);margin-bottom:5px;}
-    .calc-select{width:100%;background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font-size:14px;outline:none;font-family:inherit;}
-    .calc-select:focus{border-color:var(--accent);}
-    .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-    .calc-group{margin-bottom:10px;}
-    .calc-result{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:12px 14px;margin-top:10px;}
-    .calc-result-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:8px;}
-    .calc-result-row:last-child{border-bottom:none;}
-    .calc-result-key{font-size:12px;color:var(--muted);}
-    .calc-result-val{font-size:12px;font-weight:700;color:var(--accent);text-align:right;}
-    .range-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
-    .range-row input[type=range]{flex:1;accent-color:var(--accent);}
-    .range-val{font-size:13px;font-weight:700;color:var(--accent);min-width:56px;text-align:right;}
-    .lens-card{background:rgba(17,24,39,0.6);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;}
-    .akku-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
-    .akku-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:12px;border:1.5px solid var(--border);background:rgba(255,255,255,0.03);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all 0.15s;font-family:inherit;}
-    .akku-btn .akku-icon{font-size:20px;}
-    .akku-btn .akku-label{font-size:10px;font-weight:700;color:var(--muted);}
-    .akku-btn.geladen{border-color:var(--ok);background:rgba(52,211,153,0.1);}
-    .akku-btn.geladen .akku-label{color:var(--ok);}
-    .akku-btn.inkamera{border-color:var(--sony);background:rgba(96,165,250,0.1);}
-    .akku-btn.inkamera .akku-label{color:var(--sony);}
-    .akku-btn.leer{border-color:var(--danger);background:rgba(251,113,133,0.1);}
-    .akku-btn.leer .akku-label{color:var(--danger);}
-    .gh-result{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:12px 14px;margin-top:10px;}
-    .gh-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);gap:8px;}
-    .gh-row:last-child{border-bottom:none;}
-    .gh-key{font-size:12px;color:var(--muted);}
-    .gh-val{font-size:13px;font-weight:700;color:var(--accent);}
-    .gh-val.gold{color:#fbbf24;}
-    .gh-val.blue{color:#7dd3fc;}
-    .gh-countdown{text-align:center;font-size:22px;font-weight:800;color:var(--accent);padding:8px 0 4px;}
-    .gh-countdown-label{text-align:center;font-size:11px;color:var(--muted);margin-bottom:6px;}
-    .pose-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-    .pose-card{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:10px 12px;}
-    .pose-cue{font-size:13px;font-weight:700;color:var(--text);line-height:1.4;}
-    .pose-why{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
-    .licht-card{background:rgba(17,24,39,0.8);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;}
-    .licht-title{font-size:14px;font-weight:800;margin-bottom:8px;}
-    .licht-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;}
-    .lens-name{font-size:13px;font-weight:800;margin-bottom:6px;}
-    .lens-use{font-size:12px;color:var(--muted);line-height:1.5;margin-top:6px;}
-    .log-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
-    .log-input{background:rgba(2,6,23,0.8);border:1px solid var(--border);border-radius:10px;color:var(--text);padding:9px 12px;font-size:14px;outline:none;font-family:inherit;width:100%;}
-    .log-input:focus{border-color:var(--accent);}
-    .log-entry{border-top:1px solid var(--border);padding:10px 0;}
-    .log-entry:first-child{border-top:none;padding-top:0;}
-    .log-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
-    .log-event{font-size:14px;font-weight:700;}
-    .log-date{font-size:11px;color:var(--accent);font-weight:700;}
-    .log-loc{font-size:12px;color:var(--muted);margin-top:1px;}
-    .log-body{font-size:13px;margin-top:4px;white-space:pre-wrap;}
-    .log-del{font-size:11px;color:var(--danger);cursor:pointer;flex-shrink:0;padding:2px 4px;}
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Foto Companion</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0f172a"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Foto"/>
+<style>
+:root{--bg:#0a0e1a;--surface:#141925;--surface-light:#1e2535;--text:#f8fafc;--text-muted:#94a3b8;--accent:#f59e0b;--accent-hover:#fbbf24;--border:rgba(255,255,255,0.08);--success:#34d399;--danger:#fb7185;--sony:#60a5fa;--canon:#f97316;--nav-h:70px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overscroll-behavior:none}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+.app-header{background:linear-gradient(180deg,rgba(20,25,37,0.98) 0%,rgba(20,25,37,0.95) 100%);border-bottom:1px solid var(--border);padding:16px 20px;padding-top:max(16px,env(safe-area-inset-top));position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+.header-content{display:flex;align-items:center;gap:12px}
+.back-btn{display:none;align-items:center;justify-content:center;width:36px;height:36px;border:none;background:var(--surface-light);border-radius:10px;color:var(--text);cursor:pointer;transition:all 0.2s}
+.back-btn.show{display:flex}
+.back-btn:active{transform:scale(0.95);background:var(--surface)}
+.back-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5}
+.header-title{font-size:22px;font-weight:800;color:var(--text)}
+.header-subtitle{font-size:13px;color:var(--text-muted);font-weight:500;margin-top:2px}
+.view{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;padding-bottom:calc(var(--nav-h) + 20px)}
+.view.active{display:block}
+.scenario-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:10px}
+.scenario-card{background:linear-gradient(135deg,var(--surface) 0%,var(--surface-light) 100%);border:1px solid var(--border);border-radius:20px;padding:24px 20px;cursor:pointer;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.scenario-card:active{transform:scale(0.98);border-color:var(--accent)}
+.scenario-icon{width:56px;height:56px;background:rgba(245,158,11,0.12);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:28px}
+.scenario-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px}
+.scenario-desc{font-size:14px;color:var(--text-muted);line-height:1.5}
+.camera-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px}
+.camera-card{background:var(--surface);border:2px solid var(--border);border-radius:20px;padding:28px 24px;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);-webkit-tap-highlight-color:transparent}
+.camera-card.sony:active{border-color:var(--sony);background:rgba(96,165,250,0.05)}
+.camera-card.canon:active{border-color:var(--canon);background:rgba(249,115,22,0.05)}
+.camera-brand{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px}
+.camera-card.sony .camera-brand{color:var(--sony)}
+.camera-card.canon .camera-brand{color:var(--canon)}
+.camera-model{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
+.camera-specs{font-size:13px;color:var(--text-muted);line-height:1.6}
+.setting-section{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px}
+.setting-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:14px}
+.setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);gap:12px}
+.setting-item:last-child{border-bottom:none;padding-bottom:0}
+.setting-item:first-child{padding-top:0}
+.setting-label{font-size:15px;color:var(--text-muted);font-weight:500}
+.setting-value{font-size:16px;font-weight:700;color:var(--text);text-align:right}
+.setting-value.highlight{color:var(--accent)}
+.info-box{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:14px;padding:14px 16px;margin-top:16px;font-size:13px;color:var(--accent-hover);line-height:1.6}
+.info-box.blue{background:rgba(96,165,250,0.08);border-color:rgba(96,165,250,0.2);color:#7dd3fc}
+.info-box-title{font-weight:700;margin-bottom:6px}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}
+.quick-btn{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 12px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.quick-btn:active{transform:scale(0.97);background:var(--surface-light);border-color:var(--accent)}
+.bottom-nav{display:flex;background:rgba(20,25,37,0.98);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom);height:var(--nav-h);flex-shrink:0;backdrop-filter:blur(20px)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;border:none;color:var(--text-muted);font-size:11px;font-weight:600;cursor:pointer;transition:color 0.2s;-webkit-tap-highlight-color:transparent}
+.nav-btn.active{color:var(--accent)}
+.nav-btn svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:0.5}
+.empty-text{font-size:16px;font-weight:600;margin-bottom:8px}
+.empty-subtext{font-size:13px;opacity:0.7}
+</style>
 </head>
 <body>
 <div id="app">
-  <header class="app-header">
-    <h1>📷 Foto Companion</h1>
-    <div class="sub">Sony + Canon · Hochzeit · Christian</div>
-  </header>
-
-  <div class="tab-content">
-    <section class="tab active" id="tab-kamera">
-
-      <div class="card" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.04)">
-        <div class="card-title" style="color:var(--ok)">Arbeitsregel Hochzeit</div>
-        <div style="font-size:17px;font-weight:800;margin-bottom:8px">Wenn unsicher: Sony.</div>
-        <div class="setting-row"><span class="setting-key">Sony A7C II + Tamron 28–200</span><span class="setting-val" style="color:var(--sony)">Sicherheit · Distanz · schnelle Momente</span></div>
-        <div class="setting-row"><span class="setting-key">Canon R5 II + RF 35mm</span><span class="setting-val" style="color:var(--canon)">Nähe · Stimmung · Low Light</span></div>
-        <div class="setting-row"><span class="setting-key">Regel</span><span class="setting-val">Schnell passiert → Sony · Nähe/Emotion → Canon</span></div>
-        <div class="tip-box green">Kein Objektivwechsel in kritischen Momenten. Fuji bleibt zuhause. Zwei Systeme sind genug.</div>
-      </div>
-
-      <div class="card" style="border-color:rgba(96,165,250,0.35)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Sony A7C II – Hauptkamera</div>
-          <span class="badge badge-sony">Sony</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Objektiv</span><span class="setting-val">Tamron 28–200mm f/2.8–5.6</span></div>
-        <div class="setting-row"><span class="setting-key">Rolle</span><span class="setting-val">Einzug, Auszug, Ringtausch aus Distanz, Gäste, Gruppen</span></div>
-        <div class="setting-row"><span class="setting-key">Kirche</span><span class="setting-val">M + Auto-ISO · 1/250s · offen · ISO max. 25600</span></div>
-        <div class="setting-row"><span class="setting-key">Draussen</span><span class="setting-val">M + Auto-ISO · 1/500s · offen/f4–5.6 · ISO max. 6400</span></div>
-        <div class="setting-row"><span class="setting-key">AF</span><span class="setting-val">AF-C + Eye AF / Tracking</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss Kirche</span><span class="setting-val">Mechanisch oder EFCS · nicht voll elektronisch</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss draussen</span><span class="setting-val">EFCS · elektronisch nur bei ruhigen Szenen</span></div>
-        <div class="tip-box blue">Sony ist dein Anker. Wenn du Stress spürst oder ein Moment nicht wiederholbar ist: Sony nehmen.</div>
-      </div>
-
-      <div class="card" style="border-color:rgba(52,211,153,0.35)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Sony 1 – Kirche / Zeremonie</div>
-          <span class="badge badge-sony">Sony</span>
-          <span class="badge badge-s1">1</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val" style="color:var(--ok)">Mechanisch oder EFCS</span></div>
-        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/250s</span></div>
-        <div class="setting-row"><span class="setting-key">Objektiv</span><span class="setting-val">Tamron 28–200mm f/2.8–5.6</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">offen · f/2.8–f/4 je Brennweite</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val" style="color:var(--ok)">Auto · max. 25600</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">AF-C</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Tracking · Eye AF EIN</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild oder Low</span></div>
-        <div class="setting-row"><span class="setting-key">Weissabgleich</span><span class="setting-val">AWB</span></div>
-        <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW · Dual-Slot Backup</span></div>
-        <div class="tip-box blue">Sony 1 ist dein ruhiger Kirchen-Modus. Mechanisch wegen LED-Banding und Flackerlicht. Grosse ISO-Reserve für dunkle Kirchen.</div>
-      </div>
-
-      <div class="card" style="border-color:rgba(251,191,36,0.35)">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Sony 2 – Draussen / Apéro</div>
-          <span class="badge badge-sony">Sony</span>
-          <span class="badge badge-s2">2</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">EFCS · elektronischer 1. Vorhang</span></div>
-        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/500s</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">f/4.0–f/5.6</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto · max. 6400</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">AF-C</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Tracking · Eye AF EIN</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">High moderat · kein Burst nötig</span></div>
-        <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW · Dual-Slot Backup</span></div>
-        <div class="tip-box blue">Sony 2 für Gratulationen, Umarmungen, Apéro, schnelle Reaktionen aus Distanz. Tamron auf 70–135mm für Emotionen.</div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Canon C1 – Kirche / Zeremonie</div>
-          <span class="badge badge-c1">C1</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val" style="color:var(--ok)">Mechanisch als Default</span></div>
-        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/250s</span></div>
-        <div class="setting-row"><span class="setting-key">Objektiv</span><span class="setting-val">RF 35mm f/1.8 IS STM</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">f/2.0 als Start · f/1.8 nur wenn nötig</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val" style="color:var(--ok)">Auto · max. 25600</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF · Personen + Auge</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild oder Low/Mid</span></div>
-        <div class="setting-row"><span class="setting-key">Weissabgleich</span><span class="setting-val">AWB · Priorität Weiss</span></div>
-        <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW · Dual-Slot Backup</span></div>
-        <div class="setting-row"><span class="setting-key" style="color:var(--danger)">Auto-Update C-Modi</span><span class="setting-val" style="color:var(--danger)">OFF</span></div>
-        <div class="tip-box">C1 ist dein ruhiger Canon-Modus. Mechanisch bleibt drin, weil Kirche LED-Banding und Flackerlicht haben kann. Geräusch ist kleineres Risiko als kaputte Streifen im Bild.</div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-          <div style="font-size:17px;font-weight:800">Canon C2 – Draussen / Apéro</div>
-          <span class="badge badge-c2">C2</span>
-        </div>
-        <div class="setting-row"><span class="setting-key">Modus</span><span class="setting-val">M + Auto-ISO</span></div>
-        <div class="setting-row"><span class="setting-key">Verschluss</span><span class="setting-val">EFCS · elektronischer 1. Vorhang</span></div>
-        <div class="setting-row"><span class="setting-key">Verschlusszeit</span><span class="setting-val">1/500s</span></div>
-        <div class="setting-row"><span class="setting-key">Blende</span><span class="setting-val">f/2.8–f/4.0</span></div>
-        <div class="setting-row"><span class="setting-key">ISO</span><span class="setting-val">Auto · max. 6400</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Betrieb</span><span class="setting-val">Servo AF</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Methode</span><span class="setting-val">Ganzbereichs-AF · Personen + Auge</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">H moderat · keine 30 fps nötig</span></div>
-        <div class="setting-row"><span class="setting-key">Format</span><span class="setting-val">RAW · Dual-Slot Backup</span></div>
-        <div class="tip-box">C2 ist für Gratulationen, Umarmungen, Apéro, schnelle Reaktionen und kleine Gruppen. Canon 35mm gibt Nähe, Sony bleibt für Distanz bereit.</div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Canon C1 speichern</div>
-        <div class="step-list">
-          1. Modus-Wahlrad auf <b>M</b> · Zeit <b>1/250s</b> · Blende <b>f/2.0</b><br>
-          2. ISO auf <b>Auto</b> · Auto-ISO-Limit <b>25600</b><br>
-          3. Menü Rot · Verschluss-Modus · <b>Mechanisch</b><br>
-          4. AF · Servo · Ganzbereichs-AF · Personen + Auge EIN<br>
-          5. Weissabgleich · AWB · Priorität Weiss<br>
-          6. Auto-Update für C-Modi · <b style="color:var(--danger)">OFF</b><br>
-          7. Individual-Aufnahmemodus · Einstellungen registrieren · <b>C1</b>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Canon C2 speichern</div>
-        <div class="step-list">
-          1. Modus-Wahlrad auf <b>M</b> · Zeit <b>1/500s</b> · Blende <b>f/2.8</b><br>
-          2. ISO auf <b>Auto</b> · Auto-ISO-Limit <b>6400</b><br>
-          3. Verschluss-Modus · <b>Elektronischer 1. Vorhang / EFCS</b><br>
-          4. Drive · <b>H moderat</b><br>
-          5. AF · Servo · Ganzbereichs-AF · Personen + Auge EIN<br>
-          6. Individual-Aufnahmemodus · Einstellungen registrieren · <b>C2</b>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title" style="color:#34d399">Sony 1 speichern <span class="badge badge-s1" style="vertical-align:middle">Kirche</span></div>
-        <div class="step-list">
-          1. Modus-Wahlrad auf <b>M</b> · Zeit <b>1/250s</b> · Blende <b>offen</b><br>
-          2. ISO auf <b>Auto</b> · Auto-ISO-Limit <b>25600</b><br>
-          3. Kamera 1 → Verschluss-/Tonlos-Einst. → <b>Mechanisch</b><br>
-          4. AF-C · Eye AF / Subject Recognition · <b>EIN</b><br>
-          5. Drive · <b>Einzelbild oder Low</b><br>
-          6. Weissabgleich · <b>AWB</b><br>
-          7. Kamera 1 → Speicher speich./aufrufen → Speichern → <b>1</b>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title" style="color:#fbbf24">Sony 2 speichern <span class="badge badge-s2" style="vertical-align:middle">Draussen</span></div>
-        <div class="step-list">
-          1. Modus-Wahlrad auf <b>M</b> · Zeit <b>1/500s</b> · Blende <b>f/4.0–f/5.6</b><br>
-          2. ISO auf <b>Auto</b> · Auto-ISO-Limit <b>6400</b><br>
-          3. Kamera 1 → Verschluss-/Tonlos-Einst. → <b>EFCS</b><br>
-          4. AF-C · Eye AF / Subject Recognition · <b>EIN</b><br>
-          5. Drive · <b>High moderat</b><br>
-          6. Kamera 1 → Speicher speich./aufrufen → Speichern → <b>2</b>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Deine echten Objektive</div>
-        <div class="lens-card" style="border-color:rgba(249,115,22,0.4)">
-          <div class="lens-name">Canon RF 35mm f/1.8 IS STM Macro</div>
-          <div><span class="badge badge-canon">Canon</span><span class="badge badge-c1">Kirche</span></div>
-          <div class="setting-row"><span class="setting-key">Rolle</span><span class="setting-val">Nähe · Stimmung · Low Light · Details</span></div>
-          <div class="setting-row"><span class="setting-key">Startblende</span><span class="setting-val">f/2.0</span></div>
-          <div class="setting-row"><span class="setting-key">Vorteil vs. f/4</span><span class="setting-val">ca. 2.3 Blenden · rund 5× mehr Licht</span></div>
-          <div class="lens-use">Kirche, ruhige Emotionen, Apéro-Nähe, Umarmungen, Deko, Ringe als Nahaufnahme.</div>
-        </div>
-        <div class="lens-card">
-          <div class="lens-name">Canon EF 24–105mm f/4 L IS USM</div>
-          <div><span class="badge badge-canon">Canon</span><span class="badge">Backup</span></div>
-          <div class="setting-row"><span class="setting-key">Rolle</span><span class="setting-val">flexibles Canon-Backup</span></div>
-          <div class="lens-use">Gruppen, Überblick, sichere Brennweiten, wenn 35mm zu eng oder zu weit ist.</div>
-        </div>
-        <div class="lens-card">
-          <div class="lens-name">Canon RF 24–240mm f/4–6.3 IS USM</div>
-          <div><span class="badge badge-canon">Canon</span><span class="badge">nur draussen</span></div>
-          <div class="setting-row"><span class="setting-key">Rolle</span><span class="setting-val">Reichweite draussen · Backup</span></div>
-          <div class="lens-use">Nicht als Kirchen-Hauptlinse. Ab 100mm wird sie lichtschwach.</div>
-        </div>
-        <div class="lens-card" style="border-color:rgba(96,165,250,0.4)">
-          <div class="lens-name">Tamron 28–200mm f/2.8–5.6 für Sony</div>
-          <div><span class="badge badge-sony">Sony</span><span class="badge">Hauptkamera</span></div>
-          <div class="setting-row"><span class="setting-key">Rolle</span><span class="setting-val">Sicherheit · Distanz · Reaktion</span></div>
-          <div class="lens-use">28–50mm für Kontext, 70–135mm für Emotion aus Distanz, 135–200mm für unauffällige Candid-Momente.</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Akku-Status</div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">Antippen zum Wechseln: <span style="color:var(--ok)">■ geladen</span> → <span style="color:var(--sony)">■ in Kamera</span> → <span style="color:var(--danger)">■ leer</span></div>
-        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Sony NP-FZ100</div>
-        <div class="akku-grid" id="akku-sony"></div>
-        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Canon LP-E6NH</div>
-        <div class="akku-grid" id="akku-canon"></div>
-        <button class="btn" style="margin-top:8px;background:rgba(255,255,255,0.05);color:var(--muted);font-size:13px;padding:9px" onclick="resetAkkus()">Alle auf geladen zurücksetzen</button>
-      </div>
-    </section>
-
-    <section class="tab" id="tab-szenarien">
-      <div id="szenarien-list"></div>
-    </section>
-
-    <section class="tab" id="tab-checkliste">
-      <div class="cl-selector" id="cl-selector"></div>
-      <div id="cl-progress"></div>
-      <div id="cl-list"></div>
-    </section>
-
-    <section class="tab" id="tab-notizen">
-      <div class="card">
-        <div class="card-title">Neue Notiz</div>
-        <textarea id="note-input" placeholder="Gedanke, Einstellung, Idee..."></textarea>
-        <button class="btn btn-primary" onclick="saveNote()" style="margin-top:10px">Speichern</button>
-      </div>
-      <div class="card">
-        <div class="card-title">Notizen</div>
-        <div id="notes-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">Shooting-Log</div>
-        <div class="log-form-grid">
-          <div>
-            <div class="calc-label">Datum</div>
-            <input class="log-input" type="date" id="log-date">
-          </div>
-          <div>
-            <div class="calc-label">Event-Typ</div>
-            <select class="log-input calc-select" id="log-type">
-              <option>Hochzeit</option><option>Testlauf</option><option>Portrait</option><option>Event</option><option>Sonstiges</option>
-            </select>
-          </div>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Ort</div>
-          <input class="log-input" type="text" id="log-loc" placeholder="z.B. Kirche, Apéro-Location">
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Notiz / Learnings</div>
-          <textarea class="log-input" id="log-notes" placeholder="Was lief gut? Was verbessern? Einstellungen?" style="min-height:60px;resize:vertical"></textarea>
-        </div>
-        <button class="btn btn-primary" onclick="saveLog()">Log speichern</button>
-        <div id="log-list" style="margin-top:14px"></div>
-      </div>
-    </section>
-
-    <section class="tab" id="tab-referenz">
-      <div class="ref-section">Notfall-Einstellungen</div>
-      <div id="situations-list"></div>
-
-      <div class="ref-section">Weissabgleich</div>
-      <div class="card">
-        <div class="wb-row"><div class="wb-swatch" style="background:#ff6a00"></div><div class="wb-k">Kerze / Feuer</div><div class="wb-v">~1800 K</div></div>
-        <div class="wb-row"><div class="wb-swatch" style="background:#ff9a3c"></div><div class="wb-k">Glühlampe / Tungsten</div><div class="wb-v">~3200 K</div></div>
-        <div class="wb-row"><div class="wb-swatch" style="background:#ffc97a"></div><div class="wb-k">Leuchtstoffröhre</div><div class="wb-v">~4000 K</div></div>
-        <div class="wb-row"><div class="wb-swatch" style="background:#fff4e0"></div><div class="wb-k">Blitz / Speedlite</div><div class="wb-v">~5500 K</div></div>
-        <div class="wb-row"><div class="wb-swatch" style="background:#fff8f0"></div><div class="wb-k">Sonne Mittag</div><div class="wb-v">~5200 K</div></div>
-        <div class="wb-row"><div class="wb-swatch" style="background:#e8f0ff"></div><div class="wb-k">Bewölkt / Schatten</div><div class="wb-v">~6500 K</div></div>
-        <div class="tip-box">RAW rettet viel, aber sauberer Weissabgleich im Sucher hilft dir, Belichtung und Stimmung besser zu beurteilen.</div>
-      </div>
-
-      <div class="ref-section">Direktions-Cues – natürliche Reaktionen auslösen</div>
-      <div class="card">
-        <div class="pose-grid">
-          <div class="pose-card"><div class="pose-cue">„Flüster ihr was Quatschiges ins Ohr"</div><div class="pose-why">Auslöst echtes Lachen, kein Posier-Lächeln.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Geh einfach los – schau sie nicht an"</div><div class="pose-why">Natürliche Bewegung, kein steifes Stehen.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Zeig mir deine Hände zusammen"</div><div class="pose-why">Ringe sichtbar, intime Geste, funktioniert immer.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Stirn an Stirn – Augen zu"</div><div class="pose-why">Ruhiges, romantisches Bild, keine Augen-Problemzone.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Dreh dich um und warte – nicht schauen"</div><div class="pose-why">Der Moment des Umdrehens ist oft der stärkste.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Sag mir was du an ihr liebst"</div><div class="pose-why">Echter Gesichtsausdruck, keine gestellte Emotion.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Geh ganz nah – näher als du denkst"</div><div class="pose-why">Paare halten zu viel Abstand. Nähe = Stimmung.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Schau sie an als würde niemand zuschauen"</div><div class="pose-why">Entspannt, gibt Paaren Erlaubnis zu sein wie sie sind.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Halt ihre Hand und geh – wohin ist egal"</div><div class="pose-why">Einfachste Walking-Shot-Variante, immer natürlich.</div></div>
-          <div class="pose-card"><div class="pose-cue">„Küss sie auf die Stirn"</div><div class="pose-why">Zärtlicher als Kuss auf Mund, zeigt Fürsorge.</div></div>
-        </div>
-      </div>
-
-      <div class="ref-section">Licht-Situationen</div>
-      <div class="licht-card">
-        <div class="licht-title">Gegenlicht <span class="licht-badge" style="background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.4)">nutzen</span></div>
-        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">Gesichter zu dunkel, Hintergrund überstrahlt</span></div>
-        <div class="setting-row"><span class="setting-key">Lösung</span><span class="setting-val">Belichtung auf Gesicht · +1 bis +2 EV</span></div>
-        <div class="setting-row"><span class="setting-key">Trick</span><span class="setting-val">Sonne knapp ausserhalb Bild → Rim-Light-Effekt</span></div>
-        <div class="setting-row"><span class="setting-key">Kamera</span><span class="setting-val">Canon 35mm · kurze Distanz</span></div>
-        <div class="tip-box">Gegenlicht ist kein Problem – es ist die beste kostenlose Softbox. Histogramm rechts anhalten ohne Gesicht auszubrennen.</div>
-      </div>
-      <div class="licht-card">
-        <div class="licht-title">Mischicht <span class="licht-badge" style="background:rgba(251,113,133,0.15);color:#fb7185;border:1px solid rgba(251,113,133,0.4)">tricky</span></div>
-        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">LED-Raumlicht + Tageslicht = Farbstich-Chaos</span></div>
-        <div class="setting-row"><span class="setting-key">WB</span><span class="setting-val">AWB schlägt oft fehl → manuell 4000–4500 K</span></div>
-        <div class="setting-row"><span class="setting-key">Fokus</span><span class="setting-val">Auf Bereich mit dominantem Licht wechseln</span></div>
-        <div class="setting-row"><span class="setting-key">RAW</span><span class="setting-val">Korrektur in Post viel einfacher als in JPEG</span></div>
-        <div class="tip-box">Nicht beide Lichtquellen gleichzeitig ins Bild zwingen. Entweder Fenster oder Innenraum – nie beides als gleichwertig behandeln.</div>
-      </div>
-      <div class="licht-card">
-        <div class="licht-title">Harte Mittagssonne <span class="licht-badge" style="background:rgba(251,113,133,0.15);color:#fb7185;border:1px solid rgba(251,113,133,0.4)">vermeiden</span></div>
-        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">Harte Schatten auf Gesicht, Nasenunter-Schatten</span></div>
-        <div class="setting-row"><span class="setting-key">Lösung 1</span><span class="setting-val">Schatten suchen – Baum, Mauer, Überdachung</span></div>
-        <div class="setting-row"><span class="setting-key">Lösung 2</span><span class="setting-val">Gegenlicht: Paar zur Sonne, du in Gegenlicht</span></div>
-        <div class="setting-row"><span class="setting-key">Einstellung</span><span class="setting-val">f/5.6–f/8 draussen · ISO 100–400 · 1/1000s</span></div>
-        <div class="tip-box">Kein Paarshooting 12–15 Uhr in der Sonne. Wenn es nicht zu vermeiden ist: immer Schatten oder komplett in die Sonne drehen.</div>
-      </div>
-      <div class="licht-card">
-        <div class="licht-title">Sehr dunkle Kirche <span class="licht-badge" style="background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.4)">häufig</span></div>
-        <div class="setting-row"><span class="setting-key">Problem</span><span class="setting-val">ISO 12800+ nötig · AF kämpft</span></div>
-        <div class="setting-row"><span class="setting-key">Canon</span><span class="setting-val">C1 · f/1.8 wenn nötig · mechanisch PFLICHT</span></div>
-        <div class="setting-row"><span class="setting-key">Sony</span><span class="setting-val">Sony 1 · weit offen · ISO max. 25600</span></div>
-        <div class="setting-row"><span class="setting-key">AF-Hilfe</span><span class="setting-val">AF-Hilfslicht EIN wenn erlaubt · Spot-AF</span></div>
-        <div class="setting-row"><span class="setting-key">Drive</span><span class="setting-val">Einzelbild – kein Serienbild in Kirche</span></div>
-        <div class="tip-box">Rauschen ist besser als Unschärfe. ISO 25600 mit scharfem Bild schlägt ISO 800 mit Bewegungsunschärfe jeden Tag.</div>
-      </div>
-      <div class="licht-card">
-        <div class="licht-title">Bewölkt / Regen <span class="licht-badge" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.4)">unterschätzt</span></div>
-        <div class="setting-row"><span class="setting-key">Licht</span><span class="setting-val">Gleichmässig weich – perfekt für Portraits</span></div>
-        <div class="setting-row"><span class="setting-key">WB</span><span class="setting-val">Bewölkt ~6500 K oder AWB kontrollieren</span></div>
-        <div class="setting-row"><span class="setting-key">Belichtung</span><span class="setting-val">+0.3 bis +0.7 EV nach Histogramm</span></div>
-        <div class="setting-row"><span class="setting-key">Stimmung</span><span class="setting-val">Emotionaler als Schönwetter wenn gut umgesetzt</span></div>
-        <div class="tip-box">Grauer Himmel ist eine riesige Softbox. Nie entschuldigen – aktiv nutzen. Paar unter Schirm = starkes Bild.</div>
-      </div>
-
-      <div class="ref-section">Blitz-Grundlagen</div>
-      <div class="card">
-        <div class="setting-row"><span class="setting-key">Mechanisch / EFCS</span><span class="setting-val">Blitz möglich</span></div>
-        <div class="setting-row"><span class="setting-key">Voll elektronisch</span><span class="setting-val" style="color:var(--danger)">kein Blitz</span></div>
-        <div class="setting-row"><span class="setting-key">Startwert indoor</span><span class="setting-val">M · 1/200s · f/4 · ISO 800–1600</span></div>
-        <div class="setting-row"><span class="setting-key">Blitzmodus</span><span class="setting-val">ETTL · Korrektur -0.7 bis -1.3</span></div>
-        <div class="tip-box">Für Hochzeit nur blitzen, wenn es erlaubt ist und die Stimmung nicht zerstört wird. In der Kirche vorher fragen.</div>
-      </div>
-    </section>
-
-    <section class="tab" id="tab-rechner">
-      <div class="ref-section">Belichtungsdreieck</div>
-      <div class="card">
-        <div class="calc-group">
-          <div class="calc-label">Blende</div>
-          <div class="range-row"><input type="range" id="bt-ap" min="0" max="8" step="1" value="3" oninput="calcBelichtung()"><span class="range-val" id="bt-ap-v">f/4.0</span></div>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Verschlusszeit</div>
-          <div class="range-row"><input type="range" id="bt-sh" min="0" max="14" step="1" value="6" oninput="calcBelichtung()"><span class="range-val" id="bt-sh-v">1/125s</span></div>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">ISO</div>
-          <div class="range-row"><input type="range" id="bt-iso" min="0" max="8" step="1" value="6" oninput="calcBelichtung()"><span class="range-val" id="bt-iso-v">ISO 6400</span></div>
-        </div>
-        <div class="calc-result" id="bt-result"></div>
-      </div>
-
-      <div class="ref-section">Schärfentiefe · Full Frame</div>
-      <div class="card">
-        <div class="calc-group">
-          <div class="calc-label">Brennweite</div>
-          <div class="range-row"><input type="range" id="dof-f" min="16" max="240" value="35" step="1" oninput="updateDoF()"><span class="range-val" id="dof-f-v">35 mm</span></div>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Blende</div>
-          <select class="calc-select" id="dof-ap" onchange="updateDoF()">
-            <option value="1.8" selected>f/1.8</option><option value="2">f/2.0</option><option value="2.8">f/2.8</option><option value="4">f/4.0</option><option value="5.6">f/5.6</option><option value="8">f/8</option><option value="11">f/11</option><option value="16">f/16</option>
-          </select>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Entfernung</div>
-          <div class="range-row"><input type="range" id="dof-d" min="0.3" max="30" value="2" step="0.1" oninput="updateDoF()"><span class="range-val" id="dof-d-v">2.0 m</span></div>
-        </div>
-        <div class="calc-result" id="dof-result"></div>
-      </div>
-
-      <div class="ref-section">Goldene Stunde</div>
-      <div class="card">
-        <div class="calc-group">
-          <div class="calc-label">Datum</div>
-          <input class="log-input" type="date" id="gh-date" oninput="calcGoldenHour()" style="width:100%;margin-bottom:8px">
-        </div>
-        <div class="calc-grid">
-          <div class="calc-group">
-            <div class="calc-label">Breitengrad (°N)</div>
-            <input class="log-input" type="number" id="gh-lat" value="47.37" step="0.01" oninput="calcGoldenHour()" style="width:100%">
-          </div>
-          <div class="calc-group">
-            <div class="calc-label">Längengrad (°E)</div>
-            <input class="log-input" type="number" id="gh-lng" value="8.54" step="0.01" oninput="calcGoldenHour()" style="width:100%">
-          </div>
-        </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:2px">
-          <button class="cl-btn" onclick="setGHPreset(47.37,8.54)">Zürich</button>
-          <button class="cl-btn" onclick="setGHPreset(47.56,7.59)">Basel</button>
-          <button class="cl-btn" onclick="setGHPreset(46.95,7.44)">Bern</button>
-          <button class="cl-btn" onclick="setGHPreset(46.52,6.63)">Lausanne</button>
-        </div>
-        <div id="gh-result"></div>
-      </div>
-
-      <div class="ref-section">Speicherkarten-Rechner</div>
-      <div class="card">
-        <div class="calc-group">
-          <div class="calc-label">Kapazität</div>
-          <div class="range-row"><input type="range" id="sp-gb" min="0" max="5" step="1" value="2" oninput="calcSpeicher()"><span class="range-val" id="sp-gb-v">128 GB</span></div>
-        </div>
-        <div class="calc-group">
-          <div class="calc-label">Format</div>
-          <div class="range-row"><input type="range" id="sp-fmt" min="0" max="2" step="1" value="0" oninput="calcSpeicher()"><span class="range-val" id="sp-fmt-v">RAW</span></div>
-        </div>
-        <div class="calc-result" id="sp-result"></div>
-        <div class="tip-box">Hochzeit: lieber zu viele Karten und Akkus. Beide Kameras vor Ort auf gleiche Uhrzeit stellen.</div>
-      </div>
-    </section>
-  </div>
-
-  <nav class="bottom-nav">
-    <button class="active" id="nav-kamera" onclick="showTab('kamera')">
-      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>Kamera
-    </button>
-    <button id="nav-szenarien" onclick="showTab('szenarien')">
-      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Szenarien
-    </button>
-    <button id="nav-checkliste" onclick="showTab('checkliste')">
-      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Checkliste
-    </button>
-    <button id="nav-notizen" onclick="showTab('notizen')">
-      <svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Notizen
-    </button>
-    <button id="nav-referenz" onclick="showTab('referenz')">
-      <svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Referenz
-    </button>
-    <button id="nav-rechner" onclick="showTab('rechner')">
-      <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/><line x1="14" y1="18" x2="16" y2="18"/></svg>Rechner
-    </button>
-  </nav>
+<header class="app-header">
+<div class="header-content">
+<button class="back-btn" id="backBtn" onclick="goBack()">
+<svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+</button>
+<div>
+<div class="header-title" id="headerTitle">Foto Companion</div>
+<div class="header-subtitle" id="headerSubtitle">Was möchtest du fotografieren?</div>
 </div>
-<div id="toast" class="toast"></div>
-
-<script>
-const STORE="foto_v2";
-function emptyData(){return{checks:{},notes:[],shootingLog:[],activeCL:"hochzeit",akkus:{sony:["geladen","geladen","geladen"],canon:["geladen","geladen","geladen"]}};}
-function load(){try{const d=JSON.parse(localStorage.getItem(STORE));if(!d)return emptyData();const def=emptyData();return Object.assign(def,d,{checks:d.checks||{},notes:d.notes||[],shootingLog:d.shootingLog||[],akkus:d.akkus||def.akkus});}catch{return emptyData();}}
-function save(d){try{localStorage.setItem(STORE,JSON.stringify(d));}catch(e){toast("⚠️ Speicher voll – Daten konnten nicht gespeichert werden.");}}
-function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
-function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2300);}
-
-function showTab(tab){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  document.querySelectorAll(".bottom-nav button").forEach(b=>b.classList.remove("active"));
-  document.getElementById("tab-"+tab).classList.add("active");
-  document.getElementById("nav-"+tab).classList.add("active");
-  const tc=document.querySelector(".tab-content");if(tc)tc.scrollTop=0;
-  localStorage.setItem("foto_lasttab",tab);
-  if(tab==="szenarien")renderSzenarien();
-  if(tab==="checkliste")renderCheckliste();
-  if(tab==="notizen"){renderNotizen();renderLog();const ld=document.getElementById("log-date");if(ld&&!ld.value)ld.value=new Date().toISOString().slice(0,10);}
-  if(tab==="referenz")renderSituations();
-  if(tab==="rechner"){calcBelichtung();updateDoF();calcSpeicher();calcGoldenHour();}
-  if(tab==="kamera")renderAkkus();
-}
-
-const SCENARIOS=[
-  {id:"hochzeit",icon:"💍",name:"Hochzeit",tag:"Sony Sicherheit · Canon Nähe",lenses:["Sony A7C II + Tamron 28–200mm","Canon R5 II + RF 35mm f/1.8","Canon EF 24–105mm f/4 Backup","Canon RF 24–240mm nur draussen Backup"],settings:[
-    {k:"Grundregel",v:"Schnell passiert → Sony · Nähe/Emotion → Canon"},
-    {k:"Wenn unsicher",v:"Sony"},
-    {k:"Canon C1 Kirche",v:"M · 1/250s · f/2 · ISO max. 25600 · mechanisch"},
-    {k:"Canon C2 draussen",v:"M · 1/500s · f/2.8–4 · ISO max. 6400 · EFCS"},
-    {k:"Sony Kirche",v:"M · 1/250s · offen · ISO max. 25600 · Mech./EFCS"},
-    {k:"Sony draussen",v:"M · 1/500s · offen/f4–5.6 · ISO max. 6400"},
-    {k:"Dual-Slot",v:"beide Kameras, falls möglich: Backup auf zweite Karte"},
-    {k:"Uhrzeit",v:"Sony und Canon exakt synchronisieren"}
-  ],timeline:[
-    {time:"−90 Min",event:"Details / Ankommen",lens:"Canon 35mm für Details · Sony 28–80mm für Überblick",profile:"Canon C1 / Sony Kirche",notes:"Ringe, Blumen, Raum, Gäste, Hände, Nervosität. Ruhig starten."},
-    {time:"Einzug",event:"Braut / Bräutigam-Reaktion",lens:"Sony 50–135mm",profile:"Sony",notes:"Nicht mit Canon experimentieren. Einzug ist einmalig. Sony ist sicherer."},
-    {time:"Zeremonie",event:"ruhige Emotionen",lens:"Canon 35mm",profile:"Canon C1",notes:"Seitlich vorne oder Mitte. Nicht dauernd laufen. Nähe und Stimmung holen."},
-    {time:"Ringtausch",event:"Hände + Gesichter",lens:"Sony 100–200mm",profile:"Sony",notes:"Distanz nutzen. Erst Hände, dann Gesicht, dann Reaktion."},
-    {time:"Kuss",event:"Kuss + Reaktion danach",lens:"Sony 70–135mm",profile:"Sony",notes:"Der Kuss ist kurz. Die Sekunden danach sind oft stärker."},
-    {time:"Auszug",event:"Lachen / Konfetti",lens:"Sony 28–70mm · Canon 35mm als zweite Option",profile:"Sony + Canon C2",notes:"Sony zuerst. Canon nur, wenn du nahe stehst und genug Platz hast."},
-    {time:"Apéro",event:"Gratulationen / Gäste",lens:"Sony 50–200mm · Canon 35mm",profile:"Sony draussen / Canon C2",notes:"Sony für Candid aus Distanz. Canon für Nähe, Umarmungen, kleine Gruppen."},
-    {time:"Portraits",event:"kurzes Paarshooting",lens:"Canon 35mm · Sony 100–150mm",profile:"Canon C2 / Sony draussen",notes:"Canon für Umgebungsportraits. Sony für engere Portraits und Kompression."}
-  ],tip:"Der Tag wird nicht durch perfekte Einstellungen gewonnen, sondern durch klare Rollen: Sony sichert, Canon veredelt."},
-  {id:"test",icon:"🧪",name:"Testlauf",tag:"Vor der Hochzeit üben",lenses:["Canon 35mm","Sony 28–200mm"],settings:[
-    {k:"Canon-Übung",v:"30 Minuten nur 35mm, 1–2m Distanz, Menschen/Details"},
-    {k:"Sony-Übung",v:"10 Min 28–50mm · 10 Min 100–150mm · 10 Min frei"},
-    {k:"Wechselübung",v:"Body wechseln, kein Objektiv wechseln"},
-    {k:"Review",v:"Fokus, Hintergrund, Nähe, klare Hauptperson prüfen"}
-  ],tip:"Nicht noch mehr Menüs lernen. Wechselentscheidung trainieren."}
-];
-let openScenarios={};
-function renderSzenarien(){
-  const el=document.getElementById("szenarien-list");
-  el.innerHTML=SCENARIOS.map(s=>{
-    const o=openScenarios[s.id];
-    const tl=s.timeline?`<div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:12px 0 6px">Ablauf</div>${s.timeline.map(t=>`<div class="timeline-row"><div class="tl-time">${esc(t.time)}</div><div style="flex:1;min-width:0"><div class="tl-event">${esc(t.event)}</div>${t.profile?`<div class="tl-lens">Profil: ${esc(t.profile)}</div>`:""}<div class="tl-notes">${esc(t.notes)}</div>${t.lens?`<div class="tl-lens">📷 ${esc(t.lens)}</div>`:""}</div></div>`).join("")}`:"";
-    return`<div class="scenario-card"><div class="scenario-head" onclick="toggleScenario('${s.id}')"><div class="scenario-icon">${s.icon}</div><div style="flex:1;min-width:0"><div class="scenario-name">${esc(s.name)}</div><div class="scenario-tag">${esc(s.tag)}</div></div><svg class="chevron${o?" open":""}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div><div class="scenario-body${o?" open":""}"><div style="margin-bottom:10px">${s.lenses.map(l=>`<span class="lens-pill">${esc(l)}</span>`).join("")}</div><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px">Einstellungen</div>${s.settings.map(r=>`<div class="setting-row"><span class="setting-key">${esc(r.k)}</span><span class="setting-val">${esc(r.v)}</span></div>`).join("")}${tl}<div class="tip-box" style="margin-top:10px">💡 ${esc(s.tip)}</div></div></div>`;
-  }).join("");
-}
-function toggleScenario(id){openScenarios[id]=!openScenarios[id];renderSzenarien();}
-
-const CHECKLISTS={
-  pflicht:{name:"Pflicht-Bilder",icon:"📋",phases:[
-    {id:"pfl_details",icon:"💍",title:"Details",sub:"Vor der Zeremonie",tasks:[
-      {id:"pfl_d1",text:"Ringe auf Kissen oder Unterlage",lens:"Canon 35mm Makro"},
-      {id:"pfl_d2",text:"Brautstrauss – Draufsicht + seitlich",lens:"Canon 35mm"},
-      {id:"pfl_d3",text:"Schuhe der Braut",lens:"Canon 35mm"},
-      {id:"pfl_d4",text:"Kleid – Schleppe, Knöpfe, Details",lens:"Canon 35mm"},
-      {id:"pfl_d5",text:"Einladungskarte oder Programm",lens:"Canon 35mm"},
-      {id:"pfl_d6",text:"Location von aussen",lens:"Sony 28–50mm"}
-    ]},
-    {id:"pfl_zeremonie",icon:"⛪",title:"Zeremonie",sub:"Einmalig – nicht verpassen",tasks:[
-      {id:"pfl_z1",text:"Einzug Braut – Ganzkörper",lens:"Sony 50–100mm"},
-      {id:"pfl_z2",text:"Einzug Braut – Gesicht / Emotion",lens:"Sony 100–135mm"},
-      {id:"pfl_z3",text:"Reaktion Bräutigam beim ersten Anblick",lens:"Sony 100–135mm"},
-      {id:"pfl_z4",text:"Reaktion Eltern / Gäste beim Einzug",lens:"Sony 70–135mm"},
-      {id:"pfl_z5",text:"Ringtausch – Hände Nahaufnahme",lens:"Sony 100–135mm"},
-      {id:"pfl_z6",text:"Kuss – kurze Serie (3–5 Bilder)",lens:"Sony 70–100mm"},
-      {id:"pfl_z7",text:"Reaktion Gäste direkt nach dem Kuss",lens:"Sony 50–100mm"},
-      {id:"pfl_z8",text:"Auszug – Lachen, Konfetti, Bewegung",lens:"Sony 28–50mm"}
-    ]},
-    {id:"pfl_paar",icon:"👫",title:"Paarshooting",sub:"5–10 Minuten reichen",tasks:[
-      {id:"pfl_p1",text:"Portrait – beide zur Kamera",lens:"Sony 85–100mm"},
-      {id:"pfl_p2",text:"Romantisch – aneinander gelehnt, Kuss",lens:"Canon 35mm"},
-      {id:"pfl_p3",text:"Echtes Lachen – Direktions-Cue nutzen",lens:"Sony 85–135mm"},
-      {id:"pfl_p4",text:"Hände zusammen – Ringe sichtbar",lens:"Canon 35mm Makro"},
-      {id:"pfl_p5",text:"Gesamtbild mit Location im Hintergrund",lens:"Sony 28–35mm"}
-    ]},
-    {id:"pfl_familie",icon:"👨‍👩‍👧",title:"Familie & Gruppen",sub:"Schnell durchziehen",tasks:[
-      {id:"pfl_f1",text:"Braut mit ihren Eltern",lens:"Sony 35–50mm"},
-      {id:"pfl_f2",text:"Bräutigam mit seinen Eltern",lens:"Sony 35–50mm"},
-      {id:"pfl_f3",text:"Brautpaar mit beiden Familien",lens:"Sony 28–35mm"},
-      {id:"pfl_f4",text:"Brautpaar mit Trauzeugen",lens:"Sony 28–35mm"}
-    ]}
-  ]},
-  hochzeit:{name:"Hochzeit",icon:"💍",phases:[
-    {id:"prep",icon:"⚙️",title:"Vorbereitung",sub:"Abend davor",tasks:[
-      {id:"prep1",text:"Alle Akkus laden: Sony + Canon"},
-      {id:"prep2",text:"Speicherkarten formatieren"},
-      {id:"prep3",text:"Sony und Canon Uhrzeit synchronisieren"},
-      {id:"prep4",text:"Canon C1 gespeichert: 1/250s · f/2 · ISO max. 25600 · mechanisch"},
-      {id:"prep5",text:"Canon C2 gespeichert: 1/500s · f/2.8 · ISO max. 6400 · EFCS"},
-      {id:"prep6",text:"Canon C-Modus Auto-Update OFF"},
-      {id:"prep7",text:"Sony Kirche eingestellt: M · 1/250s · Auto-ISO max. 25600 · AF-C + Eye AF"},
-      {id:"prep8",text:"Sony draussen abrufbar: 1/500s · Auto-ISO max. 6400"},
-      {id:"prep9",text:"Frontlinsen reinigen"},
-      {id:"prep10",text:"Ablauf und Adressen offline speichern"}
-    ]},
-    {id:"arrival",icon:"🏛️",title:"Vor Ort",sub:"Warm werden",tasks:[
-      {id:"arrival1",text:"Aussenaufnahme Location",lens:"Sony 28–50mm"},
-      {id:"arrival2",text:"Details: Ringe, Blumen, Kerzen, Programm",lens:"Canon 35mm"},
-      {id:"arrival3",text:"Gäste beim Ankommen",lens:"Sony 70–135mm"},
-      {id:"arrival4",text:"Licht in Kirche testen, Histogramm prüfen"}
-    ]},
-    {id:"ceremony",icon:"⛪",title:"Trauung",sub:"Sony sichert, Canon veredelt",tasks:[
-      {id:"ceremony1",text:"Einzug mit Sony fotografieren",lens:"Sony 50–135mm"},
-      {id:"ceremony2",text:"Bräutigam-Reaktion sichern",lens:"Sony"},
-      {id:"ceremony3",text:"Ruhige Zeremonie-Momente mit Canon",lens:"Canon 35mm C1"},
-      {id:"ceremony4",text:"Ringtausch mit Sony aus Distanz",lens:"Sony 100–200mm"},
-      {id:"ceremony5",text:"Kuss mit Sony sichern",lens:"Sony 70–135mm"},
-      {id:"ceremony6",text:"Direkt nach Kuss: Gäste-Reaktionen"},
-      {id:"ceremony7",text:"Nicht hektisch durch die Kirche laufen"}
-    ]},
-    {id:"exit",icon:"🎊",title:"Auszug / Gratulation",sub:"jetzt wird es schnell",tasks:[
-      {id:"exit1",text:"Sony auf 1/500s, wenn Licht reicht"},
-      {id:"exit2",text:"Canon auf C2 wechseln"},
-      {id:"exit3",text:"Auszug frontal/seitlich sichern",lens:"Sony 28–70mm"},
-      {id:"exit4",text:"Konfetti / Reis werfen: Serienbild moderat"},
-      {id:"exit5",text:"Umarmungen und Lachen mit Canon 35mm"},
-      {id:"exit6",text:"Eltern und Trauzeugen nicht vergessen"}
-    ]},
-    {id:"apero",icon:"🥂",title:"Apéro",sub:"Candid + Nähe",tasks:[
-      {id:"apero1",text:"Sony für Candid aus Distanz",lens:"Sony 70–200mm"},
-      {id:"apero2",text:"Canon für Nähe, Umarmungen, kleine Gruppen",lens:"Canon 35mm"},
-      {id:"apero3",text:"Gruppenbilder mit Sony 28–35mm"},
-      {id:"apero4",text:"Paar kurz 5 Minuten rausnehmen"},
-      {id:"apero5",text:"Portraits: Canon 35mm Umgebung, Sony 100–150mm eng"},
-      {id:"apero6",text:"Details: Gläser, Hände, Deko, Lachen"}
-    ]},
-    {id:"backup",icon:"✅",title:"Nachher",sub:"Daten sichern",tasks:[
-      {id:"backup1",text:"Karten nicht formatieren"},
-      {id:"backup2",text:"Sofort Backup auf externe SSD"},
-      {id:"backup3",text:"Sony + Canon nach Aufnahmezeit sortieren"},
-      {id:"backup4",text:"3–5 Preview-Bilder auswählen"}
-    ]}
-  ]}
+</div>
+</header>
+<div id="views"><section class="view active" id="view-home">
+<div class="scenario-grid">
+<div class="scenario-card" onclick="selectScenario('hochzeit')">
+<div class="scenario-icon">💒</div>
+<div class="scenario-title">Hochzeit</div>
+<div class="scenario-desc">Trauung, Portraits, Gruppenfotos & Feier</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('portrait')">
+<div class="scenario-icon">👤</div>
+<div class="scenario-title">Portrait</div>
+<div class="scenario-desc">Outdoor & Studio, natürliches Licht</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('street')">
+<div class="scenario-icon">🏙️</div>
+<div class="scenario-title">Street</div>
+<div class="scenario-desc">Urbane Fotografie, spontane Momente</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('wald')">
+<div class="scenario-icon">🌲</div>
+<div class="scenario-title">Wald & Natur</div>
+<div class="scenario-desc">Landschaft, Wildlife, Low-Light</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('sport')">
+<div class="scenario-icon">⚡</div>
+<div class="scenario-title">Sport & Action</div>
+<div class="scenario-desc">Schnelle Bewegungen, Tracking</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('nacht')">
+<div class="scenario-icon">🌙</div>
+<div class="scenario-title">Nacht & Astro</div>
+<div class="scenario-desc">Sternenhimmel, Citylights, Langzeit</div>
+</div>
+</div>
+</section>
+<section class="view" id="view-camera">
+<div class="camera-grid">
+<div class="camera-card sony" onclick="showSettings('sony')">
+<div class="camera-brand">Sony</div>
+<div class="camera-model">Alpha 7C II</div>
+<div class="camera-specs">33MP Full-Frame • 10 fps • 759 AF-Punkte</div>
+</div>
+<div class="camera-card canon" onclick="showSettings('canon')">
+<div class="camera-brand">Canon</div>
+<div class="camera-model">EOS R5 Mark II</div>
+<div class="camera-specs">45MP Full-Frame • 20 fps • Dual Pixel AF II</div>
+</div>
+</div>
+</section>
+<section class="view" id="view-settings">
+<div id="settingsContent"></div>
+</section>
+<section class="view" id="view-tools">
+<div class="empty-state">
+<div class="empty-icon">🛠️</div>
+<div class="empty-text">Rechner & Tools</div>
+<div class="empty-subtext">Kommt bald - Belichtung, DoF, Goldene Stunde</div>
+</div>
+</section>
+<section class="view" id="view-notes">
+<div class="empty-state">
+<div class="empty-icon">📝</div>
+<div class="empty-text">Notizen</div>
+<div class="empty-subtext">Feature kommt bald</div>
+</div>
+</section>
+</div>
+<nav class="bottom-nav">
+<button class="nav-btn active" id="nav-home" onclick="showView('home')">
+<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+Szenarien
+</button>
+<button class="nav-btn" id="nav-tools" onclick="showView('tools')">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6"/></svg>
+Rechner
+</button>
+<button class="nav-btn" id="nav-notes" onclick="showView('notes')">
+<svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+Notizen
+</button>
+</nav>
+</div><script>
+let currentScenario=null,currentCamera=null,viewHistory=[];
+const scenarios={
+hochzeit:{title:'Hochzeit',icon:'💒',sony:{mode:'Av (A)',aperture:'f/2.0 - f/2.8',shutter:'1/200s - 1/500s',iso:'Auto (100-6400)',focus:'AF-C · Breit',drive:'Cont. Hi (10 fps)',wb:'AWB',tips:['Bei Trauung: Ton aus, mechanischer Verschluss','Portraits: f/2.0 für Bokeh','Gruppenfotos: f/4.0 für Schärfe']},canon:{mode:'Av',aperture:'f/2.0 - f/2.8',shutter:'1/200s - 1/500s',iso:'Auto (100-6400)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['Eye-AF aktivieren für Portraits','Bei Low-Light: ISO bis 12800','Dual Card: RAW auf beide Karten']}},
+portrait:{title:'Portrait',icon:'👤',sony:{mode:'Av (A)',aperture:'f/1.8 - f/2.8',shutter:'1/160s - 1/320s',iso:'100-800',focus:'AF-S · Eye-AF',drive:'Single',wb:'5500K oder AWB',tips:['Eye-AF für perfekten Fokus','Goldene Stunde: +0.7 EV','85mm ideal für Portraits']},canon:{mode:'Av',aperture:'f/1.8 - f/2.8',shutter:'1/160s - 1/320s',iso:'100-800',focus:'One Shot · Eye-AF',drive:'Single',wb:'5500K',tips:['Spot-Messung für präzise Belichtung','Bei Gegenlicht: Reflektor nutzen','Hintergrund: mind. 2m Abstand']}},
+street:{title:'Street',icon:'🏙️',sony:{mode:'Av (A)',aperture:'f/5.6 - f/8',shutter:'1/250s - 1/500s',iso:'Auto (100-3200)',focus:'AF-C · Zone',drive:'Cont. Mid (6 fps)',wb:'AWB',tips:['Zone-Fokus für schnelle Reaktion','f/8 für durchgehende Schärfe','Silent Mode für Diskretion']},canon:{mode:'Av',aperture:'f/5.6 - f/8',shutter:'1/250s - 1/500s',iso:'Auto (100-3200)',focus:'Servo AF · Zone',drive:'High Speed (12 fps)',wb:'AWB',tips:['Hyperfokale Distanz nutzen','35mm oder 50mm ideal','Elektronischer Verschluss']}},
+wald:{title:'Wald & Natur',icon:'🌲',sony:{mode:'Av (A)',aperture:'f/8 - f/11',shutter:'1/125s - 1/250s',iso:'400-1600',focus:'AF-S · Flexible Spot',drive:'Single',wb:'6000K (Schatten)',tips:['Diffuses Licht im Wald nutzen','Stativ bei unter 1/60s','+0.3 EV bei grünem Laub']},canon:{mode:'Av',aperture:'f/8 - f/11',shutter:'1/125s - 1/250s',iso:'400-1600',focus:'One Shot · Single Point',drive:'Single',wb:'Cloudy',tips:['Belichtungskorrektur +0.3 bis +0.7','ISO hoch genug für scharfe Bilder','Wildlife: Servo AF + Tracking']}},
+sport:{title:'Sport & Action',icon:'⚡',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi+ (10 fps)',wb:'AWB',tips:['Pre-Shooting aktivieren','Tracking-Empfindlichkeit hoch','Burst-Modus: RAW komprimiert']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'Servo AF · Subject Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['Action-Priority aktivieren','Pre-Continuous Shooting nutzen','Buffer: CFexpress Type B']}},
+nacht:{title:'Nacht & Astro',icon:'🌙',sony:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Unendlich',drive:'Single · 2s Timer',wb:'3200K',tips:['Stativ zwingend erforderlich','Sterne: 500-Regel beachten','Langzeitbelichtungs-NR aus']},canon:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Infinity',drive:'Single · Self-timer 2s',wb:'3200K',tips:['Fernauslöser oder App nutzen','Bildstabilisator AUS am Stativ','RAW für maximale Bearbeitung']}}
 };
-let openPhases={};
-function renderCheckliste(){
-  const data=load();const cl=data.activeCL||"hochzeit";const def=CHECKLISTS[cl];
-  document.getElementById("cl-selector").innerHTML=Object.keys(CHECKLISTS).map(k=>`<button class="cl-btn${k===cl?" active":""}" onclick="selectCL('${k}')">${CHECKLISTS[k].icon} ${CHECKLISTS[k].name}</button>`).join("")+`<button class="cl-btn" style="color:var(--danger);border-color:rgba(251,113,133,0.3)" onclick="resetCL('${cl}')">↺ Reset</button>`;
-  const checks=data.checks[cl]||{};const total=def.phases.reduce((s,p)=>s+p.tasks.length,0);const done=Object.keys(checks).filter(k=>checks[k]).length;const pct=total>0?Math.round(done/total*100):0;const fc=pct>=100?"var(--ok)":pct>=50?"var(--warn)":"var(--accent)";
-  document.getElementById("cl-progress").innerHTML=`<div class="progress-wrap"><div class="progress-lbl"><span>${def.icon} ${def.name}</span><span style="color:${fc}">${done} / ${total} (${pct}%)</span></div><div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${fc}"></div></div></div>`;
-  document.getElementById("cl-list").innerHTML=def.phases.map(ph=>{const pdone=ph.tasks.filter(t=>checks[t.id]).length;const allDone=pdone===ph.tasks.length;const isOpen=openPhases[ph.id];return`<div class="phase-block"><div class="phase-header${allDone?" all-done":""}" onclick="togglePhase('${ph.id}')"><span class="phase-icon">${ph.icon}</span><div style="flex:1;min-width:0"><div class="phase-title">${esc(ph.title)}</div><div class="phase-sub">${esc(ph.sub)}</div></div><span class="phase-pct" style="color:${allDone?"var(--ok)":"var(--muted)"}">${pdone}/${ph.tasks.length}</span><svg class="chevron${isOpen?" open":""}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div><div class="phase-tasks${isOpen?" open":""}">${ph.tasks.map(t=>{const isDone=!!checks[t.id];return`<div class="task-row"><div class="task-cb${isDone?" done":""}" onclick="toggleTask('${cl}','${t.id}')"></div><div class="task-info"><div class="task-text${isDone?" done":""}">${esc(t.text)}</div>${t.lens?`<div class="task-lens">📷 ${esc(t.lens)}</div>`:""}</div></div>`;}).join("")}</div></div>`;}).join("");
+function showView(view){
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById('nav-'+view).classList.add('active');
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById('view-'+view).classList.add('active');
+if(view==='home'){currentScenario=null;currentCamera=null;viewHistory=[];document.getElementById('headerTitle').textContent='Foto Companion';document.getElementById('headerSubtitle').textContent='Was möchtest du fotografieren?';document.getElementById('backBtn').classList.remove('show');}
+else if(view==='tools'){document.getElementById('headerTitle').textContent='Rechner & Tools';document.getElementById('headerSubtitle').textContent='Hilfreiche Werkzeuge';document.getElementById('backBtn').classList.remove('show');}
+else if(view==='notes'){document.getElementById('headerTitle').textContent='Notizen';document.getElementById('headerSubtitle').textContent='Deine Event-Logs';document.getElementById('backBtn').classList.remove('show');}
 }
-function togglePhase(id){openPhases[id]=!openPhases[id];renderCheckliste();}
-function selectCL(k){const data=load();data.activeCL=k;save(data);openPhases={};renderCheckliste();}
-function toggleTask(cl,taskId){const data=load();if(!data.checks[cl])data.checks[cl]={};data.checks[cl][taskId]=!data.checks[cl][taskId];save(data);renderCheckliste();}
-function resetCL(cl){if(!confirm("Alle Aufgaben zurücksetzen?"))return;const data=load();data.checks[cl]={};save(data);openPhases={};renderCheckliste();toast("Checkliste zurückgesetzt.");}
-
-function renderNotizen(){const data=load();const el=document.getElementById("notes-list");if(!data.notes.length){el.innerHTML='<div class="empty">Noch keine Notizen.</div>';return;}el.innerHTML=data.notes.slice().reverse().map(n=>`<div class="note-item"><div class="note-text">${esc(n.text)}</div><div class="note-meta"><span>${new Date(n.createdAt).toLocaleDateString("de-CH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})}</span><span onclick="deleteNote('${n.id}')" style="color:var(--danger);cursor:pointer">Löschen</span></div></div>`).join("");}
-function saveNote(){const txt=document.getElementById("note-input").value.trim();if(!txt)return;const data=load();data.notes.push({id:uid(),text:txt,createdAt:new Date().toISOString()});save(data);document.getElementById("note-input").value="";renderNotizen();toast("Notiz gespeichert.");}
-function deleteNote(id){const data=load();data.notes=data.notes.filter(n=>n.id!==id);save(data);renderNotizen();}
-
-const SITUATIONS=[
-  {id:"kirche",icon:"⛪",name:"Kirche / dunkel",tag:"Low Light · Flackerlicht",settings:[{k:"Canon",v:"C1 · mechanisch · 1/250s · f/2 · ISO max. 25600"},{k:"Sony",v:"1/250s · offen · ISO max. 25600 · Mech./EFCS"},{k:"Nicht tun",v:"voll elektronisch als Default"}],tip:"Rauschen ist besser als Unschärfe. Mechanisch reduziert Banding-Risiko.",menu:"Canon: C1 · Sony: Kirche-Setting"},
-  {id:"einzug",icon:"🚶",name:"Einzug",tag:"einmalig · Bewegung",settings:[{k:"Kamera",v:"Sony"},{k:"Brennweite",v:"50–135mm"},{k:"Zeit",v:"1/250–1/320s"},{k:"AF",v:"AF-C + Eye/Tracking"}],tip:"Nicht mit Canon experimentieren. Erst sicher liefern.",menu:"Sony M · 1/250s oder 1/320s"},
-  {id:"kuss",icon:"💋",name:"Kuss",tag:"kurz · nicht wiederholbar",settings:[{k:"Kamera",v:"Sony"},{k:"Brennweite",v:"70–135mm"},{k:"Drive",v:"kurze Serie"},{k:"Danach",v:"Gäste-Reaktionen sofort fotografieren"}],tip:"Die 10 Sekunden nach dem Kuss sind oft stärker als der Kuss selbst.",menu:"Sony bereithalten"},
-  {id:"apero",icon:"🥂",name:"Apéro",tag:"Candid · Nähe",settings:[{k:"Sony",v:"50–200mm Candids"},{k:"Canon",v:"35mm Nähe / Umarmungen"},{k:"Zeit",v:"1/500s"},{k:"ISO",v:"max. 6400"}],tip:"Erst sicher mit Sony, dann bewusst Canon für stärkere Nähe.",menu:"Canon C2 · Sony 1/500s"},
-  {id:"regen",icon:"🌧️",name:"Regen / grau",tag:"Softbox-Licht",settings:[{k:"WB",v:"bewölkt oder AWB"},{k:"Belichtung",v:"+0.3 bis +0.7 prüfen"},{k:"Nutzen",v:"weiches Portraitlicht"}],tip:"Grauer Himmel ist kein Problem. Er ist eine grosse Softbox.",menu:"Belichtung nach Histogramm prüfen"},
-  {id:"blitz",icon:"⚡",name:"Blitz indoor",tag:"nur wenn erlaubt",settings:[{k:"Verschluss",v:"mechanisch oder EFCS"},{k:"Nicht",v:"voll elektronisch"},{k:"Start",v:"1/200s · f/4 · ISO 800–1600"},{k:"Blitz",v:"ETTL · -0.7 bis -1.3"}],tip:"Direktblitz nur als Notlösung. Bounce an weisse Decke/Wand ist besser.",menu:"Canon/Sony: Mech./EFCS"}
-];
-let openSituations={};
-function renderSituations(){const el=document.getElementById("situations-list");if(!el)return;el.innerHTML=SITUATIONS.map(s=>{const o=openSituations[s.id];return`<div class="situation-card"><div class="situation-head" onclick="toggleSituation('${s.id}')"><div style="font-size:22px;flex-shrink:0">${s.icon}</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">${esc(s.name)}</div><div style="font-size:11px;color:var(--muted);margin-top:1px">${esc(s.tag)}</div></div><svg class="chevron${o?" open":""}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></div><div class="situation-body${o?" open":""}">${s.settings.map(r=>`<div class="setting-row"><span class="setting-key">${esc(r.k)}</span><span class="setting-val">${esc(r.v)}</span></div>`).join("")}<div class="tip-box" style="margin-top:8px">💡 ${esc(s.tip)}</div><div class="menu-path"><b>Merker:</b> ${esc(s.menu)}</div></div></div>`;}).join("");}
-function toggleSituation(id){openSituations[id]=!openSituations[id];renderSituations();}
-
-const BT_AP=[1.4,1.8,2,2.8,4,5.6,8,11,16];
-const BT_AP_L=["f/1.4","f/1.8","f/2.0","f/2.8","f/4.0","f/5.6","f/8","f/11","f/16"];
-const BT_SH=[1/8000,1/4000,1/2000,1/1000,1/500,1/250,1/125,1/60,1/30,1/15,1/8,0.25,0.5,1,2];
-const BT_SH_L=["1/8000s","1/4000s","1/2000s","1/1000s","1/500s","1/250s","1/125s","1/60s","1/30s","1/15s","1/8s","1/4s","1/2s","1s","2s"];
-const BT_ISO=[100,200,400,800,1600,3200,6400,12800,25600];
-function descLight(ev){if(ev>=15)return"helle Sonne";if(ev>=12)return"bewölkt / Schatten";if(ev>=9)return"heller Innenraum";if(ev>=6)return"Kirche / dunkler Innenraum";return"sehr dunkel";}
-function calcBelichtung(){const ai=+document.getElementById("bt-ap").value;const si=+document.getElementById("bt-sh").value;const ii=+document.getElementById("bt-iso").value;document.getElementById("bt-ap-v").textContent=BT_AP_L[ai];document.getElementById("bt-sh-v").textContent=BT_SH_L[si];document.getElementById("bt-iso-v").textContent="ISO "+BT_ISO[ii];const N=BT_AP[ai],t=BT_SH[si],iso=BT_ISO[ii];const ev100=Math.log2(N*N/t);const evScene=ev100-Math.log2(iso/100);const blur=t<=1/500?"gut für Bewegung":t<=1/250?"brauchbar für Menschen":"kritisch bei Bewegung";const noise=iso<=1600?"sehr sauber":iso<=6400?"gut nutzbar":iso<=12800?"sichtbar, aber ok":"deutlich, aber besser als unscharf";document.getElementById("bt-result").innerHTML=`<div class="calc-result-row"><span class="calc-result-key">EV @ ISO 100</span><span class="calc-result-val">EV ${ev100.toFixed(1)} · ${descLight(ev100)}</span></div><div class="calc-result-row"><span class="calc-result-key">Szene bei ISO ${iso}</span><span class="calc-result-val">${descLight(evScene)}</span></div><div class="calc-result-row"><span class="calc-result-key">Bewegung</span><span class="calc-result-val">${blur}</span></div><div class="calc-result-row"><span class="calc-result-key">Rauschen</span><span class="calc-result-val">${noise}</span></div>`;}
-function updateDoF(){const f=+document.getElementById("dof-f").value;const N=+document.getElementById("dof-ap").value;const d=+document.getElementById("dof-d").value;document.getElementById("dof-f-v").textContent=f+" mm";document.getElementById("dof-d-v").textContent=d.toFixed(1)+" m";const CoC=0.029;const H=f*f/(N*CoC);const dmm=d*1000;const near=H*dmm/(H+dmm)/1000;const farMM=(H>dmm)?H*dmm/(H-dmm):Infinity;const far=farMM===Infinity?Infinity:farMM/1000;const dof=far===Infinity?Infinity:far-near;const fmt=v=>{if(v===Infinity)return"∞";if(v<0.01)return(v*1000).toFixed(1)+" mm";if(v<1)return(v*100).toFixed(1)+" cm";return v.toFixed(2)+" m";};document.getElementById("dof-result").innerHTML=`<div class="calc-result-row"><span class="calc-result-key">Nahgrenze</span><span class="calc-result-val">${fmt(near)}</span></div><div class="calc-result-row"><span class="calc-result-key">Ferngrenze</span><span class="calc-result-val">${fmt(far)}</span></div><div class="calc-result-row"><span class="calc-result-key">Schärfentiefe</span><span class="calc-result-val">${fmt(dof)}</span></div><div class="calc-result-row"><span class="calc-result-key">Hyperfokal</span><span class="calc-result-val">${fmt(H/1000)}</span></div>`;}
-const SP_GB=[32,64,128,256,512,1000];const SP_GB_L=["32 GB","64 GB","128 GB","256 GB","512 GB","1 TB"];const SP_MB=[45,55,10];const SP_MB_L=["RAW (~45 MB)","RAW + JPEG (~55 MB)","JPEG (~10 MB)"];
-function calcSpeicher(){const gi=+document.getElementById("sp-gb").value;const fi=+document.getElementById("sp-fmt").value;document.getElementById("sp-gb-v").textContent=SP_GB_L[gi];document.getElementById("sp-fmt-v").textContent=SP_MB_L[fi];const usable=SP_GB[gi]*1000*0.93;const shots=Math.floor(usable/SP_MB[fi]);const ok=shots>=1200?"Hochzeit problemlos":shots>=600?"knapp, zweite Karte nötig":"zu wenig";document.getElementById("sp-result").innerHTML=`<div class="calc-result-row"><span class="calc-result-key">Anzahl Fotos</span><span class="calc-result-val">~${shots.toLocaleString("de-CH")}</span></div><div class="calc-result-row"><span class="calc-result-key">Einschätzung</span><span class="calc-result-val">${ok}</span></div>`;}
-function saveLog(){const date=document.getElementById("log-date").value||new Date().toISOString().slice(0,10);const type=document.getElementById("log-type").value;const loc=document.getElementById("log-loc").value.trim();const notes=document.getElementById("log-notes").value.trim();const data=load();data.shootingLog.unshift({id:uid(),date,type,loc,notes});save(data);document.getElementById("log-loc").value="";document.getElementById("log-notes").value="";renderLog();toast("Shooting-Log gespeichert.");}
-function deleteLog(id){const data=load();data.shootingLog=data.shootingLog.filter(e=>e.id!==id);save(data);renderLog();}
-function renderLog(){const data=load();const el=document.getElementById("log-list");if(!el)return;if(!data.shootingLog.length){el.innerHTML='<div class="empty">Noch keine Einträge.</div>';return;}el.innerHTML=data.shootingLog.map(e=>`<div class="log-entry"><div class="log-hd"><div><div class="log-event">${esc(e.type)}</div><div class="log-date">${e.date}</div>${e.loc?`<div class="log-loc">📍 ${esc(e.loc)}</div>`:""}</div><span class="log-del" onclick="deleteLog('${e.id}')">✕</span></div>${e.notes?`<div class="log-body">${esc(e.notes)}</div>`:""}</div>`).join("");}
-
-// Akku-Tracker
-const AKKU_STATES=["geladen","inkamera","leer"];
-const AKKU_ICONS={"geladen":"🔋","inkamera":"📷","leer":"🪫"};
-const AKKU_LABELS={"geladen":"geladen","inkamera":"in Kamera","leer":"leer"};
-function renderAkkus(){
-  const data=load();
-  const akkus=data.akkus||{sony:["geladen","geladen","geladen"],canon:["geladen","geladen"]};
-  const renderGroup=(elId,cam,names)=>{
-    const el=document.getElementById(elId);if(!el)return;
-    el.innerHTML=names.map((n,i)=>{
-      const s=akkus[cam]&&akkus[cam][i]?akkus[cam][i]:"geladen";
-      return`<button class="akku-btn ${s}" onclick="toggleAkku('${cam}',${i})"><span class="akku-icon">${AKKU_ICONS[s]}</span><span class="akku-label">${n}</span><span class="akku-label" style="font-weight:400">${AKKU_LABELS[s]}</span></button>`;
-    }).join("");
-  };
-  renderGroup("akku-sony","sony",["S–1","S–2","S–3"]);
-  renderGroup("akku-canon","canon",["C–1","C–2","C–3"]);
+function selectScenario(id){
+currentScenario=id;viewHistory.push('home');
+const s=scenarios[id];
+document.getElementById('headerTitle').textContent=s.title;
+document.getElementById('headerSubtitle').textContent='Wähle deine Kamera';
+document.getElementById('backBtn').classList.add('show');
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById('view-camera').classList.add('active');
 }
-function toggleAkku(cam,idx){
-  const data=load();
-  if(!data.akkus[cam])data.akkus[cam]=["geladen","geladen","geladen"];
-  const cur=data.akkus[cam][idx]||"geladen";
-  data.akkus[cam][idx]=AKKU_STATES[(AKKU_STATES.indexOf(cur)+1)%AKKU_STATES.length];
-  save(data);renderAkkus();
+function showSettings(cam){
+currentCamera=cam;viewHistory.push('camera');
+const s=scenarios[currentScenario],set=s[cam],brand=cam==='sony'?'Sony A7C II':'Canon R5 II';
+document.getElementById('headerTitle').textContent=s.title;
+document.getElementById('headerSubtitle').textContent=brand;
+const html=`<div class="setting-section"><div class="setting-section-title">Empfohlene Einstellungen</div>
+<div class="setting-item"><div class="setting-label">Modus</div><div class="setting-value highlight">${set.mode}</div></div>
+<div class="setting-item"><div class="setting-label">Blende</div><div class="setting-value">${set.aperture}</div></div>
+<div class="setting-item"><div class="setting-label">Verschlusszeit</div><div class="setting-value">${set.shutter}</div></div>
+<div class="setting-item"><div class="setting-label">ISO</div><div class="setting-value">${set.iso}</div></div>
+<div class="setting-item"><div class="setting-label">Fokus</div><div class="setting-value">${set.focus}</div></div>
+<div class="setting-item"><div class="setting-label">Aufnahmemodus</div><div class="setting-value">${set.drive}</div></div>
+<div class="setting-item"><div class="setting-label">Weißabgleich</div><div class="setting-value">${set.wb}</div></div></div>
+<div class="info-box ${cam==='sony'?'blue':''}"><div class="info-box-title">💡 Profi-Tipps</div>${set.tips.map(t=>'<div>• '+t+'</div>').join('')}</div>
+<div class="quick-actions"><button class="quick-btn" onclick="showView('tools')">📊 Rechner</button><button class="quick-btn" onclick="showView('notes')">📝 Notieren</button></div>`;
+document.getElementById('settingsContent').innerHTML=html;
+document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+document.getElementById('view-settings').classList.add('active');
 }
-function resetAkkus(){
-  const data=load();
-  data.akkus={sony:["geladen","geladen","geladen"],canon:["geladen","geladen","geladen"]};
-  save(data);renderAkkus();toast("Akkus zurückgesetzt.");
+function goBack(){
+if(viewHistory.length===0)return;
+const prev=viewHistory.pop();
+if(prev==='home'){currentScenario=null;currentCamera=null;document.getElementById('headerTitle').textContent='Foto Companion';document.getElementById('headerSubtitle').textContent='Was möchtest du fotografieren?';document.getElementById('backBtn').classList.remove('show');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-home').classList.add('active');}
+else if(prev==='camera'){currentCamera=null;const s=scenarios[currentScenario];document.getElementById('headerTitle').textContent=s.title;document.getElementById('headerSubtitle').textContent='Wähle deine Kamera';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-camera').classList.add('active');}
 }
-
-// Goldene Stunde
-function fmtH(h){if(h==null||isNaN(h))return"–";const hh=Math.floor(((h%24)+24)%24);const mm=Math.round((((h%24)+24)%24-hh)*60);return String(hh).padStart(2,"0")+":"+String(mm>=60?59:mm).padStart(2,"0");}
-function setGHPreset(lat,lng){document.getElementById("gh-lat").value=lat;document.getElementById("gh-lng").value=lng;calcGoldenHour();}
-function calcGoldenHour(){
-  const ds=document.getElementById("gh-date").value;
-  const lat=parseFloat(document.getElementById("gh-lat").value);
-  const lng=parseFloat(document.getElementById("gh-lng").value);
-  const el=document.getElementById("gh-result");if(!el)return;
-  if(!ds||isNaN(lat)||isNaN(lng)){el.innerHTML="";return;}
-  const date=new Date(ds+"T12:00:00");
-  const rad=Math.PI/180,deg=180/Math.PI;
-  const JD=date.getTime()/86400000+2440587.5;
-  const n=JD-2451545.0;
-  let L0=(280.46646+0.9856474*n)%360;if(L0<0)L0+=360;
-  let M=(357.52911+0.9856003*n)%360;if(M<0)M+=360;
-  const C=1.914602*Math.sin(M*rad)+0.019993*Math.sin(2*M*rad);
-  const sunLon=L0+C;
-  const obliq=23.439-0.0000004*n;
-  const decl=Math.asin(Math.sin(obliq*rad)*Math.sin(sunLon*rad))*deg;
-  const y=Math.tan(obliq/2*rad)**2;
-  const Mr=M*rad,L0r=L0*rad,e=0.016708634;
-  const EqT=(y*Math.sin(2*L0r)-2*e*Math.sin(Mr)+4*y*e*Math.sin(Mr)*Math.cos(2*L0r)-0.5*y*y*Math.sin(4*L0r)-1.25*e*e*Math.sin(2*Mr))*deg*4;
-  const solarNoonUTC=720-4*lng-EqT;
-  const tzOff=-date.getTimezoneOffset();
-  const toLocal=m=>(m+tzOff)/60;
-  const ha=elev=>{const c=(Math.sin(elev*rad)-Math.sin(lat*rad)*Math.sin(decl*rad))/(Math.cos(lat*rad)*Math.cos(decl*rad));if(c>1||c<-1)return null;return Math.acos(c)*deg;};
-  const HA_sr=ha(-0.833),HA_gh=ha(6),HA_bh=ha(-4);
-  const sunrise=HA_sr!=null?toLocal(solarNoonUTC-HA_sr*4):null;
-  const sunset=HA_sr!=null?toLocal(solarNoonUTC+HA_sr*4):null;
-  const ghMornStart=HA_bh!=null?toLocal(solarNoonUTC-HA_bh*4):sunrise;
-  const ghMornEnd=HA_gh!=null?toLocal(solarNoonUTC-HA_gh*4):null;
-  const ghEveStart=HA_gh!=null?toLocal(solarNoonUTC+HA_gh*4):null;
-  const ghEveEnd=HA_bh!=null?toLocal(solarNoonUTC+HA_bh*4):sunset;
-  // Countdown to next golden hour
-  const now=new Date();const nowH=now.getHours()+now.getMinutes()/60+now.getSeconds()/3600;
-  const isToday=ds===now.toISOString().slice(0,10);
-  let cdLabel="",cdH=null;
-  if(isToday){
-    if(ghMornStart!=null&&nowH<(ghMornEnd||ghMornStart+1)){cdLabel="Goldene Stunde morgens beginnt in";cdH=ghMornStart;}
-    else if(ghMornEnd!=null&&nowH>=ghMornStart&&nowH<ghMornEnd){cdLabel="Goldene Stunde morgens endet in";cdH=ghMornEnd;}
-    else if(ghEveStart!=null&&nowH<ghEveStart){cdLabel="Goldene Stunde abends beginnt in";cdH=ghEveStart;}
-    else if(ghEveEnd!=null&&nowH>=ghEveStart&&nowH<ghEveEnd){cdLabel="Goldene Stunde abends endet in";cdH=ghEveEnd;}
-  }
-  let cdHTML="";
-  if(cdH!=null){const diff=cdH-nowH;const hh=Math.floor(diff);const mm=Math.round((diff-hh)*60);cdHTML=`<div class="gh-countdown">${String(hh).padStart(2,"0")}h ${String(mm).padStart(2,"0")}min</div><div class="gh-countdown-label">${cdLabel}</div>`;}
-  el.innerHTML=`<div class="gh-result">${cdHTML}<div class="gh-row"><span class="gh-key">🌅 Sonnenaufgang</span><span class="gh-val">${fmtH(sunrise)}</span></div><div class="gh-row"><span class="gh-key">✨ Goldene Stunde morgens</span><span class="gh-val gold">${fmtH(ghMornStart)} – ${fmtH(ghMornEnd)}</span></div><div class="gh-row"><span class="gh-key">☀️ Sonnenmittagszeit</span><span class="gh-val">${fmtH(toLocal(solarNoonUTC))}</span></div><div class="gh-row"><span class="gh-key">✨ Goldene Stunde abends</span><span class="gh-val gold">${fmtH(ghEveStart)} – ${fmtH(ghEveEnd)}</span></div><div class="gh-row"><span class="gh-key">🌇 Sonnenuntergang</span><span class="gh-val">${fmtH(sunset)}</span></div></div>`;
-}
-
-document.addEventListener("DOMContentLoaded",()=>{const ld=document.getElementById("log-date");if(ld)ld.value=new Date().toISOString().slice(0,10);const ghd=document.getElementById("gh-date");if(ghd)ghd.value=new Date().toISOString().slice(0,10);const lastTab=localStorage.getItem("foto_lasttab");const validTabs=["kamera","szenarien","checkliste","notizen","referenz","rechner"];if(lastTab&&validTabs.includes(lastTab))showTab(lastTab);calcBelichtung();updateDoF();calcSpeicher();calcGoldenHour();renderAkkus();});
-if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
-</script>
-</body>
-</html>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+</script></body></html>

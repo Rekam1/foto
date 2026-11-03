@@ -1,4 +1,4 @@
-const CACHE = "foto-v2";
+const CACHE = "foto-v3";
 const INDEX = "/foto/index.html";
 const PRECACHE = [
   "/foto/index.html",
