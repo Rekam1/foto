@@ -62,6 +62,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .empty-icon{font-size:48px;margin-bottom:16px;opacity:0.5}
 .empty-text{font-size:16px;font-weight:600;margin-bottom:8px}
 .empty-subtext{font-size:13px;opacity:0.7}
+.checklist-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer}
+.checklist-item:last-child{border-bottom:none}
+.checklist-item input[type="checkbox"]{width:20px;height:20px;cursor:pointer;accent-color:var(--accent)}
+.checklist-item span{font-size:14px;color:var(--text);line-height:1.5}
+.checklist-item input:checked + span{color:var(--text-muted);text-decoration:line-through}
 </style>
 </head>
 <body>
@@ -119,6 +124,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <div class="scenario-title">Fasnacht Nacht</div>
 <div class="scenario-desc">Nächtliche Umzüge, farbige Lichter, Bewegung</div>
 </div>
+<div class="scenario-card" onclick="selectScenario('sonne')">
+<div class="scenario-icon">☀️</div>
+<div class="scenario-title">Pralle Sonne</div>
+<div class="scenario-desc">Hartes Licht, Mittag, starke Kontraste</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('bewoelkt')">
+<div class="scenario-icon">☁️</div>
+<div class="scenario-title">Bewölkt</div>
+<div class="scenario-desc">Perfektes diffuses Licht für Portraits</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('blauestunde')">
+<div class="scenario-icon">🌆</div>
+<div class="scenario-title">Blaue Stunde</div>
+<div class="scenario-desc">Magisches Licht 20-40 Min nach Sonnenuntergang</div>
+</div>
 </div>
 </section>
 <section class="view" id="view-camera">
@@ -138,12 +158,87 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <section class="view" id="view-settings">
 <div id="settingsContent"></div>
 </section>
+<section class="view" id="view-cheatsheet">
+<div class="setting-section">
+<div class="setting-section-title">📐 Blenden-Guide</div>
+<div class="setting-item"><div class="setting-label">f/1.2 - f/2.0</div><div class="setting-value">Extremes Bokeh · Portraits · Low-Light</div></div>
+<div class="setting-item"><div class="setting-label">f/2.8</div><div class="setting-value">Freistellung · Einzelportrait · Sehr gutes Licht</div></div>
+<div class="setting-item"><div class="setting-label">f/4 - f/5.6</div><div class="setting-value">Portrait-Gruppen · Ausreichend Schärfentiefe</div></div>
+<div class="setting-item"><div class="setting-label">f/8 - f/11</div><div class="setting-value">Landschaft · Architektur · Maximale Schärfe</div></div>
+<div class="setting-item"><div class="setting-label">f/16 - f/22</div><div class="setting-value">Sonnenstern-Effekt · Hyperfokale Distanz</div></div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">⏱️ Verschlusszeit-Regeln</div>
+<div class="setting-item"><div class="setting-label">1 / Brennweite</div><div class="setting-value">Mindest-Zeit für scharfe Handaufnahmen</div></div>
+<div class="setting-item"><div class="setting-label">1/60s - 1/125s</div><div class="setting-value">Menschen stehend · Minimum für Bewegung</div></div>
+<div class="setting-item"><div class="setting-label">1/250s - 1/500s</div><div class="setting-value">Menschen in Bewegung · Kinder · Tanz</div></div>
+<div class="setting-item"><div class="setting-label">1/500s - 1/1000s</div><div class="setting-value">Sport · Action · Konfetti · Schnelle Bewegung</div></div>
+<div class="setting-item"><div class="setting-label">1/1000s+</div><div class="setting-value">Vögel im Flug · Rennsport · Extrem schnell</div></div>
+<div class="setting-item"><div class="setting-label">1s - 30s</div><div class="setting-value">Langzeit · Stativ · Lichtspuren · Wasser weich</div></div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">📊 ISO-Faustregel</div>
+<div class="setting-item"><div class="setting-label">ISO 100-400</div><div class="setting-value">Tageslicht · Studio · Beste Qualität</div></div>
+<div class="setting-item"><div class="setting-label">ISO 800-1600</div><div class="setting-value">Indoor · Bewölkt · Leichtes Rauschen OK</div></div>
+<div class="setting-item"><div class="setting-label">ISO 3200-6400</div><div class="setting-value">Low-Light · Abends · Rauschen akzeptabel</div></div>
+<div class="setting-item"><div class="setting-label">ISO 12800+</div><div class="setting-value">Extrem dunkel · Notlösung · Starkes Rauschen</div></div>
+<div class="info-box">💡 Regel: Lieber höhere ISO als Motion Blur! Rauschen kann reduziert werden, Unschärfe nicht.</div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">☀️ Belichtungskorrektur (EV)</div>
+<div class="setting-item"><div class="setting-label">+0.3 bis +0.7 EV</div><div class="setting-value">Schnee · Strand · Helle Kleidung · Hochzeit</div></div>
+<div class="setting-item"><div class="setting-label">±0 EV</div><div class="setting-value">Neutralgrau · Standard · Ausgeglichen</div></div>
+<div class="setting-item"><div class="setting-label">-0.3 bis -0.7 EV</div><div class="setting-value">Dunkle Kleidung · Bühne · Details erhalten</div></div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">🎯 Fokus-Modi Quick Guide</div>
+<div class="setting-item"><div class="setting-label">AF-S / One Shot</div><div class="setting-value">Statisch · Portrait · Landschaft</div></div>
+<div class="setting-item"><div class="setting-label">AF-C / AI Servo</div><div class="setting-value">Bewegung · Sport · Action · Tracking</div></div>
+<div class="setting-item"><div class="setting-label">Eye-AF</div><div class="setting-value">Portrait · Immer wenn Augen sichtbar</div></div>
+<div class="setting-item"><div class="setting-label">Zone / Breit</div><div class="setting-value">Street · Gruppen · Schnelle Reaktion</div></div>
+<div class="setting-item"><div class="setting-label">MF (Manuell)</div><div class="setting-value">Makro · Astro · Low-Light · Kreativ</div></div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">📏 Sunny 16 Rule</div>
+<div class="info-box">Bei praller Sonne: <strong>f/16 · 1/ISO · ISO nach Wahl</strong><br>Beispiel: f/16 · 1/100s · ISO 100<br><br>Bewölkt: f/11 · Schatten: f/8</div>
+</div>
+</section>
 <section class="view" id="view-tools">
 <div class="empty-state">
 <div class="empty-icon">🛠️</div>
 <div class="empty-text">Rechner & Tools</div>
 <div class="empty-subtext">Kommt bald - Belichtung, DoF, Goldene Stunde</div>
 </div>
+</section>
+<section class="view" id="view-checklist">
+<div class="setting-section">
+<div class="setting-section-title">✅ Pre-Shot Checklist</div>
+<div class="info-box">Checke diese Punkte VOR jedem wichtigen Shooting!</div>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">💾 Speicher & Akkus</div>
+<label class="checklist-item"><input type="checkbox" id="check1"><span>Speicherkarten formatiert & genug Platz?</span></label>
+<label class="checklist-item"><input type="checkbox" id="check2"><span>Akkus voll geladen (mind. 2 Stück dabei)?</span></label>
+<label class="checklist-item"><input type="checkbox" id="check3"><span>Backup-Karte dabei (falls Dual-Slot)?</span></label>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">⚙️ Kamera-Einstellungen</div>
+<label class="checklist-item"><input type="checkbox" id="check4"><span>RAW-Modus aktiviert? (oder RAW+JPEG)</span></label>
+<label class="checklist-item"><input type="checkbox" id="check5"><span>Datum & Uhrzeit korrekt eingestellt?</span></label>
+<label class="checklist-item"><input type="checkbox" id="check6"><span>ISO-Auto-Limit korrekt? (z.B. max 6400)</span></label>
+<label class="checklist-item"><input type="checkbox" id="check7"><span>Weißabgleich passend? (AWB oder Custom)</span></label>
+<label class="checklist-item"><input type="checkbox" id="check8"><span>Bildstabilisator: AN (Freihand) / AUS (Stativ)?</span></label>
+</div>
+<div class="setting-section">
+<div class="setting-section-title">🔍 Letzte Checks</div>
+<label class="checklist-item"><input type="checkbox" id="check9"><span>Objektivdeckel abgenommen? 😅</span></label>
+<label class="checklist-item"><input type="checkbox" id="check10"><span>Sensor & Linse sauber?</span></label>
+<label class="checklist-item"><input type="checkbox" id="check11"><span>Richtiger Modus gewählt? (Av/Tv/M)</span></label>
+<label class="checklist-item"><input type="checkbox" id="check12"><span>AF-Modus passend? (AF-S/AF-C/MF)</span></label>
+<label class="checklist-item"><input type="checkbox" id="check13"><span>Testbild gemacht & überprüft?</span></label>
+</div>
+<div class="info-box">💡 Nach dem Shooting: Bilder sichern (2 Backups!), Karten nicht formatieren bis Backup erfolgt.</div>
+<button class="quick-btn" onclick="resetChecklist()" style="width:100%;margin-top:12px">🔄 Checklist zurücksetzen</button>
 </section>
 <section class="view" id="view-notes">
 <div class="empty-state">
@@ -158,13 +253,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
 Szenarien
 </button>
+<button class="nav-btn" id="nav-cheatsheet" onclick="showView('cheatsheet')">
+<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+Guide
+</button>
+<button class="nav-btn" id="nav-checklist" onclick="showView('checklist')">
+<svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+Check
+</button>
 <button class="nav-btn" id="nav-tools" onclick="showView('tools')">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6"/></svg>
-Rechner
-</button>
-<button class="nav-btn" id="nav-notes" onclick="showView('notes')">
-<svg viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-Notizen
+Tools
 </button>
 </nav>
 </div><script>
@@ -177,7 +276,10 @@ wald:{title:'Wald & Natur',icon:'🌲',sony:{mode:'Av (A)',aperture:'f/8 - f/11'
 sport:{title:'Sport & Action',icon:'⚡',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi+ (10 fps)',wb:'AWB',tips:['Pre-Shooting aktivieren','Tracking-Empfindlichkeit hoch','Burst-Modus: RAW komprimiert']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'Servo AF · Subject Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['Action-Priority aktivieren','Pre-Continuous Shooting nutzen','Buffer: CFexpress Type B']}},
 nacht:{title:'Nacht & Astro',icon:'🌙',sony:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Unendlich',drive:'Single · 2s Timer',wb:'3200K',tips:['Stativ zwingend erforderlich','Sterne: 500-Regel beachten','Langzeitbelichtungs-NR aus']},canon:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Infinity',drive:'Single · Self-timer 2s',wb:'3200K',tips:['Fernauslöser oder App nutzen','Bildstabilisator AUS am Stativ','RAW für maximale Bearbeitung']}},
 fasnacht_tag:{title:'Fasnacht Tag',icon:'🎭',sony:{mode:'Tv (S)',aperture:'f/4 - f/5.6',shutter:'1/500s - 1/1000s',iso:'Auto (100-3200)',focus:'AF-C · Tracking',drive:'Cont. Hi (10 fps)',wb:'Tageslicht 5500K',tips:['Schnelle Verschlusszeit für Bewegung','Burst-Modus für beste Momente','Zone-Fokus für Gruppen','Buntes Konfetti: +0.3 EV']},canon:{mode:'Tv',aperture:'f/4 - f/5.6',shutter:'1/500s - 1/1000s',iso:'Auto (100-3200)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'Daylight',tips:['Subject Detection aktivieren','Burst für Konfetti-Würfe','Servo AF für bewegte Kostüme','Spot-Messung für Gesichter mit Masken']}},
-fasnacht_nacht:{title:'Fasnacht Nacht',icon:'🎪',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi (10 fps)',wb:'AWB',tips:['ISO hoch für schnelle Verschlusszeit','Blitz vermeiden - natürliches Licht nutzen','Farbige Lichter: AWB oder manuell 3800K','Bildstabilisator aktiv lassen']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['High ISO NR auf Standard','AI-Servo mit Case 2 (beschleunigte Motive)','Lichter im Hintergrund: f/4 für Bokeh','RAW wichtig für Farbkorrektur']}}
+fasnacht_nacht:{title:'Fasnacht Nacht',icon:'🎪',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi (10 fps)',wb:'AWB',tips:['ISO hoch für schnelle Verschlusszeit','Blitz vermeiden - natürliches Licht nutzen','Farbige Lichter: AWB oder manuell 3800K','Bildstabilisator aktiv lassen']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['High ISO NR auf Standard','AI-Servo mit Case 2 (beschleunigte Motive)','Lichter im Hintergrund: f/4 für Bokeh','RAW wichtig für Farbkorrektur']}},
+sonne:{title:'Pralle Sonne',icon:'☀️',sony:{mode:'Av (A)',aperture:'f/5.6 - f/8',shutter:'1/500s - 1/2000s',iso:'100-400',focus:'AF-C · Breit',drive:'Cont. Mid',wb:'Tageslicht 5500K',tips:['Schatten suchen für Portraits','Reflektor für Aufhellung unter Augen','Gegenlichtblende verwenden','Mittag vermeiden - zu hartes Licht']},canon:{mode:'Av',aperture:'f/5.6 - f/8',shutter:'1/500s - 1/2000s',iso:'100-400',focus:'Servo AF · Zone',drive:'High Speed',wb:'Daylight',tips:['Spot-Messung für Gesichter','ND-Filter bei offener Blende','Harsh shadows vermeiden','Goldene Stunde abwarten wenn möglich']}},
+bewoelkt:{title:'Bewölkt',icon:'☁️',sony:{mode:'Av (A)',aperture:'f/2.8 - f/4',shutter:'1/125s - 1/500s',iso:'400-1600',focus:'AF-C · Breit',drive:'Cont. Hi',wb:'Bewölkt 6000K',tips:['Perfektes Licht für Portraits!','Weiche Schatten, natürliche Hauttöne','EV +0.3 für hellere Stimmung','Kein Reflektor nötig']},canon:{mode:'Av',aperture:'f/2.8 - f/4',shutter:'1/125s - 1/500s',iso:'400-1600',focus:'Servo AF',drive:'High Speed',wb:'Cloudy',tips:['Beste Bedingungen für People','Gleichmäßiges diffuses Licht','Farben wirken satter','Himmel eventuell langweilig - aus Komposition']}},
+blauestunde:{title:'Blaue Stunde',icon:'🌆',sony:{mode:'Av (A)',aperture:'f/2.8 - f/4',shutter:'1/60s - 1/250s',iso:'800-3200',focus:'AF-S · Breit',drive:'Single',wb:'AWB oder 3800K',tips:['20-40 Min nach Sonnenuntergang','Balance: Himmel + Lichter in Stadt','Stativ empfohlen bei unter 1/60s','Magisches blaues Licht nutzen']},canon:{mode:'Av',aperture:'f/2.8 - f/4',shutter:'1/60s - 1/250s',iso:'800-3200',focus:'One Shot',drive:'Single',wb:'AWB',tips:['Golden Moment: Himmel noch blau, Lichter an','Belichtungsreihe (Bracketing) sinnvoll','ISO so niedrig wie möglich','Perfekt für Cityscape & Architektur']}}
 };
 function showView(view){
 document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -185,6 +287,8 @@ document.getElementById('nav-'+view).classList.add('active');
 document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
 document.getElementById('view-'+view).classList.add('active');
 if(view==='home'){currentScenario=null;currentCamera=null;viewHistory=[];document.getElementById('headerTitle').textContent='Foto Companion';document.getElementById('headerSubtitle').textContent='Was möchtest du fotografieren?';document.getElementById('backBtn').classList.remove('show');}
+else if(view==='cheatsheet'){document.getElementById('headerTitle').textContent='Quick Reference';document.getElementById('headerSubtitle').textContent='Faustregeln & Tipps';document.getElementById('backBtn').classList.remove('show');}
+else if(view==='checklist'){document.getElementById('headerTitle').textContent='Pre-Shot Checklist';document.getElementById('headerSubtitle').textContent='Vor dem Shooting prüfen';document.getElementById('backBtn').classList.remove('show');}
 else if(view==='tools'){document.getElementById('headerTitle').textContent='Rechner & Tools';document.getElementById('headerSubtitle').textContent='Hilfreiche Werkzeuge';document.getElementById('backBtn').classList.remove('show');}
 else if(view==='notes'){document.getElementById('headerTitle').textContent='Notizen';document.getElementById('headerSubtitle').textContent='Deine Event-Logs';document.getElementById('backBtn').classList.remove('show');}
 }
@@ -221,6 +325,9 @@ if(viewHistory.length===0)return;
 const prev=viewHistory.pop();
 if(prev==='home'){currentScenario=null;currentCamera=null;document.getElementById('headerTitle').textContent='Foto Companion';document.getElementById('headerSubtitle').textContent='Was möchtest du fotografieren?';document.getElementById('backBtn').classList.remove('show');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-home').classList.add('active');}
 else if(prev==='camera'){currentCamera=null;const s=scenarios[currentScenario];document.getElementById('headerTitle').textContent=s.title;document.getElementById('headerSubtitle').textContent='Wähle deine Kamera';document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById('view-camera').classList.add('active');}
+}
+function resetChecklist(){
+for(let i=1;i<=13;i++){const c=document.getElementById('check'+i);if(c)c.checked=false;}
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 </script></body></html>
