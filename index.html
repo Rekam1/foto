@@ -109,6 +109,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 <div class="scenario-title">Nacht & Astro</div>
 <div class="scenario-desc">Sternenhimmel, Citylights, Langzeit</div>
 </div>
+<div class="scenario-card" onclick="selectScenario('fasnacht_tag')">
+<div class="scenario-icon">🎭</div>
+<div class="scenario-title">Fasnacht Tag</div>
+<div class="scenario-desc">Umzüge, Kostüme, bunte Action bei Tageslicht</div>
+</div>
+<div class="scenario-card" onclick="selectScenario('fasnacht_nacht')">
+<div class="scenario-icon">🎪</div>
+<div class="scenario-title">Fasnacht Nacht</div>
+<div class="scenario-desc">Nächtliche Umzüge, farbige Lichter, Bewegung</div>
+</div>
 </div>
 </section>
 <section class="view" id="view-camera">
@@ -165,7 +175,9 @@ portrait:{title:'Portrait',icon:'👤',sony:{mode:'Av (A)',aperture:'f/1.8 - f/2
 street:{title:'Street',icon:'🏙️',sony:{mode:'Av (A)',aperture:'f/5.6 - f/8',shutter:'1/250s - 1/500s',iso:'Auto (100-3200)',focus:'AF-C · Zone',drive:'Cont. Mid (6 fps)',wb:'AWB',tips:['Zone-Fokus für schnelle Reaktion','f/8 für durchgehende Schärfe','Silent Mode für Diskretion']},canon:{mode:'Av',aperture:'f/5.6 - f/8',shutter:'1/250s - 1/500s',iso:'Auto (100-3200)',focus:'Servo AF · Zone',drive:'High Speed (12 fps)',wb:'AWB',tips:['Hyperfokale Distanz nutzen','35mm oder 50mm ideal','Elektronischer Verschluss']}},
 wald:{title:'Wald & Natur',icon:'🌲',sony:{mode:'Av (A)',aperture:'f/8 - f/11',shutter:'1/125s - 1/250s',iso:'400-1600',focus:'AF-S · Flexible Spot',drive:'Single',wb:'6000K (Schatten)',tips:['Diffuses Licht im Wald nutzen','Stativ bei unter 1/60s','+0.3 EV bei grünem Laub']},canon:{mode:'Av',aperture:'f/8 - f/11',shutter:'1/125s - 1/250s',iso:'400-1600',focus:'One Shot · Single Point',drive:'Single',wb:'Cloudy',tips:['Belichtungskorrektur +0.3 bis +0.7','ISO hoch genug für scharfe Bilder','Wildlife: Servo AF + Tracking']}},
 sport:{title:'Sport & Action',icon:'⚡',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi+ (10 fps)',wb:'AWB',tips:['Pre-Shooting aktivieren','Tracking-Empfindlichkeit hoch','Burst-Modus: RAW komprimiert']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/1000s - 1/2000s',iso:'Auto (100-12800)',focus:'Servo AF · Subject Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['Action-Priority aktivieren','Pre-Continuous Shooting nutzen','Buffer: CFexpress Type B']}},
-nacht:{title:'Nacht & Astro',icon:'🌙',sony:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Unendlich',drive:'Single · 2s Timer',wb:'3200K',tips:['Stativ zwingend erforderlich','Sterne: 500-Regel beachten','Langzeitbelichtungs-NR aus']},canon:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Infinity',drive:'Single · Self-timer 2s',wb:'3200K',tips:['Fernauslöser oder App nutzen','Bildstabilisator AUS am Stativ','RAW für maximale Bearbeitung']}}
+nacht:{title:'Nacht & Astro',icon:'🌙',sony:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Unendlich',drive:'Single · 2s Timer',wb:'3200K',tips:['Stativ zwingend erforderlich','Sterne: 500-Regel beachten','Langzeitbelichtungs-NR aus']},canon:{mode:'M',aperture:'f/2.8 - f/4',shutter:'15s - 25s (Sterne) · 1/60s (City)',iso:'3200-6400 (Astro) · 800-1600 (City)',focus:'MF · Infinity',drive:'Single · Self-timer 2s',wb:'3200K',tips:['Fernauslöser oder App nutzen','Bildstabilisator AUS am Stativ','RAW für maximale Bearbeitung']}},
+fasnacht_tag:{title:'Fasnacht Tag',icon:'🎭',sony:{mode:'Tv (S)',aperture:'f/4 - f/5.6',shutter:'1/500s - 1/1000s',iso:'Auto (100-3200)',focus:'AF-C · Tracking',drive:'Cont. Hi (10 fps)',wb:'Tageslicht 5500K',tips:['Schnelle Verschlusszeit für Bewegung','Burst-Modus für beste Momente','Zone-Fokus für Gruppen','Buntes Konfetti: +0.3 EV']},canon:{mode:'Tv',aperture:'f/4 - f/5.6',shutter:'1/500s - 1/1000s',iso:'Auto (100-3200)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'Daylight',tips:['Subject Detection aktivieren','Burst für Konfetti-Würfe','Servo AF für bewegte Kostüme','Spot-Messung für Gesichter mit Masken']}},
+fasnacht_nacht:{title:'Fasnacht Nacht',icon:'🎪',sony:{mode:'Tv (S)',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'AF-C · Tracking',drive:'Cont. Hi (10 fps)',wb:'AWB',tips:['ISO hoch für schnelle Verschlusszeit','Blitz vermeiden - natürliches Licht nutzen','Farbige Lichter: AWB oder manuell 3800K','Bildstabilisator aktiv lassen']},canon:{mode:'Tv',aperture:'f/2.8 - f/4',shutter:'1/250s - 1/500s',iso:'Auto (1600-12800)',focus:'Servo AF · Tracking',drive:'High Speed+ (20 fps)',wb:'AWB',tips:['High ISO NR auf Standard','AI-Servo mit Case 2 (beschleunigte Motive)','Lichter im Hintergrund: f/4 für Bokeh','RAW wichtig für Farbkorrektur']}}
 };
 function showView(view){
 document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
