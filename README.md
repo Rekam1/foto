@@ -12,13 +12,28 @@ Eine mobile-first Progressive Web App (PWA), die dir bei jedem Shooting die opti
 - **Mobile-optimiert**: Große Touch-Targets, klare Hierarchie, keine Überladung
 - **Schneller Zugriff**: Die wichtigsten Infos in 2 Klicks
 
-### 📸 6 Haupt-Szenarien
+### 📚 Neue Features (v3.1)
+- **📋 Cheat Sheet / Quick Reference** – Faustregeln für Blende, Verschlusszeit, ISO, EV-Korrektur, Fokus-Modi und Sunny 16 Rule
+- **✅ Pre-Shot Checklist** – 13 wichtige Checks vor jedem Shooting (Speicher, Akkus, Einstellungen) mit Reset-Funktion
+- **🌤️ Wetter-Szenarien** – Spezielle Settings für Pralle Sonne, Bewölkt und Blaue Stunde
+
+### 📸 11 Szenarien
+**Haupt-Szenarien:**
 - 💒 **Hochzeit** – Trauung, Portraits, Gruppenfotos & Feier
 - 👤 **Portrait** – Outdoor & Studio, natürliches Licht
 - 🏙️ **Street** – Urbane Fotografie, spontane Momente
 - 🌲 **Wald & Natur** – Landschaft, Wildlife, Low-Light
 - ⚡ **Sport & Action** – Schnelle Bewegungen, Tracking
 - 🌙 **Nacht & Astro** – Sternenhimmel, Citylights, Langzeit
+
+**Event-Szenarien:**
+- 🎭 **Fasnacht Tag** – Umzüge, Kostüme, bunte Action bei Tageslicht
+- 🎪 **Fasnacht Nacht** – Nächtliche Umzüge, farbige Lichter
+
+**Wetter/Licht-Bedingungen:**
+- ☀️ **Pralle Sonne** – Hartes Licht, Mittag, starke Kontraste
+- ☁️ **Bewölkt** – Perfektes diffuses Licht für Portraits
+- 🌆 **Blaue Stunde** – Magisches Licht nach Sonnenuntergang
 
 ### 🎥 Unterstützte Kameras
 - **Sony Alpha 7C II** (33MP Full-Frame, 10 fps, 759 AF-Punkte)
@@ -81,6 +96,14 @@ foto/
 5. **Schnell** – Unter 20KB, lädt in < 1 Sekunde
 
 ## 🔄 Changelog
+
+### v3.1 (Nov 2026) - Top 3 Features
+- 📋 **Cheat Sheet Tab**: Quick Reference mit allen wichtigen Faustregeln
+- ✅ **Pre-Shot Checklist**: 13-Punkte-Check vor jedem Shooting
+- 🌤️ **Wetter-Szenarien**: Pralle Sonne, Bewölkt, Blaue Stunde
+- 🎭 **Fasnacht-Szenarien**: Tag & Nacht-Varianten
+- 📱 Navigation erweitert auf 4 Tabs (Szenarien, Guide, Check, Tools)
+- 🎯 Insgesamt 11 Szenarien verfügbar
 
 ### v3.0 (Nov 2026) - Redesign
 - ✨ Komplett neue szenario-basierte UI
